@@ -1,0 +1,203 @@
+{
+  "nodes": [{
+    "id": "com.pongalo",
+    "group": 1,
+    "label": "Pongalo",
+    "value": 20,
+    "desc": "This is a description for pongalo",
+    "image": "./assets/images/pongalo.icon.png"
+  }, {
+    "id": "com.freetv",
+    "group": 1,
+    "label": "Free TV",
+    "value": 20,
+    "desc": "This is a description for FreeTV",
+    "image": "./assets/images/freetv_logo-1.png"
+  }, {
+    "id": "com.uplynk",
+    "group": 1,
+    "label": "Uplynk (VDMS)",
+    "value": 20,
+    "image": "./assets/images/uplynk.logo.jpg"
+  }, {
+    "id": "olycloud.ingestion",
+    "group": 2,
+    "label": "Ingestion Service",
+    "value": 35,
+    "image": "./assets/images/ingestion.icon.png"
+  }, {
+    "id": "olycloud.distribution",
+    "group": 2,
+    "label": "Distribution Service",
+    "value": 35,
+    "desc": "This is a description for Distribution Service",
+    "image": "./assets/images/distribution.icon.png"
+  }, {
+    "id": "olycloud.catalog",
+    "group": 3,
+    "label": "Catalog Service",
+    "value": 30,
+    "image": "./assets/images/catalog-service.icon.png"
+  }, {
+    "id": "olycloud.assets",
+    "group": 3,
+    "label": "Asset Service",
+    "value": 30,
+    "image": "./assets/images/assets-service.icon.png"
+  }, {
+    "id": "olycloud.contracts",
+    "group": 3,
+    "label": "Contract Service",
+    "value": 30,
+    "image": "./assets/images/contracts-service.icon.png"
+  }, {
+    "id": "olycloud.catalog.movie",
+    "group": 4,
+    "label": "Catalog: Movie",
+    "value": 10
+  }, {
+    "id": "olycloud.catalog.series",
+    "group": 4,
+    "label": "Catalog: Series",
+    "value": 10
+  }, {
+    "id": "olycloud.catalog.series.season",
+    "group": 4,
+    "label": "Catalog: Season",
+    "value": 10
+  }, {
+    "id": "olycloud.catalog.series.season.episode",
+    "group": 4,
+    "label": "Catalog: Episode",
+    "value": 10
+  }, {
+    "id": "olycloud.catalog.version",
+    "group": 4,
+    "label": "Catalog: Version",
+    "value": 10
+  }, {
+    "id": "olycloud.catalog.version.segment",
+    "group": 4,
+    "label": "Catalog: Version Segment",
+    "value": 10
+  }, {
+    "id": "olycloud.assets.asset",
+    "group": 4,
+    "label": "Asset: Asset",
+    "value": 10
+  }, {
+    "id": "olycloud.assets.asset.image",
+    "group": 4,
+    "label": "Asset: Image",
+    "value": 10
+  }, {
+    "id": "olycloud.assets.asset.psd",
+    "group": 4,
+    "label": "Asset: PSD",
+    "value": 10
+  }, {
+    "id": "olycloud.contracts.asset",
+    "group": 4,
+    "label": "Contracts: Asset",
+    "value": 10
+  }, {
+    "id": "olycloud.contracts.contract",
+    "group": 4,
+    "label": "Contracts: Contract",
+    "value": 10
+  }, {
+    "id": "olycloud.contracts.contract.line-item",
+    "group": 4,
+    "label": "Contracts: Line Item",
+    "value": 10
+  }],
+  "links": [{
+    "source": "com.pongalo",
+    "target": "olycloud.ingestion",
+    "value": 1
+  }, {
+    "source": "com.freetv",
+    "target": "olycloud.distribution",
+    "value": 1
+  }, {
+    "source": "com.uplynk",
+    "target": "olycloud.distribution",
+    "value": 1
+  }, {
+    "source": "olycloud.ingestion",
+    "target": "olycloud.catalog",
+    "value": 2
+  }, {
+    "source": "olycloud.ingestion",
+    "target": "olycloud.assets",
+    "value": 2
+  }, {
+    "source": "olycloud.ingestion",
+    "target": "olycloud.contracts",
+    "value": 2
+  }, {
+    "source": "olycloud.distribution",
+    "target": "olycloud.catalog",
+    "value": 2
+  }, {
+    "source": "olycloud.distribution",
+    "target": "olycloud.assets",
+    "value": 2
+  }, {
+    "source": "olycloud.distribution",
+    "target": "olycloud.contracts",
+    "value": 2
+  }, {
+    "source": "olycloud.catalog",
+    "target": "olycloud.catalog.movie",
+    "value": 3
+  }, {
+    "source": "olycloud.catalog",
+    "target": "olycloud.catalog.series",
+    "value": 3
+  }, {
+    "source": "olycloud.assets",
+    "target": "olycloud.assets.asset",
+    "value": 3
+  }, {
+    "source": "olycloud.contracts",
+    "target": "olycloud.contracts.asset",
+    "value": 3
+  }, {
+    "source": "olycloud.contracts",
+    "target": "olycloud.contracts.contract",
+    "value": 3
+  }, {
+    "source": "olycloud.catalog.movie",
+    "target": "olycloud.catalog.version",
+    "value": 3
+  }, {
+    "source": "olycloud.catalog.series",
+    "target": "olycloud.catalog.series.season",
+    "value": 3
+  }, {
+    "source": "olycloud.catalog.series.season",
+    "target": "olycloud.catalog.series.season.episode",
+    "value": 3
+  }, {
+    "source": "olycloud.catalog.series.season.episode",
+    "target": "olycloud.catalog.version",
+    "value": 3
+  }, {
+    "source": "olycloud.catalog.version",
+    "target": "olycloud.catalog.version.segment",
+    "value": 3
+  }, {
+    "source": "olycloud.assets.asset",
+    "target": "olycloud.assets.asset.image",
+    "value": 3
+  }, {
+    "source": "olycloud.assets.asset",
+    "target": "olycloud.assets.asset.psd",
+    "value": 3
+  }, {
+    "source": "olycloud.contracts.contract",
+    "target": "olycloud.contracts.contract.line-item",
+    "value": 3
+  }]
+}
