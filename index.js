@@ -1,10 +1,14 @@
+/**
+ * Main Application Clousure
+ */
+
 ((doc) => {
 
-  // Get Events Graph
-  const eGraph = doc.eGraph = new EventsGraph('olycloud', doc.getElementById('3d-graph'), [], []);
+  // Get Events Graph and store on document
+  doc.eGraph = new EventsGraph('olycloud', doc.getElementById('3d-graph'), [], []);
 
   //load graph data
-  eGraph.loadDataFromUrl('.olycloud.graph.data.json', (data) => {
+  doc.eGraph.loadDataFromUrl('.olycloud.graph.data.json', (data) => {
     console.log("loadDataFromUrl CB ", data);
 
     // Start Mock Activity
@@ -23,4 +27,5 @@
     // MockUp.createRandomEvent();
     MockUp.removeRandomUser();
   });
+
 })(document);
