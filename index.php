@@ -6,6 +6,7 @@
     <script src="lib/utils.class.js"></script>
     <script src="lib/events-graph-node.class.js"></script>
     <script src="lib/events-graph-link.class.js"></script>
+    <script src="lib/events-graph-event.class.js"></script>
     <script src="lib/events-graph-user.class.js"></script>
     <script src="lib/events-graph.class.js"></script>
     <script src="lib/events-graph.activities.mock.js"></script>
@@ -19,8 +20,7 @@
     </div>
     <div id="3d-graph"></div>
     <div class="control-btn-container">
-      <button id="add-user-btn">Remove user</button>
+      <button id="add-user-btn">do something</button>
     </div>
-
     <script src="index.js"></script>
 </body>
