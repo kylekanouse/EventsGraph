@@ -16,7 +16,6 @@
     //console.log('---> Click: ', e);
     // MockUp.createRandomEvent();
     MockUp.createRandomUser();
-    console.log(eGraph);
   });
 
   doc.getElementById('remove-user-btn').addEventListener('click', (e) => {
