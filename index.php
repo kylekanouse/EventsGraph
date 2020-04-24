@@ -3,6 +3,8 @@
     <script src="//unpkg.com/d3-dsv"></script>
     <script src="//unpkg.com/three-spritetext"></script>
 
+    <script src="olycloud.data-set-loader.js"></script>
+
     <script src="lib/utils.class.js"></script>
     <script src="lib/events-graph-node.class.js"></script>
     <script src="lib/events-graph-link.class.js"></script>

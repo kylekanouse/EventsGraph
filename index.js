@@ -5,15 +5,15 @@
 
   //load graph data
   eGraph.loadDataFromUrl('.olycloud.graph.data.json', (data) => {
-    //console.log(gData);
+    console.log("loadDataFromUrl CB ", data);
 
     // Start Mock Activity
     MockUp.startMockEGEvents();
-    //MockUp.startMockEGUsers();
+    MockUp.startMockEGUsers();
   });
 
   doc.getElementById('add-user-btn').addEventListener('click', (e) => {
-    console.log('---> Click: ', e);
+    //console.log('---> Click: ', e);
     MockUp.createRandomEvent();
   });
 

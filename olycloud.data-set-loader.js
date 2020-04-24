@@ -1,4 +1,14 @@
+/**
+ * VR Force-Directed Graph
+ * 
+ * data loader used to test 3d force-direct graph
+ * 
+ * example from ref below
+ * @ref https://bl.ocks.org/vasturiano/972ca4f3e8e074dacf14d7071aad8ef9
+ */
 function getGraphDataSets() {
+
+  let Graph;
 
   let gData = {
     nodes: [],
@@ -128,10 +138,11 @@ function getGraphDataSets() {
   /**
    * emitParticle
    * 
+   * @param {Graph}
    * @param {} link 
    */
 
-  const emitParticle = function (link) {
+  const emitParticle = function (Graph, link) {
     Graph.emitParticle(link);
   };
 
@@ -176,7 +187,7 @@ function getGraphDataSets() {
    */
 
   const renderGraph = function (Graph, data) {
-
+    console.log('Render Grpah() | data = ', data);
     Graph
     .cooldownTicks(500)
     // .forceEngine('d3')
@@ -227,7 +238,7 @@ function getGraphDataSets() {
       }
 
       return false;
-    })
+    });
     // .nodeThreeObject(({ group }) => new THREE.Mesh(
     //   new THREE.TorusGeometry( (20 - (group * 3)), 5, group*3, group*3 ),
     //   new THREE.MeshLambertMaterial({
@@ -237,11 +248,13 @@ function getGraphDataSets() {
     //   })
     // ));
 
-    if (typeof data == "string") {
-      Graph.jsonUrl(data);
-    } else if (typeof data == "object") {
-      Graph.graphData(data);
-    }
+    // if (typeof data == "string") {
+    //   Graph.jsonUrl(data);
+    // } else if (typeof data == "object") {
+    //   Graph.graphData(data);
+    // }
+
+    Graph.graphData(data);
   };
 
   /**
@@ -264,19 +277,19 @@ function getGraphDataSets() {
 
       renderGraph(Graph, gData);
 
-      let increment = 0;
+      // let increment = 0;
   
-      setInterval(() => {
-        gData = Graph.graphData();
-        const id = (increment % gData.links.length)
-        const link = gData.links[Math.floor(Math.random() * gData.links.length)];
+      // setInterval(() => {
+      //   gData = Graph.graphData();
+      //   const id = (increment % gData.links.length)
+      //   const link = gData.links[Math.floor(Math.random() * gData.links.length)];
         
-        //console.log(link);
-        emitParticle(link);
+      //   //console.log(link);
+      //   emitParticle(Graph, link);
         
-        increment++;
+      //   increment++;
   
-      }, 500);
+      // }, 500);
     });
 
   };
