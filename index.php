@@ -22,7 +22,8 @@
     </div>
     <div id="3d-graph"></div>
     <div class="control-btn-container">
-      <button id="add-user-btn">do something</button>
+      <button id="add-user-btn">+</button>
+      <button id="remove-user-btn">-</button>
     </div>
     <script src="index.js"></script>
 </body>

@@ -9,12 +9,19 @@
 
     // Start Mock Activity
     MockUp.startMockEGEvents();
-    MockUp.startMockEGUsers();
+    //MockUp.startMockEGUsers();
   });
 
   doc.getElementById('add-user-btn').addEventListener('click', (e) => {
     //console.log('---> Click: ', e);
-    MockUp.createRandomEvent();
+    // MockUp.createRandomEvent();
+    MockUp.createRandomUser();
+    console.log(eGraph);
   });
 
+  doc.getElementById('remove-user-btn').addEventListener('click', (e) => {
+    //console.log('---> Click: ', e);
+    // MockUp.createRandomEvent();
+    MockUp.removeRandomUser();
+  });
 })(document);
