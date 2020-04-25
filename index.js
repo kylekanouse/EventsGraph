@@ -5,7 +5,7 @@
 ((doc) => {
 
   // Get Events Graph and store on document
-  doc.eGraph = new EventsGraph('olycloud', doc.getElementById('3d-graph'), [], []);
+  doc.eGraph = new EventsGraph( 'olycloud', doc.getElementById('3d-graph') );
 
   //load graph data
   doc.eGraph.loadDataFromUrl('.olycloud.graph.data.json', (data) => {

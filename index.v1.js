@@ -23,4 +23,5 @@
 
     document.getElementById('graph-data-description').innerHTML = dataSet.description ? `Viewing ${dataSet.description}` : '';
   })();
+  
 })(document);

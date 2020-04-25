@@ -277,19 +277,19 @@ function getGraphDataSets() {
 
       renderGraph(Graph, gData);
 
-      // let increment = 0;
+      let increment = 0;
   
-      // setInterval(() => {
-      //   gData = Graph.graphData();
-      //   const id = (increment % gData.links.length)
-      //   const link = gData.links[Math.floor(Math.random() * gData.links.length)];
+      setInterval(() => {
+        gData = Graph.graphData();
+        const id = (increment % gData.links.length)
+        const link = gData.links[Math.floor(Math.random() * gData.links.length)];
         
-      //   //console.log(link);
-      //   emitParticle(Graph, link);
+        //console.log(link);
+        emitParticle(Graph, link);
         
-      //   increment++;
+        increment++;
   
-      // }, 500);
+      }, 500);
     });
 
   };
