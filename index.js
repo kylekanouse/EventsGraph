@@ -8,7 +8,7 @@
   doc.eGraph = new EventsGraph( 'olycloud', doc.getElementById('3d-graph') );
 
   //load graph data
-  doc.eGraph.loadDataFromUrl('.olycloud.graph.data.json', (data) => {
+  doc.eGraph.loadGraphDataFromUrl('.olycloud.graph.data.json', (data) => {
     console.log("loadDataFromUrl CB ", data);
 
     // Start Mock Activity
