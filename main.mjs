@@ -10,9 +10,6 @@ import MockUp from './lib/activities.mock.mjs';
   // Get Events Graph and 
   const graph = new EventsGraph( 'olycloud', doc.getElementById('3d-graph') )
 
-  // Store on document
-  doc.eGraph = graph;
-
   //load graph data
   graph.loadGraphDataFromUrl('./data/olycloud.graph.data.json', (data) => {
     console.log("loadDataFromUrl CB ", data);
