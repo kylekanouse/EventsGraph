@@ -1,31 +1,37 @@
+import EventsGraph from './lib/events-graph.class.mjs';
+import MockUp from './lib/activities.mock.mjs';
+
 /**
  * Main Application Clousure
  */
 
 ((doc) => {
 
-  // Get Events Graph and store on document
-  doc.eGraph = new EventsGraph( 'olycloud', doc.getElementById('3d-graph') );
+  // Get Events Graph and 
+  const graph = new EventsGraph( 'olycloud', doc.getElementById('3d-graph') )
+
+  // Store on document
+  doc.eGraph = graph;
 
   //load graph data
-  doc.eGraph.loadGraphDataFromUrl('.olycloud.graph.data.json', (data) => {
+  graph.loadGraphDataFromUrl('./data/olycloud.graph.data.json', (data) => {
     console.log("loadDataFromUrl CB ", data);
 
     // Start Mock Activity
-    MockUp.startMockEGEvents();
+    MockUp.startMockEGEvents(graph);
     //MockUp.startMockEGUsers();
   });
 
   doc.getElementById('add-user-btn').addEventListener('click', (e) => {
     //console.log('---> Click: ', e);
     // MockUp.createRandomEvent();
-    MockUp.createRandomUser();
+    MockUp.createRandomUser(graph);
   });
 
   doc.getElementById('remove-user-btn').addEventListener('click', (e) => {
     //console.log('---> Click: ', e);
     // MockUp.createRandomEvent();
-    MockUp.removeRandomUser();
+    MockUp.removeRandomUser(graph);
   });
 
 })(document);
