@@ -1,12 +1,16 @@
 <head>
     <!-- 3D Force Graph Buisness -->
-    <script src="//unpkg.com/three"></script>
+    <!-- <script src="//unpkg.com/three"></script>
     <script src="//unpkg.com/3d-force-graph-vr@1"></script>
     <script src="//unpkg.com/d3-dsv"></script>
-    <script src="//unpkg.com/three-spritetext"></script>
+    <script src="//unpkg.com/three-spritetext"></script> -->
 
-    <!-- dat GUI -->
-    <script type="text/javascript" src="./assets/js/datguivr.js"></script>
+    <!-- LOCAL --->
+    <script src="./assets/js/three.js"></script>
+    <script src="./assets/js/3d-force-graph-vr.min.js"></script>
+    <script src="./assets/js/d3-dsv.min.js"></script>
+    <script src="./assets/js/three-spritetext.min.js"></script>
+
 
     <!-- general -->
     <link rel="stylesheet" href="./assets/css/style.css" />

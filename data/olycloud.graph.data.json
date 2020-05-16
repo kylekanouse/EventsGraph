@@ -54,7 +54,8 @@
     "id": "olycloud.catalog.movie",
     "group": 4,
     "label": "Catalog: Movie",
-    "val": 10
+    "val": 10,
+    "icon": "./assets/images/contracts-service.icon.png"
   }, {
     "id": "olycloud.catalog.series",
     "group": 4,
