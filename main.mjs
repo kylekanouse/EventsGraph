@@ -15,7 +15,7 @@ const loadGraph = (doc) => {
   const graph = new EventsGraph( 'olycloud', doc.getElementById('3d-graph') );
 
   //load graph data
-  graph.loadGraphDataFromUrl('./data/olycloud.graph.data.json', (data) => {
+  graph.loadGraphDataFromUrl('./data/olycloud.graph.data.json', data => {
 
     // Start Mock Activity
     //MockUp.startMockEGEvents(graph);
@@ -54,7 +54,7 @@ const removeOverlay = (doc) => {
  * Main Application Clousure
  */
 
-((doc) => {
+(doc => {
 
   MockUp.loadEvents('./data/olycloud.events.data.json');
 
