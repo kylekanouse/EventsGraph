@@ -5,9 +5,11 @@ body {
   min-height: 100%;
   background-color: black;
 }
+
 button {
   cursor: pointer;
 }
+
 .graph-data {
   position: absolute;
   top: 0px;
@@ -29,31 +31,10 @@ button {
   color: slategrey;
 }
 
-.control-btn-container {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 13px;
-  color: white;
-
-}
-
-.control-item {
-  content: "";
-  display: table;
-  clear: both;
-}
-
 .control-item button {
   margin: 2px;
 }
-.column {
-  float: left;
-  width: 50%;
-  padding: 2px;
-  width: 40px;
-  text-align: left;
-}
+
 .overlay {
   position: absolute;
   top: 0;
@@ -87,4 +68,48 @@ button {
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
   margin-left: -50px;
+}
+
+#hud {
+  height: 100%;
+  width: 160px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  overflow-x: hidden;
+  padding-top: 0px;
+  padding-left: 10px;
+  text-align: right;
+}
+
+.display-window {
+  /* border: 1px dashed #ff00ff; */
+  position: relative;
+  display: grid;
+}
+
+.control-btn-container {
+  font-size: 13px;
+  color: white;
+}
+
+.control-item {
+  content: "";
+  position: relative;
+  display: block;
+  clear: both;
+}
+
+.events-graph-monitor-window {
+  position: relative;
+  width: 100%;
+  height: 500px;
+}
+
+.column {
+  float: left;
+  padding: 3px;
+  width: 70px;
+  text-align: left;
 }

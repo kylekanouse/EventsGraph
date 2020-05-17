@@ -26,16 +26,16 @@
   </div>
 
   <!-- Graph display -->
-  <div class="graph-data">
+  <!-- <div class="graph-data">
       <span id="graph-data-description"></span>
       <div id="graph-data-monitor" class="ui-window-container"></div>
-  </div>
+  </div> -->
   <div id="3d-graph"></div>
 
   <!-- HUD Display -->
   <div id="hud">
     <!-- Controls -->
-    <div class="control-btn-container">
+    <div class="display-window control-btn-container">
       <div class="control-item">
         <div class="column">
           <span class="label">Events:</span>
@@ -55,7 +55,6 @@
         </div>
       </div>
     </div>
-    <div class="monitor-window"></div>
   </div>
 
   <!-- Load main app JS -->

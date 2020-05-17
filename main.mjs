@@ -12,7 +12,7 @@ let camera, scene, renderer;
 const loadGraph = (doc) => {
 
   // Get Events Graph and 
-  const graph = new EventsGraph( 'olycloud', doc.getElementById('3d-graph') );
+  const graph = new EventsGraph( 'olycloud', doc.getElementById('3d-graph'), doc.getElementById('hud') );
 
   //load graph data
   graph.loadGraphDataFromUrl('./data/olycloud.graph.data.json', data => {
