@@ -1,8 +1,6 @@
 import EventsGraph from './lib/events-graph.class.mjs';
 import MockUp from './lib/activities.mock.mjs';
 
-let camera, scene, renderer;
-
 /**
  * loadGraph
  * 
