@@ -10,10 +10,10 @@ import MockUp from './lib/activities.mock.mjs';
 const loadGraph = (doc) => {
 
   // Get Events Graph and 
-  const graph = new EventsGraph( 'olycloud', doc.getElementById('3d-graph'), doc.getElementById('hud') );
+  const graph = new EventsGraph( 'eventsgraph', doc.getElementById('3d-graph'), doc.getElementById('hud') );
 
   //load graph data
-  graph.loadGraphDataFromUrl('./data/olycloud.graph.data.json', data => {
+  graph.loadGraphDataFromUrl('./data/mock.graph.data.json', data => {
 
     // Start Mock Activity
     MockUp.startMockEGEvents(graph);
@@ -54,7 +54,7 @@ const removeOverlay = (doc) => {
 
 (doc => {
 
-  MockUp.loadEvents('./data/olycloud.events.data.json');
+  MockUp.loadEvents('./data/mock.events.data.json');
 
   doc.getElementById('startBtn')
   .addEventListener('click', (e) => {
