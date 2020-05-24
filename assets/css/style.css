@@ -133,4 +133,5 @@ button {
 
 .display-window .info .label {
   color: #928d8d;
+  cursor: default;
 }
