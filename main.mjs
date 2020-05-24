@@ -16,7 +16,7 @@ const loadGraph = (doc) => {
   graph.loadGraphDataFromUrl('./data/olycloud.graph.data.json', data => {
 
     // Start Mock Activity
-    //MockUp.startMockEGEvents(graph);
+    MockUp.startMockEGEvents(graph);
     //MockUp.startMockEGUsers();
 
     // SETUP  Users Controls

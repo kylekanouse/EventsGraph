@@ -72,7 +72,8 @@ button {
 
 #hud {
   height: 100%;
-  width: 160px;
+  width: 20%;
+  min-width: 160px;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -83,10 +84,21 @@ button {
   text-align: right;
 }
 
-.display-window {
-  /* border: 1px dashed #ff00ff; */
+.timestamp {
+  font-style: italic;
+  color: #c17f7f;
+}
+
+.display-window  {
+  border: 1px solid #656565;
   position: relative;
   display: grid;
+  background-color: rgba(255,255,255,0.2);
+  color: white;
+  overflow-y: auto;
+  padding: 5px;
+  font-size: 12px;
+  text-align: left;
 }
 
 .control-btn-container {
@@ -105,11 +117,21 @@ button {
   position: relative;
   width: 100%;
   height: 500px;
+  display: block;
 }
 
 .column {
   float: left;
   padding: 3px;
-  width: 70px;
+  width: 66px;
   text-align: left;
+}
+.events-graph-monitor-window-display-event {}
+
+.display-window .info {
+  padding-left: 20px;
+}
+
+.display-window .info .label {
+  color: #928d8d;
 }
