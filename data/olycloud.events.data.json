@@ -1,164 +1,222 @@
 {
   "events": [{
+    "category": "Contracts",
+    "action": "created",
+    "label": "New Contract Created",
+    "value": 1234,
+    "target": "olycloud.contracts",
+    "type": "user"
+  },{
+    "category": "Assets",
+    "action": "created",
+    "label": "New Image Asset Created",
+    "value": 1234,
+    "target": "olycloud.assets",
+    "type": "user"
+  },{
+    "category": "Catalog",
+    "action": "created",
+    "label": "New Movie Created - title: XYZ the sequel",
+    "value": 1234,
+    "target": "olycloud.catalog",
+    "type": "user"
+  },{
+    "category": "Distribution",
+    "action": "distribute",
+    "label": "Title: XYZ sent to Publisher A",
+    "value": 1234,
+    "target": "olycloud.distribution",
+    "type": "user"
+  },{
+    "category": "Ingestion",
+    "action": "upload",
+    "label": "New Movie",
+    "value": 1234,
+    "target": "olycloud.ingestion",
+    "type": "user"
+  },{
     "category": "Ingestion",
     "action": "upload",
     "label": "New Movie",
     "value": 1234,
     "source": "com.ingestion-entity-a",
-    "target": "olycloud.ingestion"
+    "target": "olycloud.ingestion",
+    "type": "service"
   },{
     "category": "Distribution",
     "action": "send",
     "label": "New Movie Title",
     "value": 1234,
     "source": "olycloud.distribution",
-    "target": "com.distribution-entity-a"
+    "target": "com.distribution-entity-a",
+    "type": "service"
   },{
     "category": "Distribution",
     "action": "send",
     "label": "Movie Title",
     "value": 1234,
     "source": "olycloud.distribution",
-    "target": "com.distribution-entity-b"
+    "target": "com.distribution-entity-b",
+    "type": "service"
   },{
     "category": "Ingestion",
     "action": "uploaded",
     "label": "New Movie Title Uploaded",
     "value": 1234,
     "source": "olycloud.ingestion",
-    "target": "olycloud.catalog"
+    "target": "olycloud.catalog",
+    "type": "service"
   },{
     "category": "Asset",
     "action": "create",
     "label": "New Image Assets Created",
     "value": 1234,
     "source": "olycloud.ingestion",
-    "target": "olycloud.assets"
+    "target": "olycloud.assets",
+    "type": "service"
   },{
     "category": "Contracts",
     "action": "create",
     "label": "New Contract Created for Title XYZ",
     "value": 1234,
     "source": "olycloud.ingestion",
-    "target": "olycloud.contracts"
+    "target": "olycloud.contracts",
+    "type": "service"
   },{
     "category": "Catalog",
     "action": "update",
     "label": "Title XYZ was updated",
     "value": 1234,
     "source": "olycloud.catalog",
-    "target": "olycloud.distribution"
+    "target": "olycloud.distribution",
+    "type": "service"
   },{
     "category": "Asset",
-    "action": "action",
-    "label": "label",
+    "action": "created",
+    "label": "Asset XYZ was created",
     "value": 1234,
     "source": "olycloud.assets",
-    "target": "olycloud.distribution"
+    "target": "olycloud.distribution",
+    "type": "service"
   },{
     "category": "Contracts",
     "action": "created",
     "label": "New COntract created fro XYZ",
     "value": 1234,
     "source": "olycloud.contracts",
-    "target": "olycloud.distribution"
+    "target": "olycloud.distribution",
+    "type": "service"
   },{
     "category": "catalog.movie",
     "action": "created",
     "label": "NEw Movie Created",
     "value": 1234,
     "source": "olycloud.catalog.movie",
-    "target": "olycloud.catalog"
+    "target": "olycloud.catalog",
+    "type": "service"
   },{
     "category": "catalog.series",
     "action": "created",
     "label": "New Series Created",
     "value": 1234,
     "source": "olycloud.catalog.series",
-    "target": "olycloud.catalog"
+    "target": "olycloud.catalog",
+    "type": "service"
   },{
     "category": "assets.asset",
     "action": "created",
     "label": "New Asset Created",
     "value": 1234,
     "source": "olycloud.assets.asset",
-    "target": "olycloud.assets"
+    "target": "olycloud.assets",
+    "type": "service"
   },{
     "category": "assets",
     "action": "created",
     "label": "Asset for XYZ created",
     "value": 1234,
     "source": "olycloud.contracts.asset",
-    "target": "olycloud.contracts"
+    "target": "olycloud.contracts",
+    "type": "service"
   },{
     "category": "contract.contract",
     "action": "created",
     "label": "New Contract Created",
     "value": 1234,
     "source": "olycloud.contracts.contract",
-    "target": "olycloud.contracts"
+    "target": "olycloud.contracts",
+    "type": "service"
   },{
     "category": "catalog.version",
     "action": "created",
     "label": "New Version for XYZ Created",
     "value": 1234,
     "source": "olycloud.catalog.version",
-    "target": "olycloud.catalog.movie"
+    "target": "olycloud.catalog.movie",
+    "type": "service"
   },{
     "category": "catalog.series.season",
     "action": "created",
     "label": "New Dseaon For XYZ Created",
     "value": 1234,
     "source": "olycloud.catalog.series.season",
-    "target": "olycloud.catalog.series"
+    "target": "olycloud.catalog.series",
+    "type": "service"
   },{
     "category": "catalog.series.season.episode",
     "action": "created",
     "label": "NEw Series Episode For XYZ Created",
     "value": 1234,
     "source": "olycloud.catalog.series.season.episode",
-    "target": "olycloud.catalog.series.season"
+    "target": "olycloud.catalog.series.season",
+    "type": "service"
   },{
     "category": "catalog.series.season.episode.version",
     "action": "created",
     "label": "New Verison for Episode XYZ",
     "value": 1234,
     "source": "olycloud.catalog.version",
-    "target": "olycloud.catalog.series.season.episode"
+    "target": "olycloud.catalog.series.season.episode",
+    "type": "service"
   },{
     "category": "catalog.version.sergment",
     "action": "created",
     "label": "Segment Created For XYZ Version",
     "value": 1234,
     "source": "olycloud.catalog.version.segment",
-    "target": "olycloud.catalog.version"
+    "target": "olycloud.catalog.version",
+    "type": "service"
   },{
     "category": "assets.assets.icon",
     "action": "created",
     "label": "New Icon Created",
     "value": 1234,
     "source": "olycloud.assets.asset.icon",
-    "target": "olycloud.assets.asset"
+    "target": "olycloud.assets.asset",
+    "type": "service"
   },{
     "category": "catalog",
-    "action": "action",
-    "label": "label",
+    "action": "update",
+    "label": "Title XYZ updated",
     "value": 1234,
     "source": "source",
-    "target": "target"
+    "target": "target",
+    "type": "service"
   },{
     "category": "assets.asset.psd",
     "action": "action",
     "label": "label",
     "value": 1234,
     "source": "olycloud.assets.asset.psd",
-    "target": "olycloud.assets.asset"
+    "target": "olycloud.assets.asset",
+    "type": "service"
   },{
     "category": "contracts.contrac.line-iteam",
     "action": "created",
     "label": "New Line Added Created",
     "value": 1234,
     "source": "olycloud.contracts.contract.line-item",
-    "target": "olycloud.contracts.contract"
+    "target": "olycloud.contracts.contract",
+    "type": "service"
   }]
 }
