@@ -73,7 +73,7 @@ button {
 #hud {
   height: 100%;
   width: 20%;
-  min-width: 180px;
+  min-width: 265px;
   position: fixed;
   z-index: 1;
   top: 0;
