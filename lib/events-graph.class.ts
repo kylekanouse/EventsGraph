@@ -17,6 +17,7 @@ declare class SpriteText extends THREE.Sprite {
     textHeight?:number,
     color?: string
   );
+  
 
   get text(): string;
   set text(text: string);
