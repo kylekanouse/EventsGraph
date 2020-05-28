@@ -288,7 +288,7 @@ class EventsGraph {
    * @returns {EventsGraph}
    */
 
-  _clearWrappers() {
+  _clearWrappers(): EventsGraph {
 
     this._nodes = [];
     this._nodesMapper = {};
@@ -501,7 +501,7 @@ class EventsGraph {
     var audioLoader = new THREE.AudioLoader();
 
     // Load init Load sound url
-    audioLoader.load(initLoadSoundUrl, function (buffer) {
+    audioLoader.load(initLoadSoundUrl, function (buffer: THREE.AudioBuffer) {
       sound.setBuffer(buffer);
       sound.setLoop(false);
       sound.setVolume(initLoadSoundVol);
@@ -798,6 +798,7 @@ class EventsGraph {
     this.removeNode(user)
       .removeLink(user.link)
       .render();
+
     return this;
   }
 
