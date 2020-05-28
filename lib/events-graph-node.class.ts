@@ -2,6 +2,8 @@
  * CONSTS
  */
 
+import { Object3D } from "three";
+
 const nodeLabelPrefix = 'Node';
 
 /**
@@ -10,19 +12,29 @@ const nodeLabelPrefix = 'Node';
 
 class EventsGraphNode {
 
+  protected _id: string;
+  protected _label: string;
+  protected _color: string;
+  protected _group: string;
+  protected _val: number;
+  protected _desc: string;
+  protected _icon: string;
+  protected _object3D: THREE.Object3D;
+  protected _type: string;
+
   /**
    * constructor
    * 
    * @param {*} id
-   * @param {THREE.object3D} object3D
-   * @param {String} label
+   * @param {THREE.Object3D} object3D
+   * @param {string} label
    * @param {*} group
    * @param {*} val
    * @param {*} desc
    * @param {*} icon
    */
 
-  constructor(id, object3D = null, label = null, group = null, val = null, desc = null, icon = null, color = null, type = null) {
+  constructor(id: string|any, object3D?: THREE.Object3D, label?: string, group?: string, val?: number, desc?: string, icon?: string, color?: string, type?: string) {
     
     // Decompose id passed object
     if (typeof id === "object") {
@@ -43,24 +55,30 @@ class EventsGraphNode {
   /**
    * defaultLabel
    * 
-   * @returns {String}
+   * @returns {string}
    */
 
-  get defaultLabel() {
+  get defaultLabel(): string {
     return nodeLabelPrefix + " " + this._id;
   }
 
   /**
    * GET id
    * 
-   * @returns {String}
+   * @returns {string}
    */
 
-  get id() {
+  get id(): string {
     return this._id;
   }
 
-  get icon() {
+  /**
+   * get icon
+   * 
+   * @returns {string}
+   */
+
+  get icon(): string {
     return this._icon;
   }
 
@@ -68,7 +86,7 @@ class EventsGraphNode {
    * get object3D
    */
 
-  get object3D() {
+  get object3D(): THREE.Object3D {
     return this._object3D;
   }
 
@@ -76,7 +94,7 @@ class EventsGraphNode {
    * type
    */
 
-  get type() {
+  get type(): string {
     return this._type;
   }
 
@@ -85,7 +103,7 @@ class EventsGraphNode {
    * 
    * returns EventsGraph data as graph data
    * 
-   * @returns {Object}
+   * @returns {object}
    */
 
   getData() {

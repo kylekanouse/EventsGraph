@@ -1,10 +1,11 @@
-import Utils from './utils.mjs';
-import EventsGraph from './events-graph.class.mjs';
-import EventsGraphEvent from './events-graph-event.class.mjs';
-import EventsGraphNode from './events-graph-node.class.mjs';
-import EventsGraphUser from './events-graph-user.class.mjs';
+import Utils from './utils';
+import EventsGraph from './events-graph.class';
+import EventsGraphEvent from './events-graph-event.class';
+import EventsGraphNode from './events-graph-node.class';
+import EventsGraphUser from './events-graph-user.class';
+import EventsGraphLink from './events-graph-link.class';
 
-const mockEventsInterval = 2000;
+const mockEventsInterval = 3000;
 
 /**
  * MockUp
@@ -14,7 +15,7 @@ const mockEventsInterval = 2000;
 
 const userNodesWhiteList = ['olycloud.catalog', 'olycloud.distribution','olycloud.assets', 'olycloud.ingestion'];
 
-let events,
+let eventData,
     addUsersInt,
     deleteUsersInt, 
     eventsInt;
@@ -23,14 +24,14 @@ let events,
  * _createRandomEvent
  */
 
-const _createRandomEvent = (graph) => {
+const _createRandomEvent = (graph: EventsGraph): void => {
 
   if (!graph.links.length) { return; }
 
   const randIndex = Math.floor(Math.random() * graph.links.length);
 
   // // Get a random link from array of all links to send event with
-  const randLink = graph.links[randIndex];
+  const randLink = <any> graph.links[randIndex];
 
   // // Create a new event
   const randEvent = graph.createEvent(randLink);
@@ -50,7 +51,7 @@ const _createRandomEvent = (graph) => {
  * _createRandomUser
  */
 
-const _createRandomUser = (graph) => {
+const _createRandomUser = (graph: EventsGraph): void => {
 
   let linkedToNode,
       randUserID,
@@ -80,8 +81,9 @@ const _createRandomUser = (graph) => {
  * @returns {Array}
  */
 
-const _getEventDataByLink = (link) => {
-  return events.find(event => 
+const _getEventDataByLink = (link: EventsGraphLink): any => {
+  if (!eventData) { return false; }
+  return eventData.find((event: any) => 
     event.source == link.source && 
     event.target == link.target
   );
@@ -93,10 +95,10 @@ const _getEventDataByLink = (link) => {
  * @returns {Object}
  */
 
-const _getRandomUserEventData = () => {
-
+const _getRandomUserEventData = (): any => {
+  if (!eventData) {return false;}
   // Get all user specific events
-  let userEvents = events.filter(event => 
+  let userEvents = eventData.filter((event: any) => 
     event.type == 'user'
   );
 
@@ -112,7 +114,7 @@ const _getRandomUserEventData = () => {
  * @returns {EventsGraphUser}
  */
 
-const _getRandomUser = (graph) => {
+const _getRandomUser = (graph: EventsGraph): EventsGraphUser|false => {
 
   const ids = graph.getUserIds();
   
@@ -131,28 +133,31 @@ const _getRandomUser = (graph) => {
  * @param {EventsGraph} graph
  */
 
-const _removeRandomUser = (graph) => {
+const _removeRandomUser = (graph: EventsGraph): void => {
   const user = _getRandomUser(graph);
-  if (!user) { return; }
-  graph.removeUser(user);
+  if (user) {
+    graph.removeUser(user);
+  }
 };
 
 /**
  * loadEvents
  * 
- * @param url {String}
+ * @param url {string}
  */
 
-const _loadEvents = (url) => {
-  Utils.loadJSON(url, (result) => {
+const _loadEvents = (url: string): void => {
+
+  Utils.loadJSON(url, (result: any) => {
     try {
-      result = JSON.parse(result);
-      events = result.events;
-      console.log(events);
+      result = <any> JSON.parse(result);
+      eventData = result.events;
     } catch(err){
       console.log('Unable to parse JSON | message = ', err.message);
     }
+    return {};
   });
+
 };
 
 /**
@@ -173,7 +178,7 @@ export default {
    * startMockEGEvents
    */
 
-  startMockEGEvents: (graph) => {
+  startMockEGEvents: (graph: EventsGraph): void => {
     eventsInt = setInterval( _createRandomEvent, mockEventsInterval, graph );
     // setTimeout(function() {
     //   _createRandomEvent(graph);
@@ -187,7 +192,7 @@ export default {
    * stopMockEGEvents
    */
 
-  stopMockEGEvents: () => {
+  stopMockEGEvents: (): void => {
     clearInterval( eventsInt );
   },
 
@@ -195,7 +200,7 @@ export default {
    * startMockEGUsers
    */
 
-  startMockEGUsers: (graph) => {
+  startMockEGUsers: (graph: EventsGraph): void => {
 
     _createRandomUser(graph);
 
@@ -218,8 +223,8 @@ export default {
    * stopMockEGUsers
    */
 
-  stopMockEGUsers: () => {
+  stopMockEGUsers: (): void => {
     clearInterval( addUsersInt );
-    clearInterval( deletUsersInt );
+    // clearInterval( deletUsersInt );
   }
 };

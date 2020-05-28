@@ -1,5 +1,6 @@
-import EventsGraph from './lib/events-graph.class.mjs';
-import MockUp from './lib/activities.mock.mjs';
+import EventsGraph from './lib/events-graph.class';
+import MockUp from './lib/activities.mock';
+import "./assets/css/style.css";
 
 /**
  * loadGraph
@@ -7,13 +8,13 @@ import MockUp from './lib/activities.mock.mjs';
  * @param {Document} doc 
  */
 
-const loadGraph = (doc) => {
+const loadGraph = (doc: Document): void => {
 
-  // Get Events Graph and 
+  // Create Events Graph
   const graph = new EventsGraph( 'eventsgraph', doc.getElementById('3d-graph'), doc.getElementById('hud') );
 
   //load graph data
-  graph.loadGraphDataFromUrl('./data/mock.graph.data.json', data => {
+  graph.loadGraphDataFromUrl('./data/mock.graph.data.json', (data: any) => {
 
     // Start Mock Activity
     MockUp.startMockEGEvents(graph);
@@ -23,6 +24,7 @@ const loadGraph = (doc) => {
     doc.getElementById('add-user-btn')
     .addEventListener('click', (e) => {
       MockUp.createRandomUser(graph);
+      return;
     });
 
     doc.getElementById('remove-user-btn')
@@ -35,7 +37,9 @@ const loadGraph = (doc) => {
       .addEventListener('click', (e) => {
         MockUp.createRandomEvent(graph);
       });
-  }); 
+
+    return {};
+  });
 };
 
 /**
@@ -44,7 +48,7 @@ const loadGraph = (doc) => {
  * @param {Document} doc 
  */
 
-const removeOverlay = (doc) => {
+const removeOverlay = (doc: Document): void => {
   doc.getElementById('overlay-wrapper').style.display = "none";
 };
 
@@ -52,7 +56,7 @@ const removeOverlay = (doc) => {
  * Main Application Clousure
  */
 
-(doc => {
+((doc: Document) => {
 
   MockUp.loadEvents('./data/mock.events.data.json');
 

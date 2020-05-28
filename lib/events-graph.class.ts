@@ -1,33 +1,72 @@
-import Utils from './utils.mjs';
-import EventsGraphNode from './events-graph-node.class.mjs';
-import EventsGraphLink from './events-graph-link.class.mjs';
-import EventsGraphUser from './events-graph-user.class.mjs';
-import EventsGraphEvent from './events-graph-event.class.mjs';
-import EventsGraphMonitor from './events-graph-monitor.class.mjs';
+  /// <reference path='../typings/tsd.d.ts' />
+import EventsGraphEvent from './events-graph-event.class';
+import EventsGraphLink from './events-graph-link.class';
+import EventsGraphMonitor from './events-graph-monitor.class';
+import EventsGraphNode from './events-graph-node.class';
+import EventsGraphUser from './events-graph-user.class';
+import Utils from './utils';
+
+// Declare Global ForceGraphVR object as "any"
+declare const ForceGraphVR: any;
+declare var AFRAME: any;
+declare const THREE: any;
+
+declare class SpriteText extends THREE.Sprite {
+  constructor(
+    text?: string,
+    textHeight?:number,
+    color?: string
+  );
+
+  get text(): string;
+  set text(text: string);
+  get textHeight(): number;
+  set textHeight(height: number);
+  get color(): string;
+  set color(color:string);
+  get backgroundColor(): string;
+  set backgroundColor(color:string);
+  get fontFace(): string;
+  set fontFace(fontFace: string);
+  get fontSize(): number;
+  set fontSize(fontSize: number);
+  get fontWeight(): string;
+  set fontWeight(fontWeight: string);
+  get padding(): number;
+  set padding(fontSize: number);
+  get borderWidth(): number;
+  set borderWidth(fontSize: number);
+  get borderColor(): string;
+  set borderColor(color:string);
+  get strokeWidth(): number;
+  set strokeWidth(strokeWidth: number);
+  get strokeColor(): string;
+  set strokeColor(strokeColor: string);
+};
 
 // Define constsants
-const coolDownTicks             = 5000,
-      cooldownTime              = 100000,
-      eventTypeColors           = {
+const coolDownTicks = 5000,
+      cooldownTime = 100000,
+      eventTypeColors = {
         'user': 'green',
         'service': 'red'
       },
-      fontUrl                   = './assets/fonts/helvetiker_regular.typeface.json',
-      initLoadSoundUrl          = './assets/audio/explosion.ogg',
-      linkAutoColorBy           = 'val',
-      initLoadSoundVol          = 0.2,
-      linkParticleSpeed         = 0.01,
-      linkParticleResolution    = 100,
-      linkParticleWidth         = 4,    
-      linkOpacity               = 0.3,
-      linkWidth                 = 0.8,
-      nodeAutoColorBy           = 'group',
-      nodeDefaultColor          = 0x00ff00,
-      nodeLabel                 = 'label',
-      nodeValue                 = 'val',
-      nodeRelationSize          = 3;
+      fontUrl = 'assets/fonts/helvetiker_regular.typeface.json',
+      initLoadSoundUrl = 'assets/audio/explosion.ogg',
+      linkAutoColorBy = 'val',
+      initLoadSoundVol = 0.2,
+      linkParticleSpeed = 0.01,
+      linkParticleResolution = 100,
+      linkParticleWidth = 4,
+      linkOpacity = 0.3,
+      linkWidth = 0.8,
+      nodeAutoColorBy = 'group',
+      nodeDefaultColor = 0x00ff00,
+      nodeLabel = 'label',
+      nodeValue = 'val',
+      nodeRelationSize = 3;
 
-let graphFirstLoaded            = false;
+let graphFirstLoaded = false;
 
 /**
  * Events Graph
@@ -35,23 +74,37 @@ let graphFirstLoaded            = false;
 
 class EventsGraph {
 
+  private _id: string;
+  private _ele: HTMLElement;
+  private _graph: any;
+  private _graphData: any;
+  private _users: Array<EventsGraphUser>;
+  private _usersMapper: object;
+  private _nodes: Array<EventsGraphNode>;
+  private _nodesMapper: object;
+  private _links: Array<EventsGraphLink>;
+  private _linksMapper: object;
+  private _linksUserMapper: object;
+  private _font: any;
+  private _nodeLoadedCallbacks: Array<Function>;
+  private _linkLoadedCallbacks: Array<Function>;
+  private _userLoadedCallbacks: Array<Function>;
+  private _listener: THREE.AudioListener;
+  private _monitor: EventsGraphMonitor;
+
   /**
    * constructor
    * 
    * @param {*} id 
-   * @param {HTMLDivElement} ele 
-   * @param {HTMLDivElement} monitorEle
+   * @param {HTMLElement} ele 
+   * @param {HTMLElement} monitorEle
    */
 
-  constructor(id, ele, monitorEle = null) {
-
-    if (typeof id === "object") {
-      ({id, ele, graphData, events, users} = id);
-    }
+  constructor(id: any, ele: HTMLElement, monitorEle: HTMLElement = null) {
 
     this._id = id;
     this._ele = ele;
-    this._graph =  ForceGraphVR()( this._ele );
+    this._graph = ForceGraphVR()(this._ele);
     this._graphData = null;
     this._users = [];
     this._usersMapper = {};
@@ -71,7 +124,7 @@ class EventsGraph {
     this._listener = new THREE.AudioListener();
 
     // Setup event monitoring of activity
-    this._monitor = new EventsGraphMonitor( monitorEle );
+    this._monitor = new EventsGraphMonitor(monitorEle);
 
     // Enable monitoring for all event types
     this._monitor.enableEventType('*');
@@ -79,7 +132,7 @@ class EventsGraph {
     // Setup the scene
     this._initScene();
 
-    new THREE.FontLoader().load( fontUrl, font => {
+    new THREE.FontLoader().load(fontUrl, font => {
       this._font = font;
     });
   }
@@ -90,82 +143,78 @@ class EventsGraph {
    * @returns {Document}
    */
 
-  get doc() {
+  get doc(): Document {
     return this._ele.ownerDocument;
   }
 
   /**
    * GET graphData
    * 
-   * @returns {Object}
+   * @returns {any}
    */
 
-  get graphData() {
+  get graphData(): any {
     return this._graphData;
   }
 
   /**
    * GET id
    * 
-   * @returns {*}
+   * @returns {string}
    */
 
-  get id() {
+  get id(): string {
     return this._id;
   }
 
   /**
    * get links
    * 
-   * @returns {Array}
+   * @returns {EventsGraphLink[]}
    */
 
-  get links() {
+  get links(): Array<EventsGraphLink> {
     return this._links;
   }
 
   /**
    * get scene
    * 
-   * @returns {Scene}
+   * @returns {THREE.Scene}
    */
 
-  get scene() {
+  get scene(): any {
     //return this.doc.getElementsByTagName("A-SCENE")[0].object3D;
-    return (AFRAME && AFRAME.scenes.length) ? AFRAME.scenes[0] : this.doc.getElementsByTagName("A-SCENE")[0].object3D;
+    const ele = <any> this.doc.getElementsByTagName("A-SCENE")[0];
+    return (AFRAME && AFRAME.scenes.length) ? AFRAME.scenes[0] : ele.object3D;
   }
 
   /**
    * SET: graphData
    * 
-   * @param {Object} d
-   * 
-   * @returns {EventsGraph}
+   * @param {object} d
    */
 
-  set graphData(d) {
+  set graphData(d: any) {
     if (!("nodes" in d)) { return; }
     this._graphData = d;
-
-    return this;
   }
 
   /**
    * _addNodeFromGraphData
    * 
    * @param nodeData
-   * 
+   * id
    * @returns {EventsGraphNode}
    */
 
-  _addNodeFromGraphData(nodeData) {
-    if (!nodeData) { return false; }
+  _addNodeFromGraphData(nodeData: object): EventsGraphNode {
 
     // Create new EventsGrpahNode object from Graph Node Data
     const node = new EventsGraphNode(nodeData);
 
     // Add to array and map by id
-    this._nodes.push( node );
+    this._nodes.push(node);
     this._nodesMapper[node.id] = this._nodes.length - 1;
 
     // Return reference to node object
@@ -180,14 +229,14 @@ class EventsGraph {
    * @returns {EventsGraphLink}
    */
 
-  _addLinkFromGraphData(linkData) {
-    if (!linkData) { return false; }
+  _addLinkFromGraphData(linkData: any): EventsGraphLink {
 
-    const link        = new EventsGraphLink(linkData);
-    link.sourceNode   = this._getNodeFromID(link.source);
-    link.targetNode   = this._getNodeFromID(link.target);
+    const link = new EventsGraphLink(linkData);
 
-    this._links.push( link );
+    link.sourceNode = this._getNodeFromID(link.source);
+    link.targetNode = this._getNodeFromID(link.target);
+
+    this._links.push(link);
     this._linksMapper[link.id] = this._links.length - 1;
 
     return link;
@@ -196,13 +245,13 @@ class EventsGraph {
   /**
    * _addLinkRefernceToUserMap
    *
-   * @param {String} linkId 
-   * @param {Integer} userId
+   * @param {string} linkId 
+   * @param {string} userId
    * 
    * @returns {EventsGraph}
    */
 
-  _addUserRefernceToLinkMap(linkId, userId) {
+  _addUserRefernceToLinkMap(linkId: string, userId: string): EventsGraph {
     if (!linkId || !userId) { return this; }
 
     // Add to mapper
@@ -214,22 +263,22 @@ class EventsGraph {
   /**
    * _addUserFromNodeGraphData
    *
-   * @param {Object} nodeData
+   * @param {object} nodeData
    */
 
-  _addUserFromNodeGraphData(nodeData) {
+  _addUserFromNodeGraphData(nodeData: any): EventsGraphUser|false {
     if (!nodeData) { return false; }
 
     // Create new EventsGrpahNode object from Graph Node Data
     const user = new EventsGraphUser(nodeData);
 
     // Add to array and map by id
-    this._users.push( user );
+    this._users.push(user);
     this._usersMapper[user.id] = this._users.length - 1;
 
     // Return reference to user object
     return user;
-  } 
+  }
 
   /**
    * _clearWrappers
@@ -253,10 +302,10 @@ class EventsGraph {
   /**
    * _getNodeFromID
    * 
-   * @param {String} id
+   * @param {string} id
    */
 
-  _getNodeFromID(id) {
+  _getNodeFromID(id: string): EventsGraphNode|false {
     return (this._nodesMapper.hasOwnProperty(id)) ? this._nodes[this._nodesMapper[id]] : false;
   }
 
@@ -266,10 +315,10 @@ class EventsGraph {
    * @returns {EventsGraph}
    */
 
-  _initScene() {
+  _initScene(): EventsGraph {
 
     const planeGeometry = new THREE.PlaneGeometry(1000, 1000, 1, 1);
-    const planeMaterial = new THREE.MeshLambertMaterial({color: 0xFF0000, side: THREE.DoubleSide});
+    const planeMaterial = new THREE.MeshLambertMaterial({ color: 0xFF0000, side: THREE.DoubleSide });
     const plane = new THREE.Mesh(planeGeometry, planeMaterial);
     plane.position.set(-100, -200, -100);
     plane.rotation.set(0.5 * Math.PI, 0, 0);
@@ -283,11 +332,11 @@ class EventsGraph {
   /**
    * _linkDataLoaded
    *
-   * @param {Object} linkData
+   * @param {object} linkData
    * @returns {EventsGraph}
    */
 
-  _linkDataLoaded(linkData) {
+  _linkDataLoaded(linkData: any): EventsGraph {
 
     // Add Link to EventGraphLink Wrapper Links array
     const link = this._addLinkFromGraphData(linkData);
@@ -296,8 +345,8 @@ class EventsGraph {
     if (link.id in this._linksUserMapper) {
 
       // Get User ID from links mapper
-      const userId        = this._linksUserMapper[link.id];
-      const userIndex     = this._usersMapper[userId];
+      const userId = this._linksUserMapper[link.id];
+      const userIndex = this._usersMapper[userId];
 
       // User userid to associate link with user object
       this._users[userIndex].link = link;
@@ -317,7 +366,7 @@ class EventsGraph {
    * @param {*} node 
    */
 
-  _nodeCenterHover(node) {
+  _nodeCenterHover(node: any) {
     if (!node || !this._font) { return; }
 
     //console.log(node);
@@ -340,7 +389,7 @@ class EventsGraph {
     // //mesh.lookAt( this.scene.camera.position );
     // this.scene.object3D.add( mesh );
 
-    // node.hoverObject3D = mesh;
+    // node.hoverobject3D = mesh;
     // node.hoverGeometry = geometry;
   }
 
@@ -352,14 +401,14 @@ class EventsGraph {
    * @returns {EventsGraph}
    */
 
-  _nodeCenterHoverOut(node) {
+  _nodeCenterHoverOut(node: any): EventsGraph {
 
     if (!node) { return; }
 
-    if (node.hoverObject3D) {
+    if (node.hoverobject3D) {
 
       // Remove hover object
-      this.scene.object3D.remove( node.hoverObject3D );
+      this.scene.object3D.remove(node.hoverobject3D);
 
       // need to explicitly envoke BufferGeometry.dispose()
       node.hoverGeometry.dispose();
@@ -371,11 +420,11 @@ class EventsGraph {
   /**
    * _nodeLoaded
    *
-   * @param {Object} nodeData
+   * @param {object} nodeData
    * @returns {EventsGraph}
    */
 
-  _nodeDataLoaded(nodeData) {
+  _nodeDataLoaded(nodeData: any): EventsGraph {
 
     if (!nodeData) { return this; }
 
@@ -389,7 +438,7 @@ class EventsGraph {
 
     // Check if loaded node is a user node
     if (node.type == 'user') {
-      this._userNodeDataLoaded( node.getData() );
+      this._userNodeDataLoaded(node.getData());
     }
 
     return this;
@@ -402,7 +451,7 @@ class EventsGraph {
    * @returns {EventsGraph}
    */
 
-  _userNodeDataLoaded(nodeData) {
+  _userNodeDataLoaded(nodeData: any): EventsGraph {
     if (!nodeData) { return this; }
 
     // Add user from graph node data
@@ -424,7 +473,7 @@ class EventsGraph {
    * @returns {EventsGraph}
    */
 
-  _onGraphRendered() {
+  _onGraphRendered(): EventsGraph {
     if (!graphFirstLoaded) {
       this._onGraphFirstLoad();
     }
@@ -438,24 +487,24 @@ class EventsGraph {
    * @returns {EventsGraph}
    */
 
-  _onGraphFirstLoad() {
+  _onGraphFirstLoad(): EventsGraph {
 
     graphFirstLoaded = true;
 
     // Add listner to camera
-    this.scene.camera.add( this._listener );
+    this.scene.camera.add(this._listener);
 
     // // create a audio listener
-    var sound = new THREE.Audio( this._listener );
+    var sound = new THREE.Audio(this._listener);
 
     // load a sound and set it as the Audio object's buffer
     var audioLoader = new THREE.AudioLoader();
 
     // Load init Load sound url
-    audioLoader.load( initLoadSoundUrl, function( buffer ) {
-      sound.setBuffer( buffer );
-      sound.setLoop( false );
-      sound.setVolume( initLoadSoundVol );
+    audioLoader.load(initLoadSoundUrl, function (buffer) {
+      sound.setBuffer(buffer);
+      sound.setLoop(false);
+      sound.setVolume(initLoadSoundVol);
       sound.play();
     });
 
@@ -465,12 +514,12 @@ class EventsGraph {
   /**
    * _removeLinkRefernceToUserMap
    *
-   * @param {String} linkId 
+   * @param {string} linkId 
    * 
    * @returns {EventsGraph}
    */
 
-  _removeUserRefernceToLinkMap(linkId) {
+  _removeUserRefernceToLinkMap(linkId: string): EventsGraph {
     if (!(linkId in this._linksUserMapper)) { return this; }
 
     // Remove ref from reference map
@@ -487,15 +536,15 @@ class EventsGraph {
    * @returns {EventsGraph}
    */
 
-  addUser(user) {
+  addUser(user: EventsGraphUser): EventsGraph {
     if (!(user instanceof EventsGraphUser)) { return this; }
 
     // Add reference of user to link
-    this._addUserRefernceToLinkMap( user.link.id, user.id);
+    this._addUserRefernceToLinkMap(user.link.id, user.id);
 
     // Add user elements to graph and render graph
-    this.addNode( user )
-      .addLink( user.link )
+    this.addNode(user)
+      .addLink(user.link)
       .render();
 
     return this;
@@ -509,11 +558,11 @@ class EventsGraph {
    * @returns {EventsGraph}
    */
 
-  addLink(link) {
+  addLink(link: EventsGraphLink): EventsGraph {
     if (!(link instanceof EventsGraphLink)) { return this; }
 
     // Add link graph data to graph array for rendering
-    this.graphData.links.push( link.getData() );
+    this.graphData.links.push(link.getData());
 
     return this;
   }
@@ -528,11 +577,11 @@ class EventsGraph {
    * @returns {EvenetsGraph}
    */
 
-  addNode(node) {
+  addNode(node: EventsGraphNode): EventsGraph {
     if (!(node instanceof EventsGraphNode)) { return this; }
 
     // Add Node graph graphData to grpah nodes
-    this.graphData.nodes.push( node.getData() );
+    this.graphData.nodes.push(node.getData());
 
     return this;
   }
@@ -540,26 +589,26 @@ class EventsGraph {
   /**
    * createEvent
    * 
-   * @param {Object} link 
+   * @param {object} link 
    * 
    * @returns {EventsGraphEvent}
    */
 
-  createEvent(link) {
+  createEvent(link: EventsGraphLink): EventsGraphEvent {
     return new EventsGraphEvent(link, this._listener);
   }
 
   /**
    * getGraphLinkByNodeIDs
    * 
-   * @param {String} sourceNodeID 
-   * @param {String} targetNodeID
+   * @param {string} sourceNodeID 
+   * @param {string} targetNodeID
    * 
-   * @returns {Object}
+   * @returns {object}
    */
 
-  getGraphLinkByNodeIDs(sourceNodeID, targetNodeID) {
-    const link = this._graph.graphData().links.filter( (l, index, arr) => { 
+  getGraphLinkByNodeIDs(sourceNodeID: string, targetNodeID: string): object {
+    const link = this._graph.graphData().links.filter((l: any, index: number, arr: any) => {
       return (l.source.id == sourceNodeID && l.target.id == targetNodeID);
     });
     return (link.length) ? link[0] : link;
@@ -568,22 +617,22 @@ class EventsGraph {
   /**
    * getUserIds
    * 
-   * @returns {Array}
+   * @returns {Array<sting>}
    */
 
-  getUserIds() {
+  getUserIds(): Array<string> {
     return Object.keys(this._usersMapper);
   }
 
   /**
    * getUser
    * 
-   * @param {Integer} id
+   * @param {string} id
    * 
    * @returns {EventsGraphsUser}
    */
 
-  getUser(id) {
+  getUser(id: string): EventsGraphUser|false {
     if (!(id in this._usersMapper)) { return false; }
 
     // Get Array Index from map
@@ -591,7 +640,7 @@ class EventsGraph {
 
     // Make sure user exists in array
     if (!(userIndex in this._users)) { return false; }
-    
+
     return this._users[userIndex];
   }
 
@@ -603,7 +652,7 @@ class EventsGraph {
    * @returns {EventsGraph}
    */
 
-  loadGraphData(data) {
+  loadGraphData(data: any): EventsGraph {
     if (!data) { return; }
     this.graphData = data;
     this.render();
@@ -613,13 +662,13 @@ class EventsGraph {
   /**
    * loadGraphDataFromUrl
    * 
-   * @param {String} url 
+   * @param {string} url 
    * @param {*} cb
    * 
    * @returns {EventsGraph}
    */
 
-  loadGraphDataFromUrl(url, cb = null) {
+  loadGraphDataFromUrl(url: string, cb?: (data: any) => {}): EventsGraph {
 
     Utils.loadJSON(url, (result) => {
       let graphData;
@@ -627,7 +676,7 @@ class EventsGraph {
 
       try {
         graphData = JSON.parse(result);
-      } catch(err){
+      } catch (err) {
         console.log('Unable to parse JSON | message = ', err.message);
       }
 
@@ -647,7 +696,7 @@ class EventsGraph {
    * @returns {EventsGraph}
    */
 
-  onNodeLoaded(cb) {
+  onNodeLoaded(cb: (node: EventsGraphNode) => {}): EventsGraph {
     this._nodeLoadedCallbacks.push(cb);
     return this;
   }
@@ -659,7 +708,7 @@ class EventsGraph {
    * @returns {EventsGraph}
    */
 
-  onLinkLoaded(cb) {
+  onLinkLoaded(cb: (link: EventsGraphLink) => {}): EventsGraph {
     this._linkLoadedCallbacks.push(cb);
     return this;
   }
@@ -671,7 +720,7 @@ class EventsGraph {
    * @returns {EventsGraph}
    */
 
-  onUserLoaded(cb) {
+  onUserLoaded(cb: (user: EventsGraphUser) => {}): EventsGraph {
     this._userLoadedCallbacks.push(cb);
     return this;
   }
@@ -684,17 +733,18 @@ class EventsGraph {
    * @returns {EventsGraph}
    */
 
-  removeLink(link) {
-    if (!(link instanceof EventsGraphLink || !(link.id in this._linksMapper))) { return this; }  
+  removeLink(link: EventsGraphLink): EventsGraph {
+    //if (!(link instanceof EventsGraphLink || !(link.id in this._linksMapper))) { return this; }
 
     // Remove from links array
     this._links.splice(this._linksMapper[link.id], 1);
 
     // Remove mapping
+    
     delete this._linksMapper[link.id];
 
     // Remove link from graph graphData array
-    this._graphData.links = this._graphData.links.filter((l, index, arr) => { 
+    this._graphData.links = this._graphData.links.filter((l: any, index: number, arr: any) => {
       return link.getIDFromGraphLinkData(l) != link.id;
     });
 
@@ -709,7 +759,7 @@ class EventsGraph {
    * @returns {EventsGraph}
    */
 
-  removeNode(node) {
+  removeNode(node: EventsGraphNode): EventsGraph {
     if (!(node instanceof EventsGraphNode)) { return this; }
 
     // Remove from nodes array
@@ -719,7 +769,7 @@ class EventsGraph {
     delete this._nodesMapper[node.id];
 
     // Remove from graph graphData
-    this._graphData.nodes = this._graphData.nodes.filter( (n) => { return n.id != node.id; });
+    this._graphData.nodes = this._graphData.nodes.filter((n) => { return n.id != node.id; });
 
     return this;
   }
@@ -732,7 +782,7 @@ class EventsGraph {
    * @returns {EventsGraph}
    */
 
-  removeUser(user) {
+  removeUser(user: EventsGraphUser): EventsGraph {
     if (!(user instanceof EventsGraphUser)) { return this; }
 
     // Remove user from users array
@@ -745,9 +795,9 @@ class EventsGraph {
     this._removeUserRefernceToLinkMap(user.link.id);
 
     // Remove user graph elements
-    this.removeNode( user )
-        .removeLink( user.link )
-        .render();
+    this.removeNode(user)
+      .removeLink(user.link)
+      .render();
     return this;
   }
 
@@ -755,9 +805,9 @@ class EventsGraph {
    * Render
    * 
    * @returns {EventsGraph}
-   */ 
+   */
 
-  render() {
+  render(): EventsGraph {
 
     // Clear out all the wrapper objects to be refreshed on graph rendering
     this._clearWrappers();
@@ -770,7 +820,7 @@ class EventsGraph {
       .nodeVal(nodeValue)
       .nodeAutoColorBy(nodeAutoColorBy)
       .nodeRelSize(nodeRelationSize)
-      .onNodeCenterHover((cnode, pnode) => {
+      .onNodeCenterHover((cnode: any, pnode: any) => {
         this._nodeCenterHover(cnode);
         this._nodeCenterHoverOut(pnode);
       })
@@ -779,12 +829,12 @@ class EventsGraph {
       .linkWidth(linkWidth)
       .linkDirectionalParticleSpeed(linkParticleSpeed)
       .linkDirectionalParticleResolution(linkParticleResolution)
-      .linkDirectionalParticleColor(link => {
+      .linkDirectionalParticleColor((link: any) => {
         return eventTypeColors[link.source.type];
       })
       .linkDirectionalParticleWidth(linkParticleWidth)
       .linkThreeObjectExtend(true)
-      .linkThreeObject(linkData => {
+      .linkThreeObject((linkData: any) => {
 
         linkData.source = (linkData.source instanceof Object) ? linkData.source.id : linkData.source;
         linkData.target = (linkData.target instanceof Object) ? linkData.target.id : linkData.target;
@@ -797,27 +847,35 @@ class EventsGraph {
 
         // Create container to add sprite
         let group = new THREE.Group();
+        
         group.add(sprite);
 
         // Associate object to link
         linkData.object3D = group;
 
-        this._linkDataLoaded( linkData );
+        this._linkDataLoaded(linkData);
 
         return group;
       })
-      .linkPositionUpdate((sprite, { start, end }) => {
-        const middlePos = Object.assign(...['x', 'y', 'z'].map(c => ({
-            [c]: start[c] + (end[c] - start[c]) / 2 // calc middle point
-        })));
+      .linkPositionUpdate((sprite: THREE.Sprite, { start, end }, data: any) => {
+        
+        const ar: Array<any> = ['x', 'y', 'z'].map(c => ({
+          [c]: start[c] + (end[c] - start[c]) / 2 // calc middle point
+        }));
+
+        const middlePos = {
+          x: ar[0].x,
+          y: ar[1].y,
+          z: ar[2].z,
+        }
 
         // Position sprite
         Object.assign(sprite.position, middlePos);
       })
-      .nodeThreeObject(nodeData => {
+      .nodeThreeObject((nodeData: any) => {
 
-        let obj = false,
-            group = new THREE.Group();
+        let obj: any,
+          group = new THREE.Group();
 
         if (nodeData.icon) {
 
@@ -831,23 +889,23 @@ class EventsGraph {
 
           // Create Circular object for node
           const material = new THREE.MeshBasicMaterial({ wireframe: false, color: nodeDefaultColor });
-          const sphere = new THREE.SphereGeometry(0.5 * nodeData.val,20,20);
-          obj = new THREE.Mesh( sphere, material );
+          const sphere = new THREE.SphereGeometry(0.5 * nodeData.val, 20, 20);
+          obj = new THREE.Mesh(sphere, material);
 
         }
 
-        // Standardize container by adding Object into group
-        group.add( obj );
+        // Standardize container by adding object into group
+        group.add(obj);
 
         // Assocuate object to node
         nodeData.object3D = group;
 
-        this._nodeDataLoaded( nodeData );
+        this._nodeDataLoaded(nodeData);
 
-        // Return Object to be rendered
+        // Return object to be rendered
         return group;
       })
-      .graphData( this._graphData );
+      .graphData(this._graphData);
 
     this._onGraphRendered();
 
@@ -864,11 +922,11 @@ class EventsGraph {
    * @returns {EventsGraph}
    */
 
-  sendEvent(event) {
+  sendEvent(event: EventsGraphEvent): EventsGraph {
     if (!(event instanceof EventsGraphEvent)) { return this; }
 
     // Emit visual
-    this._graph.emitParticle( this.getGraphLinkByNodeIDs( event.link.source,  event.link.target) );
+    this._graph.emitParticle(this.getGraphLinkByNodeIDs(event.link.source, event.link.target));
 
     // Emit sound
     event.playSound();

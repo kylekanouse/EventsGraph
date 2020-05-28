@@ -1,7 +1,7 @@
-import EventsGraphNode from './events-graph-node.class.mjs';
-import EventsGraphLink from './events-graph-link.class.mjs';
+import EventsGraphLink from './events-graph-link.class';
+import EventsGraphNode from './events-graph-node.class';
 
-const userTpeID = 'user',
+const userTypeID = 'user',
       defaultIconUrl = './assets/images/user.icon.jpg',
       defaultLabelPrefix = "User";
 
@@ -15,17 +15,15 @@ const userTpeID = 'user',
  */
 class EventsGraphUser extends EventsGraphNode {
 
-  /**
-   * 
-   * @param {*} id 
-   * @param {*} label 
-   * @param {*} group 
-   * @param {*} val 
-   * @param {*} desc 
-   * @param {*} icon 
-   */
 
-  constructor(id, label = null, group = null, val = null, desc = null, icon = null) {
+  protected _icon: string;
+  protected _id: string;
+  protected _label: string;
+  protected _link: EventsGraphLink;
+  protected _node: EventsGraphNode;
+  protected _type: string;
+
+  constructor(id: string|any, label = null, group = null, val = null, desc = null, icon = null) {
 
     if (typeof id === "object") {
       ({id, label, group, val, desc, icon} = id);
@@ -37,37 +35,36 @@ class EventsGraphUser extends EventsGraphNode {
     // Setup default values
     this._label = (label) ? label : this.defaultLabel;
     this._icon = (icon) ? icon : this.defaultIcon;
-    this._type = userTpeID;
-    this._link = null;
+    this._type = userTypeID;
   }
 
   /**
    * defaultLabel
    * 
-   * @returns {String}
+   * @returns {string}
    */
 
-  get defaultLabel() {
+  get defaultLabel(): string {
     return  defaultLabelPrefix + " " + this._id;
   }
 
   /**
    * defaultIcon
    * 
-   * @returns {String}
+   * @returns {string}
    */
 
-  get defaultIcon() {
+  get defaultIcon(): string {
     return defaultIconUrl;
   }
 
   /**
    * GET id
    * 
-   * @returns {String}
+   * @returns {string}
    */
 
-  get id() {
+  get id(): string {
     return this._id;
   }
 
@@ -75,10 +72,10 @@ class EventsGraphUser extends EventsGraphNode {
    * link
    * 
    * @todo Allow user to have an Array of links
-   * @returns {EventsGraphLinks}
+   * @returns {EventsGraphLink}
    */
 
-  get link() {
+  get link(): EventsGraphLink {
     return this._link;
   }
 
@@ -88,7 +85,7 @@ class EventsGraphUser extends EventsGraphNode {
    * @returns {EventsGraphNode}
    */
 
-  get node() {
+  get node(): EventsGraphNode {
     return this._node;
   }
 
@@ -96,13 +93,11 @@ class EventsGraphUser extends EventsGraphNode {
    * link
    * 
    * @param {EventsGraphLink} link
-   * @returns {EventsGraphUser}
+   * 
    */
 
-  set link(link) {
-    if (!(link instanceof EventsGraphLink)) { return this; }
-    this._link = link;
-    return this;
+  set link(link: EventsGraphLink) {
+      this._link = link;
   }
 
   /**
@@ -111,7 +106,7 @@ class EventsGraphUser extends EventsGraphNode {
    * @param {EventsGraphNode} node 
    */
 
-  linkTo(node) {
+  linkTo(node: EventsGraphNode) {
     this.link = new EventsGraphLink( this._id, node.id );
   }
 }

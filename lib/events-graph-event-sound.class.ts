@@ -1,4 +1,5 @@
-import EventsGraphSound from './events-graph-sound.class.mjs';
+import EventsGraphSound from './events-graph-sound.class';
+import EventsGraphEvent from './events-graph-event.class';
 
 const eventSoundUrl = './assets/audio/bee_buzz.ogg';
 
@@ -8,6 +9,8 @@ const eventSoundUrl = './assets/audio/bee_buzz.ogg';
 
 class EventsGraphEventSound extends EventsGraphSound {
 
+  protected _event: EventsGraphEvent;
+
   /**
    * constructor
    * 
@@ -15,7 +18,7 @@ class EventsGraphEventSound extends EventsGraphSound {
    * @param {THREE.AudioListener} listener 
    */
 
-  constructor(event, listener = false) {
+  constructor(event: EventsGraphEvent, listener: THREE.AudioListener) {
     super(eventSoundUrl, listener, event.link.sourceNode);
     this._event = event;
   }

@@ -1,11 +1,11 @@
-import EventsGraphEvent from './events-graph-event.class.mjs';
+import EventsGraphEvent from './events-graph-event.class';
 
 /**
  * CONSTS
  */
 const doc = document,
       className = 'events-graph-monitor-window-display-event',
-      categoryClassName = className + '-category- ';
+      categoryClassName = className + '-category';
 
 /**
  * EventsGraphMonitorEventDisplay
@@ -15,13 +15,15 @@ const doc = document,
 
 class EventsGraphMonitorEventDisplay {
 
+  protected _event: EventsGraphEvent;
+
   /**
    * constructor 
    * 
    * @param {EventsGraphEvent} event
    */
 
-  constructor(event) {
+  constructor(event: EventsGraphEvent) {
     this._event = event;
   }
 
@@ -31,7 +33,8 @@ class EventsGraphMonitorEventDisplay {
    * @returns {HTMLDivElement}
    */
 
-  renderHTML() {
+  renderHTML(): HTMLDivElement {
+
     let markup =  doc.createElement("div");
 
     markup.className = className;

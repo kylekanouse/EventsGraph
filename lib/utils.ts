@@ -14,15 +14,16 @@ export default {
    * @param url 
    * @param callback 
    * @param errorcb 
+   * 
    */
 
-  loadJSON (url, callback, errorcb) {   
-    let xobj = new XMLHttpRequest();
+  loadJSON (url: string, callback?: (results: string) => {}, errorcb?: () => {}) {   
+    let xobj: XMLHttpRequest = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
     xobj.open('GET', url, true);
     xobj.onerror = () => errorcb();
     xobj.onreadystatechange = () => {
-        if (xobj.readyState == 4 && xobj.status == "200") {
+        if (xobj.readyState == 4 && xobj.status == 200) {
 
           callback(xobj.responseText);
         } else if (xobj.status == 0) {
@@ -34,9 +35,11 @@ export default {
 
   /**
    * IDSeperator
+   * 
+   * @returns {string}
    */
 
-  IDSeperator() {
+  IDSeperator(): string {
     return "-";
   }
 };

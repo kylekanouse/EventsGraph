@@ -1,5 +1,7 @@
-import Utils from './utils.mjs';
-import EventsGraphEventSound from './events-graph-event-sound.class.mjs';
+import Utils from './utils';
+import EventsGraphEventSound from './events-graph-event-sound.class';
+import EventsGraphLink from './events-graph-link.class';
+import EventsGraphSound from './events-graph-sound.class';
 
 /**
  * CONSTS
@@ -13,6 +15,17 @@ const eventIdPrefix = 'egevent';
 
 class EventsGraphEvent {
 
+  protected _link: EventsGraphLink;
+  readonly _created: number;
+  protected _id: string;
+  protected _listener: THREE.AudioListener;
+  protected _sound: EventsGraphSound;
+  protected _category: string;
+  protected _action: string;
+  protected _label: string;
+  protected _value: number;
+  protected _type: string;
+
   /**
    * constructor 
    * 
@@ -20,7 +33,8 @@ class EventsGraphEvent {
    * @param {THREE.AudioListener} listener 
    */
 
-  constructor(link, listener) {
+  constructor(link: EventsGraphLink, listener: THREE.AudioListener) {
+
     this._link        = link;
     this._created     = Date.now();
     this._id          = this._buildID();
@@ -36,40 +50,40 @@ class EventsGraphEvent {
   /**
    * _buildID
    * 
-   * @returns {String}
+   * @returns {string}
    */
 
-  _buildID() {
+  _buildID(): string {
     return this.IDPrefix + Utils.IDSeperator() + this.IDPostFix;
   }
 
   /**
    * get action
    * 
-   * @returns {String}
+   * @returns {string}
    */
 
-  get action() {
+  get action(): string {
     return this._action;
   }
 
   /**
    * get category
    * 
-   * @returns {String}
+   * @returns {string}
    */
 
-  get category() {
+  get category(): string {
     return this._category;
   }
 
   /**
    * get created
    * 
-   * @returns {Number}
+   * @returns {number}
    */
 
-  get created() {
+  get created(): number {
     return this._created;
   }
   
@@ -77,10 +91,10 @@ class EventsGraphEvent {
   /**
    * get data
    * 
-   * @returns {Object}
+   * @returns {any}
    */
 
-  get data() {
+  get data(): any {
     return {
       "category": this._category,
       "action": this._action,
@@ -93,20 +107,20 @@ class EventsGraphEvent {
   /**
    * get id
    * 
-   * @returns {String}
+   * @returns {string}
    */
 
-  get id() {
+  get id(): string {
     return this._id;
   }
 
   /**
    * IDPrefix
    * 
-   * @returns {String}
+   * @returns {string}
    */
 
-  get IDPrefix () {
+  get IDPrefix(): string {
     return eventIdPrefix;
   }
 
@@ -116,17 +130,17 @@ class EventsGraphEvent {
    * @returns {Date.now}
    */
 
-  get IDPostFix () {
+  get IDPostFix (): number {
     return this._created;
   }
 
   /**
    * label
    * 
-   * @returns {String}
+   * @returns {string}
    */
 
-  get label() {
+  get label(): string {
     return this._label;
   }
 
@@ -136,27 +150,27 @@ class EventsGraphEvent {
    * @returns {EventsGraphLink}
    */
 
-  get link() {
+  get link(): EventsGraphLink {
     return this._link;
   }
 
   /**
    * get type
    * 
-   * @returns {String}
+   * @returns {string}
    */
 
-  get type() {
+  get type(): string {
     return this._type;
   }
 
   /**
    * get value
    * 
-   * @returns {Number}
+   * @returns {number}
    */
 
-  get value() {
+  get value(): number {
     return this._value;
   }
 
@@ -166,18 +180,17 @@ class EventsGraphEvent {
    * @param {EventsGraphLink} link 
    */
 
-  set link(link) {
-    if (!(link instanceof EventsGraphLink)) { return; }
+  set link(link: EventsGraphLink) {
     this._link = link;
   }
 
   /**
    * set data
    * 
-   * @param {Object} data
+   * @param {AnalyserNode} data
    */
 
-  set data(data) {
+  set data(data: any) {
     this._category    = (data.hasOwnProperty('category')) ? data.category : null;
     this._action      = (data.hasOwnProperty('action')) ? data.action : null;
     this._label       = (data.hasOwnProperty('label')) ? data.label : null;
@@ -188,10 +201,10 @@ class EventsGraphEvent {
   /**
    * getLinkData
    * 
-   * @returns {Object}
+   * @returns {any}
    */
 
-  getLinkData() {
+  getLinkData(): any {
     return (this._link) ? this._link.getData() : {};
   }
 
@@ -199,7 +212,7 @@ class EventsGraphEvent {
    * playSound
    */
 
-  playSound() {
+  playSound(): EventsGraphEvent {
     if (!this._sound) { return this; }
     this._sound.play();
     return this;

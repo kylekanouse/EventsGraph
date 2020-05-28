@@ -1,5 +1,17 @@
-import EventsGraphEvent from './events-graph-event.class.mjs';
-import EventsGraphMonitorEventDisplay from './events-graph-monitor-event-display.class.mjs';
+import EventsGraphEvent from './events-graph-event.class';
+import EventsGraphMonitorEventDisplay from './events-graph-monitor-event-display.class';
+
+
+/**
+ * MonitorWindow
+ * 
+ * @class
+ * @description Used to add custom mouse over boolean
+ */
+
+declare class MonitorWindow extends HTMLDivElement {
+  public mouseIsOver: boolean;
+}
 
 /**
  * CONSTS
@@ -16,13 +28,18 @@ const doc               = document,
 
 class EventsGraphMonitor {
 
+  protected _container: HTMLElement;
+  protected _eventTypesEnabled: Array<string>; 
+  protected _typeFilterEnabled: boolean;
+  protected _window: MonitorWindow;
+
   /**
    * constructor
    * 
-   * @param {HTMLDivElement} container
+   * @param {HTMLElement} container
    */
 
-  constructor(container) {
+  constructor(container: HTMLElement) {
 
     this._container = container;
     this._eventTypesEnabled = [];
@@ -36,25 +53,24 @@ class EventsGraphMonitor {
 
   _init() {
 
-    this._window = doc.createElement("div");
+    this._window = <MonitorWindow> doc.createElement("div");
 
     //Style window
     this._window.className = monitorClassName;
 
+    // Default mouse over state
     this._window.mouseIsOver = false;
-    this._window.onmouseover = function()   {
-       this.mouseIsOver = true;
+
+    // Setup Mouse over
+    this._window.onmouseover = () => {
+      this._window.mouseIsOver = true;
     };
-    this._window.onmouseout = function() {
-       this.mouseIsOver = false;
+    this._window.onmouseout = () => {
+      this._window.mouseIsOver = false;
     };
 
-
+    // Append to container
     this._container.appendChild( this._window );
-  }
-
-  _updateWindow() {
-
   }
 
   /**
@@ -63,7 +79,7 @@ class EventsGraphMonitor {
    * @returns {HTMLDivElement}
    */
   
-  get window() {
+  get window(): HTMLDivElement {
     return this._window;
   }
 
@@ -75,7 +91,7 @@ class EventsGraphMonitor {
    * @returns {EventsGraphMonitor}
    */
 
-  enableEventType(eventType) {
+  enableEventType(eventType: string): EventsGraphMonitor {
     if (eventType == '*') { 
       this._typeFilterEnabled = false;
       return this;
@@ -93,23 +109,16 @@ class EventsGraphMonitor {
    * @returns {EventsGraphMonitor}
    */
 
-  logEvent(event) {
+  logEvent(event: EventsGraphEvent): EventsGraphMonitor {
     // console.log('MONITOR | logEvent() 1 | event = ', event);
     if (this._typeFilterEnabled && this._eventTypesEnabled.indexOf(event.type) == -1) { return this; }
-    let ds = new EventsGraphMonitorEventDisplay(event);
-    //this._window.insertAdjacentHTML( 'afterbegin', ds.renderHTML() );
 
-    // const message =  ds.renderHTML();
-  
-    // Append mesage to window display
-    // this._window.appendChild( message );
+    // Wrap event in display object for presentation
+    let ds = new EventsGraphMonitorEventDisplay(event);
+
+    // Insert mesage to window display
     this._window.insertBefore( ds.renderHTML(), this._window.childNodes[0] );
 
-    // // Scroll to new content unless mouse is currently over the display window
-    // if (!this._window.mouseIsOver) {
-    //   message.scrollIntoView();
-    // }
-  
     return this;
   }
 }
