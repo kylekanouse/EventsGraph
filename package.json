@@ -1,0 +1,31 @@
+{
+  "name": "eventsgraph-client",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "webpack-dev-server --mode development --host localhost --port 8888"
+  },
+  "main": "webpack.config.js",
+  "dependencies": {
+    "http-server": "^0.12.3",
+    "inline-source-map": "^0.6.2",
+    "lodash": "^4.17.15",
+    "source-map-loader": "^1.0.0",
+    "three": "^0.127.0",
+    "ts-loader": "^5.4.5",
+    "typescript": "^3.9.3",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^6.0.1",
+    "css-loader": "^3.5.3",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
