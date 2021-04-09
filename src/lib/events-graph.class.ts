@@ -33,7 +33,7 @@ const coolDownTicks = 5000,
       nodeLabel = 'label',
       nodeValue = 'val',
       nodeRelationSize = 3,
-      spriteTextColor = 'lightgrey';
+      spriteTextColor = 'lightgray';
 
 let graphFirstLoaded = false;
 
