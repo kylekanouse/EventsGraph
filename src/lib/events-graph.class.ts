@@ -11,39 +11,6 @@ declare const ForceGraphVR: any;
 declare var AFRAME: any;
 declare const THREE: any;
 
-// declare class SpriteText extends THREE.Sprite {
-//   constructor(
-//     text?: string,
-//     textHeight?:number,
-//     color?: string
-//   );
-  
-
-//   get text(): string;
-//   set text(text: string);
-//   get textHeight(): number;
-//   set textHeight(height: number);
-//   get color(): string;
-//   set color(color:string);
-//   get backgroundColor(): string;
-//   set backgroundColor(color:string);
-//   get fontFace(): string;
-//   set fontFace(fontFace: string);
-//   get fontSize(): number;
-//   set fontSize(fontSize: number);
-//   get fontWeight(): string;
-//   set fontWeight(fontWeight: string);
-//   get padding(): number;
-//   set padding(fontSize: number);
-//   get borderWidth(): number;
-//   set borderWidth(fontSize: number);
-//   get borderColor(): string;
-//   set borderColor(color:string);
-//   get strokeWidth(): number;
-//   set strokeWidth(strokeWidth: number);
-//   get strokeColor(): string;
-//   set strokeColor(strokeColor: string);
-// };
 
 // Define constsants
 const coolDownTicks = 5000,
@@ -65,7 +32,8 @@ const coolDownTicks = 5000,
       nodeDefaultColor = 0x00ff00,
       nodeLabel = 'label',
       nodeValue = 'val',
-      nodeRelationSize = 3;
+      nodeRelationSize = 3,
+      spriteTextColor = 'lightgrey';
 
 let graphFirstLoaded = false;
 
@@ -844,7 +812,7 @@ class EventsGraph {
         // Setup text to show link label in center of the link
         const text = (linkData.label) ? `${linkData.label}` : `${linkData.source} > ${linkData.target}`;
         const sprite = new SpriteText(text);
-        sprite.color = 'lightgrey';
+        sprite.color = spriteTextColor;
         sprite.textHeight = 1.5;
 
         // Create container to add sprite
