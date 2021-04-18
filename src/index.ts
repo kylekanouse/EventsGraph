@@ -17,7 +17,7 @@ const loadGraph = (doc: Document): void => {
   graph.loadGraphDataFromUrl('http://localhost:8080/graphdata', (data: any) => {
 
     // Start Mock Activity
-    MockUp.startMockEGEvents(graph);
+    // MockUp.startMockEGEvents(graph);
     //MockUp.startMockEGUsers();
 
     // SETUP  Users Controls
