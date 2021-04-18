@@ -8,6 +8,7 @@
   },
   "main": "webpack.config.js",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "http-server": "^0.12.3",
     "inline-source-map": "^0.6.2",
     "lodash": "^4.17.15",

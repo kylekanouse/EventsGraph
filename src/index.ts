@@ -14,7 +14,7 @@ const loadGraph = (doc: Document): void => {
   const graph = new EventsGraph( 'eventsgraph', doc.getElementById('3d-graph'), doc.getElementById('hud') );
 
   //load graph data
-  graph.loadGraphDataFromUrl('./data/mock.graph.data.json', (data: any) => {
+  graph.loadGraphDataFromUrl('http://localhost:8080/graphdata', (data: any) => {
 
     // Start Mock Activity
     MockUp.startMockEGEvents(graph);
