@@ -1,0 +1,164 @@
+html, body {
+  margin:0px;
+}
+
+html, body {
+  margin:0px;
+  height:100%;
+}
+
+body {
+  text-align: center;
+  font-family: Sans-serif;
+  min-height: 100%;
+  background-color: black;
+}
+.container {
+  display: flex;
+	justify-content: center;
+	align-items: center;
+  height: 100%;
+}
+.hide {
+  display: none;
+}
+button {
+  cursor: pointer;
+}
+/* HACK: css needed to make graph contain full height as value is not being set dynamically due to bug :( */
+#root, .events-graph-app, .eventsgraph-graph-wrapper, .graph {
+  height:100%;
+}
+.graph > div:first-child {
+  height:100%;
+}
+.graph > div:first-child > div {
+  height: auto;
+}
+/* END: HACK */
+
+
+.graph-data {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  padding: 5px;
+}
+
+.toggle-data-btn {
+  cursor: pointer;
+  opacity: 0.85;
+}
+
+.toggle-data-btn:hover {
+  opacity: 1;
+}
+
+#graph-data-description {
+  font-size: 12px;
+  color: slategrey;
+}
+
+.control-item button {
+  margin: 2px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  background-color: black;
+  opacity: 0.5;
+}
+
+.modal {
+  width: 300px;
+  height: 200px;
+  line-height: 200px;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -150px;
+  background-color: #c21313;
+  border-radius: 40px;
+  text-align: center;
+  z-index: 11;
+}
+
+.modal button {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  margin-left: -50px;
+}
+
+.timestamp {
+  font-style: italic;
+  color: #c17f7f;
+}
+
+
+.column {
+  float: left;
+  padding: 3px;
+  width: 66px;
+  text-align: left;
+}
+
+
+.toggle-btn {
+  cursor: pointer;
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  right: 0px;
+  margin: 20px;
+}
+
+
+.toggle-btn:focus, .toggle-btn .eg-circular:focus {
+  cursor: pointer;
+  outline: 0 none;
+}
+
+.toggle-btn .eg-circular {
+  transition: all .2s ease-in;
+}
+
+.toggle-btn .eg-circular.false {
+  transform: rotate(0deg);
+}
+
+.toggle-btn .eg-circular.false, .toggle-btn .eg-circular.false:focus {
+  -webkit-box-shadow: 8px 2px 6px -6px rgba(179, 164, 139, .6);
+  box-shadow: 8px 2px 6px -6px rgba(179, 139, 139, 0.6); 
+}
+
+.toggle-btn .eg-circular.false:hover {
+  transform: scale(1.1) rotate(0deg);
+  -webkit-box-shadow: 10px 2px 8px -8px rgba(179, 164, 139, .8);
+  box-shadow: 10px 2px 8px -8px rgba(179, 164, 139, .8);
+}
+
+.toggle-btn .true {
+  transform: rotate(-45deg);
+}
+
+.toggle-btn .true, .toggle-btn .true:focus {
+  background-color: #e4e4e6;
+  -webkit-box-shadow: 10px 2px 8px -8px rgba(179, 164, 139, .6);
+  box-shadow: 10px 2px 8px -8px rgba(179, 164, 139, .6);
+}
+
+.toggle-btn .eg-circular.true:hover {
+  transform: scale(1.1) rotate(-45deg);
+  background-color: rgba(212, 162, 171, 0.2);
+  -webkit-box-shadow: 10px 2px 8px -8px rgba(179, 164, 139, .8);
+  box-shadow: 10px 2px 8px -8px rgba(179, 164, 139, .8);
+}

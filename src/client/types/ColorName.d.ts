@@ -1,0 +1,1 @@
+export type ColorName = "black" | "white" | "lavender" | "red" | "greenyellow" | "yellow"

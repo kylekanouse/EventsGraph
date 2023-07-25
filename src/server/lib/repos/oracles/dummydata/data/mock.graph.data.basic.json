@@ -1,0 +1,40 @@
+{
+  "nodes": [{
+    "id": "node-a",
+    "group": 1,
+    "label": "Service A",
+    "val": 5,
+    "desc": "",
+    "icon": "./assets/images/ingestion.icon.png",
+    "type": "service",
+    "url": "https://google.com"
+  }, {
+    "id": "node-b",
+    "group": 1,
+    "label": "Service B",
+    "val": 20,
+    "desc": "",
+    "type": "service",
+    "url": "https://search.brave.com/"
+  }, {
+    "id": "node-c",
+    "group": 3,
+    "label": "Somethingelse Service C",
+    "val": 10,
+    "desc": "",
+    "icon": "./assets/images/assets-service.icon.png",
+    "type": "process",
+    "url": "https://duckduckgo.com/"
+  }],
+  "links": [{
+    "source": "node-a",
+    "target": "node-b",
+    "val": 1,
+    "label": "Link label 1"
+  },{
+    "source": "node-b",
+    "target": "node-c",
+    "val": 5,
+    "label": "Link label 2"
+  }]
+}

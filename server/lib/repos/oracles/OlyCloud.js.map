@@ -1,0 +1,1 @@
+{"version":3,"file":"BasicNetwork.js","sourceRoot":"","sources":["../../../../src/server/lib/repos/oracles/BasicNetwork.ts"],"names":[],"mappings":";;;;;AAAA,sDAA6B;AAC7B,kDAA8C;AAC9C,gHAAwF;AAExF;;;;;GAKG;AAEH,MAAM,QAAS,SAAQ,gBAAM;IAE3B;;;;OAIG;IAEH;QACE,KAAK,CAAC,qBAAS,CAAC,sBAAsB,EAAE,CAAC,oCAA2B,CAAC,CAAC,CAAA;IACxE,CAAC;CACF;AAED,SAAS;AACT,kBAAe,IAAI,QAAQ,EAAE,CAAA"}

@@ -1,0 +1,46 @@
+{
+    "nodes": [{
+            "id": "node-a",
+            "group": 1,
+            "label": "Catalog Service",
+            "val": 5,
+            "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi commodo viverra neque, quis blandit turpis tincidunt ut. V",
+            "icon": "./assets/images/ingestion.icon.png",
+            "type": "service",
+            "url": "https://catalog.oly.cloud/"
+        }, {
+            "id": "node-b",
+            "group": 1,
+            "label": "Distribution Service A",
+            "val": 20,
+            "desc": "Sed pulvinar ipsum leo, at fermentum nisl pretium quis. Cras quis sodales odio. Nunc sed justo lectus.",
+            "type": "service",
+            "url": "https://drive.oly.cloud/"
+        }, {
+            "id": "request-a",
+            "group": 3,
+            "label": "Request: Basic Data",
+            "val": 10,
+            "desc": "Request",
+            "type": "request",
+            "request": {
+                "collection": "dummydata",
+                "context": "dummydata-basic",
+                "isStream": false,
+                "params": {
+                    "type": "basic"
+                }
+            }
+        }],
+    "links": [{
+            "source": "node-a",
+            "target": "node-b",
+            "val": 1,
+            "label": "Link label"
+        }, {
+            "source": "node-a",
+            "target": "request-a",
+            "val": 5,
+            "label": ""
+        }]
+}

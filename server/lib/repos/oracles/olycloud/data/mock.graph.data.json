@@ -1,0 +1,178 @@
+{
+    "nodes": [{
+            "id": "com.ingestion-entity-a",
+            "group": 1,
+            "label": "Content Provider: A",
+            "val": 20,
+            "desc": "This is a description for a content provider A",
+            "icon": "./assets/images/content-provider.icon.png",
+            "type": "provider",
+            "url": "http://www.balancetheory.com"
+        }, {
+            "id": "com.ingestion-entity-b",
+            "group": 1,
+            "label": "Content Provider: B",
+            "val": 20,
+            "desc": "This is a description for a content provider B",
+            "icon": "./assets/images/content-provider.icon.png",
+            "type": "provider",
+            "url": "http://www.balancetheory.com"
+        }, {
+            "id": "com.ingestion-entity-c",
+            "group": 1,
+            "label": "Content Provider: C",
+            "val": 20,
+            "desc": "This is a description for a content provider C",
+            "icon": "./assets/images/content-provider.icon.png",
+            "type": "provider",
+            "url": "http://www.balancetheory.com"
+        }, {
+            "id": "com.distribution-entity-a",
+            "group": 1,
+            "label": "Publisher:  A",
+            "val": 20,
+            "desc": "This is a description for distribution service a",
+            "icon": "./assets/images/publisher.icon.png",
+            "type": "publisher",
+            "url": "http://www.balancetheory.com"
+        }, {
+            "id": "com.distribution-entity-b",
+            "group": 1,
+            "label": "Publisher: B",
+            "val": 20,
+            "icon": "./assets/images/publisher.icon.png",
+            "type": "publisher",
+            "url": "http://www.balancetheory.com"
+        }, {
+            "id": "com.distribution-entity-c",
+            "group": 1,
+            "label": "Publisher:  C",
+            "val": 20,
+            "desc": "This is a description for distribution service C",
+            "icon": "./assets/images/publisher.icon.png",
+            "type": "publisher",
+            "url": "http://www.balancetheory.com"
+        }, {
+            "id": "basicnetwork.ingestion",
+            "group": 2,
+            "label": "Ingestion Service",
+            "val": 35,
+            "icon": "./assets/images/ingestion.icon.png",
+            "type": "service",
+            "url": "http://www.balancetheory.com"
+        }, {
+            "id": "basicnetwork.distribution",
+            "group": 2,
+            "label": "Distribution Service",
+            "val": 35,
+            "desc": "This is a description for Distribution Service",
+            "icon": "./assets/images/distribution.icon.png",
+            "type": "service",
+            "url": "http://www.balancetheory.com"
+        }, {
+            "id": "basicnetwork.catalog",
+            "group": 3,
+            "label": "Catalog Service",
+            "val": 30,
+            "icon": "./assets/images/catalog-service.icon.png",
+            "type": "service",
+            "url": "http://www.balancetheory.com"
+        }, {
+            "id": "basicnetwork.assets",
+            "group": 3,
+            "label": "Asset Service",
+            "val": 30,
+            "icon": "./assets/images/assets-service.icon.png",
+            "type": "service",
+            "url": "http://www.balancetheory.com"
+        }, {
+            "id": "basicnetwork.contracts",
+            "group": 3,
+            "label": "Contract Service",
+            "val": 30,
+            "icon": "./assets/images/contracts-service.icon.png",
+            "type": "service",
+            "url": "http://www.balancetheory.com"
+        }],
+    "links": [{
+            "source": "com.ingestion-entity-a",
+            "target": "basicnetwork.ingestion",
+            "val": 1,
+            "label": ""
+        }, {
+            "source": "com.ingestion-entity-b",
+            "target": "basicnetwork.ingestion",
+            "val": 1,
+            "label": ""
+        }, {
+            "source": "com.ingestion-entity-c",
+            "target": "basicnetwork.ingestion",
+            "val": 1,
+            "label": ""
+        }, {
+            "source": "basicnetwork.distribution",
+            "target": "com.distribution-entity-a",
+            "val": 1,
+            "label": ""
+        }, {
+            "source": "basicnetwork.distribution",
+            "target": "com.distribution-entity-b",
+            "val": 1,
+            "label": ""
+        }, {
+            "source": "basicnetwork.distribution",
+            "target": "com.distribution-entity-c",
+            "val": 1,
+            "label": ""
+        }, {
+            "source": "basicnetwork.ingestion",
+            "target": "basicnetwork.catalog",
+            "val": 2,
+            "label": ""
+        }, {
+            "source": "basicnetwork.ingestion",
+            "target": "basicnetwork.assets",
+            "val": 2,
+            "label": ""
+        }, {
+            "source": "basicnetwork.ingestion",
+            "target": "basicnetwork.contracts",
+            "val": 2,
+            "label": ""
+        }, {
+            "source": "basicnetwork.catalog",
+            "target": "basicnetwork.distribution",
+            "val": 2,
+            "label": ""
+        }, {
+            "source": "basicnetwork.assets",
+            "target": "basicnetwork.distribution",
+            "val": 2,
+            "label": ""
+        }, {
+            "source": "basicnetwork.contracts",
+            "target": "basicnetwork.distribution",
+            "val": 2,
+            "label": ""
+        }, {
+            "source": "basicnetwork.assets",
+            "target": "basicnetwork.catalog",
+            "val": 2,
+            "label": ""
+        }, {
+            "source": "basicnetwork.assets",
+            "target": "basicnetwork.contracts",
+            "val": 2,
+            "label": ""
+        }, {
+            "source": "basicnetwork.catalog",
+            "target": "basicnetwork.contracts",
+            "val": 2,
+            "label": ""
+        }, {
+            "source": "basicnetwork.contracts",
+            "target": "basicnetwork.catalog",
+            "val": 2,
+            "label": ""
+        }]
+}

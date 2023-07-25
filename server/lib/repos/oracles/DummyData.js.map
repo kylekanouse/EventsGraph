@@ -1,0 +1,1 @@
+{"version":3,"file":"DummyData.js","sourceRoot":"","sources":["../../../../src/server/lib/repos/oracles/DummyData.ts"],"names":[],"mappings":";;;;;AAAA,sDAA6B;AAC7B,kDAA8C;AAC9C,yFAAiE;AAEjE;;;;;GAKG;AAEH,MAAM,SAAU,SAAQ,gBAAM;IAE5B;;;;OAIG;IAEH;QACE,KAAK,CAAC,qBAAS,CAAC,wBAAwB,EAAE,CAAC,wBAAe,CAAC,CAAC,CAAA;IAC9D,CAAC;CACF;AAED,SAAS;AACT,kBAAe,IAAI,SAAS,EAAE,CAAA"}

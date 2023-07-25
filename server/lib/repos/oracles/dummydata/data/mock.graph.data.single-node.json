@@ -1,0 +1,13 @@
+{
+    "nodes": [{
+            "id": "node-a",
+            "group": 1,
+            "label": "Single Node",
+            "val": 5,
+            "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi commodo viverra neque, quis blandit turpis tincidunt ut. V",
+            "icon": "./assets/images/ingestion.icon.png",
+            "type": "example",
+            "url": "https://catalog.oly.cloud/"
+        }],
+    "links": []
+}

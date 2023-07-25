@@ -1,0 +1,187 @@
+{
+    "events": [{
+            "category": "Ingestion",
+            "action": "upload",
+            "label": "New Movie",
+            "value": 1234,
+            "source": "com.ingestion-entity-a",
+            "target": "basicnetwork.ingestion",
+            "type": "service"
+        }, {
+            "category": "Distribution",
+            "action": "send",
+            "label": "New Movie Title",
+            "value": 1234,
+            "source": "basicnetwork.distribution",
+            "target": "com.distribution-entity-a",
+            "type": "service"
+        }, {
+            "category": "Distribution",
+            "action": "send",
+            "label": "Movie Title",
+            "value": 1234,
+            "source": "basicnetwork.distribution",
+            "target": "com.distribution-entity-b",
+            "type": "service"
+        }, {
+            "category": "Ingestion",
+            "action": "uploaded",
+            "label": "New Movie Title Uploaded",
+            "value": 1234,
+            "source": "basicnetwork.ingestion",
+            "target": "basicnetwork.catalog",
+            "type": "service"
+        }, {
+            "category": "Asset",
+            "action": "create",
+            "label": "New Image Assets Created",
+            "value": 1234,
+            "source": "basicnetwork.ingestion",
+            "target": "basicnetwork.assets",
+            "type": "service"
+        }, {
+            "category": "Contracts",
+            "action": "create",
+            "label": "New Contract Created for Title XYZ",
+            "value": 1234,
+            "source": "basicnetwork.ingestion",
+            "target": "basicnetwork.contracts",
+            "type": "service"
+        }, {
+            "category": "Catalog",
+            "action": "update",
+            "label": "Title XYZ was updated",
+            "value": 1234,
+            "source": "basicnetwork.catalog",
+            "target": "basicnetwork.distribution",
+            "type": "service"
+        }, {
+            "category": "Asset",
+            "action": "created",
+            "label": "Asset XYZ was created",
+            "value": 1234,
+            "source": "basicnetwork.assets",
+            "target": "basicnetwork.distribution",
+            "type": "service"
+        }, {
+            "category": "Contracts",
+            "action": "created",
+            "label": "New COntract created fro XYZ",
+            "value": 1234,
+            "source": "basicnetwork.contracts",
+            "target": "basicnetwork.distribution",
+            "type": "service"
+        }, {
+            "category": "catalog.movie",
+            "action": "created",
+            "label": "NEw Movie Created",
+            "value": 1234,
+            "source": "basicnetwork.catalog.movie",
+            "target": "basicnetwork.catalog",
+            "type": "service"
+        }, {
+            "category": "catalog.series",
+            "action": "created",
+            "label": "New Series Created",
+            "value": 1234,
+            "source": "basicnetwork.catalog.series",
+            "target": "basicnetwork.catalog",
+            "type": "service"
+        }, {
+            "category": "assets.asset",
+            "action": "created",
+            "label": "New Asset Created",
+            "value": 1234,
+            "source": "basicnetwork.assets.asset",
+            "target": "basicnetwork.assets",
+            "type": "service"
+        }, {
+            "category": "assets",
+            "action": "created",
+            "label": "Asset for XYZ created",
+            "value": 1234,
+            "source": "basicnetwork.contracts.asset",
+            "target": "basicnetwork.contracts",
+            "type": "service"
+        }, {
+            "category": "contract.contract",
+            "action": "created",
+            "label": "New Contract Created",
+            "value": 1234,
+            "source": "basicnetwork.contracts.contract",
+            "target": "basicnetwork.contracts",
+            "type": "service"
+        }, {
+            "category": "catalog.version",
+            "action": "created",
+            "label": "New Version for XYZ Created",
+            "value": 1234,
+            "source": "basicnetwork.catalog.version",
+            "target": "basicnetwork.catalog.movie",
+            "type": "service"
+        }, {
+            "category": "catalog.series.season",
+            "action": "created",
+            "label": "New Dseaon For XYZ Created",
+            "value": 1234,
+            "source": "basicnetwork.catalog.series.season",
+            "target": "basicnetwork.catalog.series",
+            "type": "service"
+        }, {
+            "category": "catalog.series.season.episode",
+            "action": "created",
+            "label": "NEw Series Episode For XYZ Created",
+            "value": 1234,
+            "source": "basicnetwork.catalog.series.season.episode",
+            "target": "basicnetwork.catalog.series.season",
+            "type": "service"
+        }, {
+            "category": "catalog.series.season.episode.version",
+            "action": "created",
+            "label": "New Verison for Episode XYZ",
+            "value": 1234,
+            "source": "basicnetwork.catalog.version",
+            "target": "basicnetwork.catalog.series.season.episode",
+            "type": "service"
+        }, {
+            "category": "catalog.version.sergment",
+            "action": "created",
+            "label": "Segment Created For XYZ Version",
+            "value": 1234,
+            "source": "basicnetwork.catalog.version.segment",
+            "target": "basicnetwork.catalog.version",
+            "type": "service"
+        }, {
+            "category": "assets.assets.icon",
+            "action": "created",
+            "label": "New Icon Created",
+            "value": 1234,
+            "source": "basicnetwork.assets.asset.icon",
+            "target": "basicnetwork.assets.asset",
+            "type": "service"
+        }, {
+            "category": "catalog",
+            "action": "update",
+            "label": "Title XYZ updated",
+            "value": 1234,
+            "source": "source",
+            "target": "target",
+            "type": "service"
+        }, {
+            "category": "assets.asset.psd",
+            "action": "action",
+            "label": "label",
+            "value": 1234,
+            "source": "basicnetwork.assets.asset.psd",
+            "target": "basicnetwork.assets.asset",
+            "type": "service"
+        }, {
+            "category": "contracts.contrac.line-iteam",
+            "action": "created",
+            "label": "New Line Added Created",
+            "value": 1234,
+            "source": "basicnetwork.contracts.contract.line-item",
+            "target": "basicnetwork.contracts.contract",
+            "type": "service"
+        }]
+}
