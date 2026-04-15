@@ -245,52 +245,62 @@ export default class NodeInteractionManager {
 
     if (!objects || !objects.size) { return }
 
-    // When pointer lock is active, the camera follows the mouse and
-    // ForceGraphVR's internal A-Frame raycaster handles hover/click
-    // from screen center. Our mouse coordinates are frozen under
-    // pointer lock, so skip to avoid clearing _currentNode incorrectly.
-    if (document.pointerLockElement) { return }
-
-    // No mouse movement yet — skip raycasting
-    if (!mouseTracked) { return }
+    const isPointerLocked = !!document.pointerLockElement
 
     let intersect: any
 
-    const camera = this._getCamera()
-    raycaster.setFromCamera(mouse, camera)
-    raycaster.camera = camera
-    intersect = this._raycast()
+    if (isPointerLocked) {
+      // Under pointer lock, the camera follows the mouse via look-controls.
+      // Raycast from screen center for VR control buttons only.
+      // ForceGraphVR's A-Frame raycaster handles node hover/click.
+      const camera = this._getCamera()
+      raycaster.setFromCamera(new Vector2(0, 0), camera)
+      raycaster.camera = camera
+      intersect = this._raycast()
 
-    if (intersect) {
-      this._onCursorIntersecting()
-
-      if (intersect.object.isUI) {
+      // Only handle UI elements (VR control buttons), not nodes
+      if (intersect && intersect.object.isUI) {
         intersect.object.setState(selectState ? 'selected' : 'hovered')
-      } else if (intersect.object.name) {
-        const entity = EntitiesOnStageObserved.entitiesOnStage.get(intersect.object.name)
-
-        if (entity) {
-          const node = entity as Node
-
-          // If we moved to a different node, fire out on the previous one
-          if (this._currentNode && this._currentNode !== node) {
-            this._currentNode.onOut()
-          }
-
-          // Set current node and fire hover if it's a new target
-          if (this._currentNode !== node) {
-            this._currentNode = node
-            node.onHover()
-          }
-        }
+      } else {
+        intersect = undefined // Don't process node intersections
       }
     } else {
-      this._onCursorOut()
+      // No pointer lock — use real mouse position
+      if (!mouseTracked) { return }
 
-      // Clear current node when nothing is intersected
-      if (this._currentNode) {
-        this._currentNode.onOut()
-        this._currentNode = undefined
+      const camera = this._getCamera()
+      raycaster.setFromCamera(mouse, camera)
+      raycaster.camera = camera
+      intersect = this._raycast()
+
+      if (intersect) {
+        this._onCursorIntersecting()
+
+        if (intersect.object.isUI) {
+          intersect.object.setState(selectState ? 'selected' : 'hovered')
+        } else if (intersect.object.name) {
+          const entity = EntitiesOnStageObserved.entitiesOnStage.get(intersect.object.name)
+
+          if (entity) {
+            const node = entity as Node
+
+            if (this._currentNode && this._currentNode !== node) {
+              this._currentNode.onOut()
+            }
+
+            if (this._currentNode !== node) {
+              this._currentNode = node
+              node.onHover()
+            }
+          }
+        }
+      } else {
+        this._onCursorOut()
+
+        if (this._currentNode) {
+          this._currentNode.onOut()
+          this._currentNode = undefined
+        }
       }
     }
 

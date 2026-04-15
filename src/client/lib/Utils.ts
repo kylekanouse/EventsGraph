@@ -1,4 +1,4 @@
-import { Camera, Mesh, MeshBasicMaterial, Object3D, Scene, SphereGeometry, Sprite, SpriteMaterial, TextureLoader, Group, Material, MeshPhongMaterial, DoubleSide, DodecahedronGeometry, Sphere, BufferGeometry } from "three"
+import { Camera, Mesh, MeshBasicMaterial, Object3D, Scene, SphereGeometry, Sprite, SpriteMaterial, TextureLoader, Group, Material, MeshPhongMaterial, DoubleSide, DodecahedronGeometry, Sphere, BufferGeometry, PlaneGeometry } from "three"
 import SpriteText from "three-spritetext"
 import IEventData from "../../server/domain/IEventData"
 import { EventsGraphCustomNodeParams } from "../types/EventsGraphCustomNodeParams"
@@ -163,10 +163,9 @@ export const createDefaultNodeObject3D = (value?: number): Object3D => {
 export const createImageObject3D = (url: string): Object3D => {
 
   const imgTexture    = new TextureLoader().load(url),
-        material      = new SpriteMaterial({ map: imgTexture }),
-        obj           = new Sprite(material)
-
-  obj.scale.set(12, 12, 12)
+        material      = new MeshBasicMaterial({ map: imgTexture, transparent: true, side: DoubleSide }),
+        geometry      = new PlaneGeometry(12, 12),
+        obj           = new Mesh(geometry, material)
 
   return obj
 }
