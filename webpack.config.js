@@ -9,7 +9,7 @@ require('dotenv').config({ path: process.cwd() + '/src/server/.env' });
 const outputDirectory = 'dist';
 
 module.exports = {
-  entry: ['babel-polyfill', './src/client/index.tsx'],
+  entry: ['core-js/stable', 'regenerator-runtime/runtime', './src/client/index.tsx'],
   output: {
     path: path.join(__dirname, outputDirectory),
     filename: './js/[name].bundle.js'
@@ -28,10 +28,18 @@ module.exports = {
         test: /\.tsx?$/,
         use: [
           {
-            loader: 'awesome-typescript-loader'
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true
+            }
           },
         ],
         exclude: /node_modules/
+      },
+      {
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto'
       },
       {
         enforce: 'pre',
