@@ -1,23 +1,9 @@
 import React, { ReactElement } from 'react'
-import IconButton from '@material-ui/core/IconButton'
-import { makeStyles } from '@material-ui/core/styles'
-import Drawer from '@material-ui/core/Drawer'
-import { KeyboardArrowUp } from '@material-ui/icons'
+import IconButton from '@mui/material/IconButton'
+import Drawer from '@mui/material/Drawer'
+import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp'
 import NodeTypesSelectDisplay from './displays/NodeTypesSelectDisplay'
 import NavSelectedTypesObserved from '../../lib/observers/NavSelectedTypesObserved'
-
-/**
- * CONST
- */
-
-const useStyles = makeStyles({
-  list: {
-    width: 250,
-  },
-  fullList: {
-    width: 'auto',
-  },
-});
 
 /**
  * BottomDrawer
@@ -27,7 +13,6 @@ const useStyles = makeStyles({
 
 const BottomDrawer: () => ReactElement = () => {
 
-  const classes = useStyles()
   const [state, setState] = React.useState({
     top: false,
     left: false,

@@ -1,5 +1,5 @@
-import React, { SyntheticEvent } from "react"
-import { DropdownItemProps, DropdownProps, Grid, GridRow, Header, Label, Select } from "semantic-ui-react"
+import React from "react"
+import { Box, Grid, Typography, FormLabel, FormControl, Select, MenuItem, SelectChangeEvent } from "@mui/material"
 import IEventsGraphCollectionContextRequest from "../../../../server/domain/IEventsGraphCollectionContextRequest"
 import IControlProps from "../../../domain/IControlsProps"
 import RequestTweetFilterStreamControls, { ControlsID as RequestTweetFilterStreamControlsID  } from "./twitter/RequestTweetFilterStreamControls"
@@ -22,11 +22,9 @@ interface IRequestControlsState {
 
 /**
  * controlOptions
- * 
- * @type {DropdownItemProps[]}
  */
 
-const controlOptions: DropdownItemProps[] = [
+const controlOptions = [
   { value: RequestDummyDataBasicControlsID, text: 'Dummy Data Basic' },
   { value: RequestBasicNetworkOperationsControlsID, text: 'BasicNetwork Operations' },
   { value: RequestTweetFilterStreamControlsID, text: 'Twitter Filtered Stream' },
@@ -61,12 +59,11 @@ export default class RequestControls extends React.Component<IControlProps, IReq
   /**
    * handleSelectChange
    *
-   * @param {SyntheticEvent<HTMLElement, Event>} e
-   * @param {DropdownProps} data 
+   * @param {SelectChangeEvent} e
    * @returns {void}
    */
 
-  handleSelectChange = (e: SyntheticEvent<HTMLElement, Event>, data: DropdownProps): void => this.setState({ controlType: data.value as string})
+  handleSelectChange = (e: SelectChangeEvent<string>): void => this.setState({ controlType: e.target.value })
 
   /**
    * handleControlUpdate
@@ -87,15 +84,22 @@ export default class RequestControls extends React.Component<IControlProps, IReq
   render() {
     return (
       <div className='control-btn-container'>
-        <Label>
-          <Grid className="segment padded centered">
-            <Header as='h3'>Request Graph</Header>
-            <Select placeholder='Select Context ----' options={controlOptions} onChange={this.handleSelectChange}></Select>
+        <FormLabel>
+          <Grid container className="segment padded centered" direction="column" alignItems="center">
+            <Typography variant="h6">Request Graph</Typography>
+            <FormControl size="small" sx={{ minWidth: 200 }}>
+              <Select displayEmpty value={this.state.controlType} onChange={this.handleSelectChange}>
+                <MenuItem value="" disabled>Select Context ----</MenuItem>
+                {controlOptions.map(opt => (
+                  <MenuItem key={opt.value} value={opt.value}>{opt.text}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
-        </Label>
+        </FormLabel>
         {this.state.controlType !== '' && 
-        <Grid className="segment padded centered">
-          <GridRow>
+        <Grid container className="segment padded centered" direction="column" alignItems="center">
+          <Grid item>
           {this.state.controlType === RequestDummyDataBasicControlsID &&
             <RequestDummyData onControlsUpdate={this.handleControlsUpdate}></RequestDummyData> 
           }
@@ -114,7 +118,7 @@ export default class RequestControls extends React.Component<IControlProps, IReq
           {this.state.controlType === RequestTweetsLookupControlsID &&
             <RequestTweetsLookupControls onControlsUpdate={this.handleControlsUpdate}></RequestTweetsLookupControls>
           }
-          </GridRow>
+          </Grid>
         </Grid>
         }
       </div>

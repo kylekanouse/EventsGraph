@@ -2,7 +2,7 @@ import React from "react"
 import IActiveNodesDisplayProps from "../../../domain/IActiveNodesDisplayProps"
 import { ActiveNodes } from '../../../types/ActiveNodes'
 import ActiveNodesObserved from '../../../lib/observers/ActiveNodesObserved'
-import { Box } from "@material-ui/core"
+import { Box } from "@mui/material"
 
 /**
  * IActiveNodesDisplayState

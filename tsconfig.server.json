@@ -1,10 +1,9 @@
 {
-  "extends": "@tsconfig/node12/tsconfig.json",
   "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Node 12",
+  "display": "Node 20",
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es2019",
+    "target": "ES2022",
     "strict": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,

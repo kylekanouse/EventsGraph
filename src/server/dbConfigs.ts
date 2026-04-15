@@ -18,8 +18,7 @@ class Database {
             : `mongodb://${url}:${port}/${collection}`;
         this._mongo
             .connect(
-                mongoURL,
-                {useNewUrlParser: true, useUnifiedTopology: true}
+                mongoURL
             );
         const db: Connection = this._mongo.connection;
         db.on('error', console.error.bind(console, 'connection error:'));

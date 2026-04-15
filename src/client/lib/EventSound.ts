@@ -1,4 +1,5 @@
   /// <reference path='../types/index.d.ts' />
+import { AudioListener } from 'three'
 import GraphEvent from './GraphEvent'
 import Sound from './Sound'
 
@@ -26,7 +27,7 @@ export default class EventSound extends Sound {
    * @param {GraphNode} source
    */
 
-   constructor(event: GraphEvent, listener: THREE.AudioListener) {
+   constructor(event: GraphEvent, listener: AudioListener) {
     super(eventSoundUrl, listener, event.link?.object3D)
   }
 }

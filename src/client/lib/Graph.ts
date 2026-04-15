@@ -69,7 +69,7 @@ export default class Graph {
   constructor(ele: HTMLElement) {
 
     // setup properties
-    this._forceGraph            = ForceGraphVR()(ele)
+    this._forceGraph            = new ForceGraphVR(ele)
 
     // initalize instance
     this._init()
@@ -118,7 +118,7 @@ export default class Graph {
       .nodeVal(nodeValue)
       .nodeAutoColorBy(nodeAutoColorBy)
       .nodeRelSize(nodeRelationSize)
-      .onNodeCenterHover( (node: object | null, previousNode: object | null): void => {
+      .onNodeHover( (node: object | null, previousNode: object | null): void => {
 
         // Hover out
         if (previousNode!==null && this._onNodeOut) {
@@ -143,8 +143,8 @@ export default class Graph {
         }
 
       })
-      .onLinkCenterHover((link: object | null, previousLink: object | null): void => {
-        console.log('EventsGraph | graph.onLinkCenterHover() | link = ', link, ' | previousLink = ', previousLink)
+      .onLinkHover((link: object | null, previousLink: object | null): void => {
+        console.log('EventsGraph | graph.onLinkHover() | link = ', link, ' | previousLink = ', previousLink)
       })
       .linkAutoColorBy(linkAutoColorBy)
       .linkOpacity(linkOpacity)

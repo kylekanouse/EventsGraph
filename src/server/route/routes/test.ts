@@ -32,33 +32,33 @@ router.route('/test')
             res.status(error.status).json({message: "An error happened"});
         }
     })
-    .put((req: Request, res: Response) => {
+    .put(async (req: Request, res: Response) => {
         const {id, text}: {id: string, text: string} = req.body;
-        Test.updateOne({_id: id}, {text}, {}, (err, test) => {
-            if (err){
-                const error: IError ={
-                    status: 500,
-                    message: "It can't be updated at this moment!"
-                }
-                console.error(err);
-                res.status(error.status).json(error);
+        try {
+            const result = await Test.updateOne({_id: id}, {text});
+            res.status(200).json({_id: id, text, ...result});
+        } catch (err) {
+            const error: IError = {
+                status: 500,
+                message: "It can't be updated at this moment!"
             }
-            else res.status(200).json({_id: id, text, ...test});
-        })
+            console.error(err);
+            res.status(error.status).json(error);
+        }
     })
-    .delete((req: Request, res: Response) => {
+    .delete(async (req: Request, res: Response) => {
         const {id}: {id: string} = req.body;
-        Test.deleteOne({_id: id}, {}, (err) => {
-            if (err){
-                const error: IError = {
-                    status: 500,
-                    message: "Resource can't be deleted!"
-                }
-                console.error(err);
-                res.status(error.status).json(error);
+        try {
+            await Test.deleteOne({_id: id});
+            res.status(200).json({_id: id, text: "deleted successfully"});
+        } catch (err) {
+            const error: IError = {
+                status: 500,
+                message: "Resource can't be deleted!"
             }
-            else res.status(200).json({_id: id, text: "deleted successfully"});
-        })
+            console.error(err);
+            res.status(error.status).json(error);
+        }
     });
 
 export default router;

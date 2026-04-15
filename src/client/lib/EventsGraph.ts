@@ -295,7 +295,7 @@ export default class EventsGraph implements IEventsGraphControls<EventsGraph> {
     // Use onBeforeRender to get access to Three.js elements that 3D force Graph does not expose
     this.scene.onBeforeRender = (
                                   renderer: WebGLRenderer,
-                                  scene: THREE.Scene,
+                                  scene: Scene,
                                   camera: Camera,
                                   renderTarget: any
                                 ): void => {
@@ -564,7 +564,7 @@ export default class EventsGraph implements IEventsGraphControls<EventsGraph> {
 
   private _rendered(
                       renderer: WebGLRenderer,
-                      scene: THREE.Scene,
+                      scene: Scene,
                       camera: Camera,
                       renderTarget: any
                     ): void {

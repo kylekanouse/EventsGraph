@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent } from 'react'
-import { Form, FormProps, InputOnChangeData } from 'semantic-ui-react'
+import { TextField, Button, Box } from '@mui/material'
 import { constants } from '../../../../../server/constants'
 import IEventsGraphCollectionContextRequest from '../../../../../server/domain/IEventsGraphCollectionContextRequest'
 import IControlProps from '../../../../domain/IControlsProps'
@@ -89,7 +89,7 @@ export default class RequestTweetsLookupControls extends React.Component<IContro
    * @returns {void}
    */
 
-  handleChange(event: ChangeEvent<HTMLInputElement>, data: InputOnChangeData): void {
+  handleChange(event: ChangeEvent<HTMLInputElement>): void {
     const { value, name } = event.target
     this.setState(oldValues => ({...oldValues, [name]: value }))
   }
@@ -98,11 +98,11 @@ export default class RequestTweetsLookupControls extends React.Component<IContro
    * handleSubmit
    *
    * @param {FormEvent<HTMLFormElement>} e
-   * @param {FormProps} data
    * @returns {void}
    */
 
-  handleSubmit(e: FormEvent<HTMLFormElement>, data: FormProps): void { 
+  handleSubmit(e: FormEvent<HTMLFormElement>): void { 
+    e.preventDefault()
     this.props.onControlsUpdate( getUpdateRequest(this.state) )
   }
 
@@ -115,10 +115,10 @@ export default class RequestTweetsLookupControls extends React.Component<IContro
   render() {
     return (
       <div>
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Input name="ids" label="Tweet ID(s):" value={this.state.ids} onChange={this.handleChange}  placeholder={placeholderText}/>
-          <Form.Button fluid>{submitButtonText}</Form.Button>
-        </Form>
+        <Box component="form" onSubmit={(e: FormEvent<HTMLFormElement>) => this.handleSubmit(e)}>
+          <TextField name="ids" label="Tweet ID(s):" value={this.state.ids} onChange={this.handleChange} placeholder={placeholderText} size="small" fullWidth margin="normal" />
+          <Button type="submit" variant="contained" fullWidth>{submitButtonText}</Button>
+        </Box>
       </div>
     )
   }

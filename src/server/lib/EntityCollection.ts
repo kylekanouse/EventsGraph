@@ -98,7 +98,8 @@ export default abstract class EntityCollection extends Entity implements IEntity
    */
 
   public getID(): string {
-    return (this._includeCollectionNode) ? super.getID() : (this._collection.values().next().value) ? this._collection.values().next().value.getID() : ''
+    const firstValue = this._collection.values().next().value
+    return (this._includeCollectionNode) ? super.getID() : (firstValue) ? firstValue.getID() : ''
   }
 
   /**

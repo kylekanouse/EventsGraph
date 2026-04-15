@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent } from 'react'
-import { Container, Form, FormProps, Header, InputOnChangeData, Label } from 'semantic-ui-react'
+import { Container, TextField, Button, Box } from '@mui/material'
 import { constants } from '../../../../../server/constants'
 import IEventsGraphCollectionContextRequest from '../../../../../server/domain/IEventsGraphCollectionContextRequest'
 import IControlProps from '../../../../domain/IControlsProps'
@@ -92,7 +92,7 @@ export default class RequestTweetFilterStreamControls extends React.Component<IC
    * @returns {void}
    */
 
-  handleChange(event: ChangeEvent<HTMLInputElement>, data: InputOnChangeData): void {
+  handleChange(event: ChangeEvent<HTMLInputElement>): void {
     const { value, name } = event.target
     this.setState(oldValues => ({...oldValues, [name]: value }))
   }
@@ -101,11 +101,11 @@ export default class RequestTweetFilterStreamControls extends React.Component<IC
    * handleSubmit
    *
    * @param {FormEvent<HTMLFormElement>} e
-   * @param {FormProps} data
    * @returns {void}
    */
 
-  handleSubmit(e: FormEvent<HTMLFormElement>, data: FormProps): void { 
+  handleSubmit(e: FormEvent<HTMLFormElement>): void { 
+    e.preventDefault()
     this.props.onControlsUpdate( getUpdateRequest(this.state) )
   }
 
@@ -118,11 +118,11 @@ export default class RequestTweetFilterStreamControls extends React.Component<IC
   render() {
     return (
       <div>
-        <Container fluid>
-          <Form onSubmit={this.handleSubmit}>
-            <Form.Input name="sampleSize" label="# of Tweets:" value={this.state.sampleSize} onChange={this.handleChange} />
-            <Form.Button fluid>{submitButtonText}</Form.Button>
-          </Form>
+        <Container>
+          <Box component="form" onSubmit={(e: FormEvent<HTMLFormElement>) => this.handleSubmit(e)}>
+            <TextField name="sampleSize" label="# of Tweets:" value={this.state.sampleSize} onChange={this.handleChange} size="small" fullWidth margin="normal" />
+            <Button type="submit" variant="contained" fullWidth>{submitButtonText}</Button>
+          </Box>
         </Container>
       </div>
     )

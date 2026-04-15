@@ -140,5 +140,3 @@ type LinkObject = object & {
   source?: string | number | NodeObject
   target?: string | number | NodeObject
 }
-
-declare module 'three-mesh-ui'

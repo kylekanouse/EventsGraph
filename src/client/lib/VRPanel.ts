@@ -52,12 +52,14 @@ export default class VRPanel extends Object3D {
       justifyContent: 'center',
       alignContent: 'center',
       contentDirection: 'column',
-      fontFamily: FontJSON,
+      fontFamily: FontJSON as unknown as string,
       fontTexture: FontImage,
       fontSize: 5,
       padding: 0.25,
       borderRadius: 5,
       backgroundOpacity: 1,
+      width: 0,
+      height: 0,
     })
     // Set up main container
     // container.position.set(0, 1, -1.8)
@@ -85,6 +87,8 @@ export default class VRPanel extends Object3D {
       padding: 0.2,
       margin: 0.25,
       backgroundOpacity: 1,
+      width: 0,
+      height: 0,
     })
 
     // if (this._imageUrl) {
@@ -138,6 +142,8 @@ export default class VRPanel extends Object3D {
 
     const contentWrapperBlock = new ThreeMeshUI.Block({
       margin: 0.025,
+      width: 0,
+      height: 0,
     })
 
     const contentBlock = new ThreeMeshUI.Block({
@@ -199,7 +205,7 @@ export default class VRPanel extends Object3D {
 
     // Load image as background texture
     new TextureLoader().load(imageUrl, (texture) => {
-      imageBlock.set({
+      (imageBlock as any).set({
         backgroundTexture: texture,
       })
     })

@@ -1,16 +1,17 @@
 {
-  "extends": "@tsconfig/node12/tsconfig.json",
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
+    "strict": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es2019",
+    "target": "ES2022",
     "jsx": "react",
     "module": "commonjs",
+    "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "./dist/",
     "skipLibCheck": true,
     "lib": [
-      "DOM", "esnext"
+      "DOM", "ESNext"
     ],
     "resolveJsonModule": true,
     "esModuleInterop": true  

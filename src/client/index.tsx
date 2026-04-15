@@ -1,5 +1,5 @@
 import * as React from 'react'
-import * as ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import App from './components/app'
 import { ErrorBoundary } from './components/ErrorBoundary'
 
@@ -7,7 +7,7 @@ import { ErrorBoundary } from './components/ErrorBoundary'
  * Main app DOM render
  */
 
-ReactDOM.render(
-  <ErrorBoundary><App /></ErrorBoundary>,
-  document.getElementById('root')
+const root = createRoot(document.getElementById('root')!)
+root.render(
+  <ErrorBoundary><App /></ErrorBoundary>
 )

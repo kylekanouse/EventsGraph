@@ -32,7 +32,7 @@ export default class TweetSource extends Entity {
 
   private _data: string
 
-  protected _icon: string | undefined
+  declare protected _icon: string | undefined
 
   /**
    * constructor

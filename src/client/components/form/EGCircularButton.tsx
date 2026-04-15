@@ -1,6 +1,6 @@
 import React from "react"
 import IEGCircularButtonProps from '../../domain/IEGCircularButtonProps'
-import { Button, ButtonProps, Icon } from "semantic-ui-react"
+import { IconButton, Icon } from "@mui/material"
 
 /**
  * EGCircularButton
@@ -26,7 +26,7 @@ export default class EGCircularButton extends React.Component<IEGCircularButtonP
    *
    */
 
-  handleClick = (event: React.MouseEvent<HTMLButtonElement>, data: ButtonProps): void => {
+  handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     this.props.onClick(event)
   }
 
@@ -39,9 +39,9 @@ export default class EGCircularButton extends React.Component<IEGCircularButtonP
   render() {
     return (
       <div>
-        <Button onClick={this.handleClick} className={'circular ui icon button eg-circular ' + this.props.toggleState}>
+        <IconButton onClick={this.handleClick} className={'circular ui icon button eg-circular ' + this.props.toggleState}>
           <Icon className={this.props.icon}></Icon>
-        </Button>
+        </IconButton>
       </div>
     )
   }
