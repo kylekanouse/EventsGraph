@@ -4,11 +4,32 @@ require('dotenv').config({ path: process.cwd() + '/src/server/.env' })
 import express, {Request, Response, Router, Express} from 'express'
 import bodyParser from 'body-parser'
 import http, { Server } from "http"
+import helmet from 'helmet'
+import cors from 'cors'
+import rateLimit from 'express-rate-limit'
 import router from './route'
 import initializeSocketIO from "./socket"
 
 // call express
 const app: Express = express() // define our app using express
+
+// Security middleware
+app.use(helmet({
+  contentSecurityPolicy: false  // Disable CSP initially (Three.js needs inline scripts)
+}))
+
+app.use(cors({
+  origin: process.env.CLIENT_BASE_URL || 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}))
+
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,  // 15 minutes
+  max: 100,                    // 100 requests per window
+  standardHeaders: true,
+  legacyHeaders: false,
+})
+app.use('/api', apiLimiter)
 
 // configure app to use bodyParser for
 // Getting data from body of requests

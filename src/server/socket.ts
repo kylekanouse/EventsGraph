@@ -7,6 +7,7 @@ import IUpdateGraphDataCallback from "./domain/IUpdateGraphDataCallback"
 import { RateLimiter } from "limiter"
 import { throttle } from "./lib/Throttler"
 import IStreamCallback from "./domain/IStreamCallback"
+import { GraphDataRequestSchema } from './domain/schemas'
 
 let socket: Socket | Server | undefined
 let limiter: RateLimiter
@@ -97,13 +98,22 @@ export default (io: Server): void => {
     socket.on("getGraphData", (request: any): void => {
       // console.log('SOCKET | ------------ getGraphData() | request = ', request)
 
-      // Parse request string into request object
+      // Validate request with Zod
+      let parsed: any
       try {
-        contextRequest = getRequestFromJSON(request)
+        parsed = JSON.parse(request)
       } catch (err) {
         console.log('ERROR: SOCKET parsing JSON request string')
+        socket?.emit('error', { message: 'Invalid JSON' })
         return
       }
+
+      const parseResult = GraphDataRequestSchema.safeParse(parsed)
+      if (!parseResult.success) {
+        socket?.emit('error', { message: 'Invalid request', errors: parseResult.error.issues })
+        return
+      }
+      contextRequest = parseResult.data as IEventsGraphCollectionContextRequest
 
       // Get data from EventsGraph service
       EventsGraphService.getData(contextRequest).then((res: IEventsGraphCollectionContextResponse) => {
@@ -121,12 +131,23 @@ export default (io: Server): void => {
 
     socket.on("getGraphDataStream", (request: any): void => {
       console.log('SOCKET | ------------ getGraphDataStream() | request = ', request)
+
+      // Validate request with Zod
+      let parsed: any
       try {
-        contextRequest = getRequestFromJSON(request)
+        parsed = JSON.parse(request)
       } catch (err) {
         console.log('ERROR: SOCKET parsing JSON request string')
+        socket?.emit('error', { message: 'Invalid JSON' })
         return
       }
+
+      const parseResult = GraphDataRequestSchema.safeParse(parsed)
+      if (!parseResult.success) {
+        socket?.emit('error', { message: 'Invalid request', errors: parseResult.error.issues })
+        return
+      }
+      contextRequest = parseResult.data as IEventsGraphCollectionContextRequest
 
       // Get Stream data from service
       EventsGraphService.getDataStream(contextRequest, graphStreamUpdate)
