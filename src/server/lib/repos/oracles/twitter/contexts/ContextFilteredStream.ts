@@ -218,7 +218,7 @@ class ContextFilteredStream extends Context implements IStreamData {
 
     } catch (error) {
       console.log('ERROR: Twitter client error msg = ', error)
-      cb(error)
+      cb(error instanceof Error ? error : new Error(String(error)))
     }
   }
 }

@@ -177,7 +177,7 @@ export namespace TweetService {
         }
       )
     } catch (err) {
-      cb(new Error(err))
+      cb(new Error(String(err)))
     }
   }
 }

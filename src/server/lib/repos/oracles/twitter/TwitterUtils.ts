@@ -297,7 +297,7 @@ const listenForever = async (streamFactory: Function, dataConsumer: Function) =>
       ++retryCount
       listenForever(streamFactory, dataConsumer)
     } else {
-      throw new Error(error)
+      throw new Error(String(error))
     }
   }
 }

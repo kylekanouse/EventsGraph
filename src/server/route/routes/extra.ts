@@ -8,11 +8,11 @@ router.route('/extra')
         res.json({username: userInfo().username});
     })
     .post((req: Request, res: Response) => {
-        const {text} = new Test(`This is what you posted: ${req.body.text}`);
+        const {text} = new Test({text: `This is what you posted: ${req.body.text}`});
         res.json({text});
     })
     .put((req: Request, res: Response) => {
-        const {text} = new Test(`I put this somewhere: ${req.body.text}`);
+        const {text} = new Test({text: `I put this somewhere: ${req.body.text}`});
         res.json({text});
     });
 
