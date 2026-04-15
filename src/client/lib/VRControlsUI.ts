@@ -14,7 +14,7 @@ const buttonOptions = {
   width: 30,
   height: 11.25,
   justifyContent: 'center',
-  alignContent: 'center',
+  alignItems: 'center',
   offset: 0.15,
   margin: 0.1,
   borderRadius: 5
@@ -76,15 +76,15 @@ export default class VRControlsUI {
 
     this._container           = new ThreeMeshUI.Block({
                                                         justifyContent: 'center',
-                                                        alignContent: 'center',
+                                                        alignItems: 'center',
                                                         contentDirection: 'row-reverse',
                                                         fontFamily: FontJSON as unknown as string,
                                                         fontTexture: FontImage,
                                                         fontSize: 5,
-                                                        padding: 0.02,
+                                                        padding: 0.5,
                                                         borderRadius: 5,
-                                                        width: 0,
-                                                        height: 0,
+                                                        width: 62,
+                                                        height: 13,
                                                       })
 
     this._btnNext             = new VRControlButton( new ThreeMeshUI.Block( buttonOptions ), 'next-btn' )
