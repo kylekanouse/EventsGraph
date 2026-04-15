@@ -39,7 +39,7 @@ export default class Cursor {
 
   activate(): Cursor {
     this._cursor.setAttribute('color', ACTIVE_COLOR)
-    this._cursor.setAttributes('opacity', ACTIVE_OPACITY)
+    this._cursor.setAttribute('opacity', ACTIVE_OPACITY)
     return this
   }
 
@@ -51,7 +51,7 @@ export default class Cursor {
 
   deactivate(): Cursor {
     this._cursor.setAttribute('color', DEFAULT_COLOR)
-    this._cursor.setAttributes('opacity', DEFAULT_OPACITY)
+    this._cursor.setAttribute('opacity', DEFAULT_OPACITY)
     return this
   }
 }

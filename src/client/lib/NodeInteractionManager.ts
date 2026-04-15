@@ -92,7 +92,13 @@ export default class NodeInteractionManager {
    */
 
   private _onClick(event: MouseEvent): void {
-    if (InteractionModeManager.mode !== 'scene-focus') { return }
+    // Allow clicks on the A-Frame canvas regardless of interaction mode,
+    // avoiding the race condition where pointerlockchange flips mode to
+    // 'hud' between mousedown and click.
+    const target = event.target as HTMLElement
+    if (!target) { return }
+    const isCanvas = target.tagName === 'CANVAS' && target.closest('a-scene') !== null
+    if (!isCanvas) { return }
 
     if (!this._currentNode) { return }
 
@@ -227,6 +233,14 @@ export default class NodeInteractionManager {
   update(): void {
     if (InteractionModeManager.mode !== 'scene-focus') { return }
 
+    // Only use center-screen raycasting in VR mode.
+    // In desktop mode, ForceGraphVR's internal raycaster handles hover
+    // via onNodeHover/onNodeOut callbacks — using a second raycaster here
+    // would conflict and clear _currentNode set by those callbacks.
+    const scene = document.querySelector('a-scene') as any
+    const isVR = scene?.renderer?.xr?.isPresenting === true
+    if (!isVR) { return }
+
     const objects: Object3Ds = EntitiesOnStageObserved.objs
 
     if (!objects || !objects.size) { return }
@@ -246,24 +260,34 @@ export default class NodeInteractionManager {
     if (intersect) {
       this._onCursorIntersecting()
 
-      if (selectState) {
-        if (intersect.object.isUI) {
-          intersect.object.setState('selected')
-        } else if (intersect.object.name) {
-          const entity = EntitiesOnStageObserved.entitiesOnStage.get(intersect.object.name)
+      if (intersect.object.isUI) {
+        intersect.object.setState(selectState ? 'selected' : 'hovered')
+      } else if (intersect.object.name) {
+        const entity = EntitiesOnStageObserved.entitiesOnStage.get(intersect.object.name)
 
-          if (entity) {
-            this._currentNode = entity as Node
-            this._onCursorOut()
+        if (entity) {
+          const node = entity as Node
+
+          // If we moved to a different node, fire out on the previous one
+          if (this._currentNode && this._currentNode !== node) {
+            this._currentNode.onOut()
           }
-        }
-      } else {
-        if (intersect.object.isUI) {
-          intersect.object.setState('hovered')
+
+          // Set current node and fire hover if it's a new target
+          if (this._currentNode !== node) {
+            this._currentNode = node
+            node.onHover()
+          }
         }
       }
     } else {
       this._onCursorOut()
+
+      // Clear current node when nothing is intersected
+      if (this._currentNode) {
+        this._currentNode.onOut()
+        this._currentNode = undefined
+      }
     }
 
     // loop through all other clickables and set inactive state

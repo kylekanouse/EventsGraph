@@ -1,7 +1,7 @@
 import { Object3D, Scene } from "three"
 import { v4 as uuidV4} from "uuid"
 import IEntity from "../domain/IEntity"
-import { createHoverObject, getScene } from "./Utils"
+import { getScene } from "./Utils"
 import EntityClickedOberved from './observers/EntityClickedObserved'
 import EntityActiveObserved from './observers/EntityActiveObserved'
 import EntityOnStageObserved from "./observers/EntityOnStageObserved"
@@ -61,8 +61,6 @@ export default abstract class Entity<T> implements IEntity<T> {
     this._id                      = (id) ? id : uuidV4()
     this._object3D                = object3D
     this._scene                   = getScene()
-    // this._hoverObj                = createHoverObject()
-    // this._hoverObjHeight          = this._hoverObj.userData['height']
 
     this._init()
   }

@@ -151,7 +151,19 @@ export default class Node extends GraphEntity<Node, GraphNodeObject> {
    * @returns {Node}
    */
 
-  private _activateNode(): Node { return this._displayVisible() }
+  private _activateNode(): Node {
+    // Visual feedback on the circle mesh
+    if (this._graphObj.__threeObj) {
+      this._graphObj.__threeObj.traverse((child: any) => {
+        if (child.isMesh && child.material) {
+          child.material.color.setHex(0xff6600)
+          child.material.needsUpdate = true
+        }
+      })
+      this._graphObj.__threeObj.scale.set(1.3, 1.3, 1.3)
+    }
+    return this._displayVisible()
+  }
 
   /**
    * _blurredNode
@@ -168,7 +180,19 @@ export default class Node extends GraphEntity<Node, GraphNodeObject> {
    * @returns {Node} 
    */
 
-  private _deactivateNode(): Node { return this._hideDisplay() }
+  private _deactivateNode(): Node {
+    // Reset visual feedback on the circle mesh
+    if (this._graphObj.__threeObj) {
+      this._graphObj.__threeObj.traverse((child: any) => {
+        if (child.isMesh && child.material) {
+          child.material.color.setHex(0x00ff00)
+          child.material.needsUpdate = true
+        }
+      })
+      this._graphObj.__threeObj.scale.set(1, 1, 1)
+    }
+    return this._hideDisplay()
+  }
 
   /**
    * _displayVisible
@@ -360,7 +384,17 @@ export default class Node extends GraphEntity<Node, GraphNodeObject> {
    * @returns {Node}
    */
 
-  onHover(): Node { super.onHover(); return this }
+  onHover(): Node {
+    super.onHover()
+    if (this._graphObj.__threeObj) {
+      this._graphObj.__threeObj.traverse((child: any) => {
+        if (child.isMesh && child.material && child.material.emissive) {
+          child.material.emissive.setHex(0x333333)
+        }
+      })
+    }
+    return this
+  }
 
   /**
    * onOut
@@ -369,7 +403,17 @@ export default class Node extends GraphEntity<Node, GraphNodeObject> {
    * @returns {Node}
    */
 
-  onOut(): Node { super.onOut(); return this }
+  onOut(): Node {
+    super.onOut()
+    if (this._graphObj.__threeObj) {
+      this._graphObj.__threeObj.traverse((child: any) => {
+        if (child.isMesh && child.material && child.material.emissive) {
+          child.material.emissive.setHex(0x000000)
+        }
+      })
+    }
+    return this
+  }
 
   /**
    * activate

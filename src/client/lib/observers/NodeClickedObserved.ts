@@ -43,7 +43,7 @@ export default abstract class NodeClickedObserved {
     if (message.entity.entityTypeID === Node.TYPE_ID) {
 
       // Cast message as a Node message
-      const nodeEventMessage: NodePointerEventMessage = <NodePointerEventMessage> event
+      const nodeEventMessage: NodePointerEventMessage = <NodePointerEventMessage> message
 
       // Associate type cast object to event
       nodeEventMessage.node = <Node> message.entity
