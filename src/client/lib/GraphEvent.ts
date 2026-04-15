@@ -76,7 +76,7 @@ export default class GraphEvent  {
   }
 
   get target(): string | number {
-    return this.target
+    return this._target
   }
 
   /**

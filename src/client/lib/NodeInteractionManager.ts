@@ -83,6 +83,33 @@ export default class NodeInteractionManager {
     document.addEventListener('dblclick', this._onDblClick.bind(this))
     window.addEventListener('wheel', this._onMouseWheel.bind(this), false)
 
+    // Ensure A-Frame WASD controls work by keeping focus on document.body
+    // A-Frame's shouldCaptureKeyEvent only processes keys when document.activeElement === document.body
+    // Use pointerdown (not click) as A-Frame look-controls may consume click events
+    window.addEventListener('pointerdown', (event: PointerEvent): void => {
+      const target = event.target as HTMLElement
+      const isFormElement = target && (
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.tagName === 'SELECT' ||
+        target.closest('.MuiModal-root') !== null
+      )
+
+      if (!isFormElement) {
+        if (document.activeElement && document.activeElement !== document.body) {
+          (document.activeElement as HTMLElement).blur()
+        }
+        document.body.focus()
+
+        requestAnimationFrame(() => {
+          if (document.activeElement && document.activeElement !== document.body) {
+            (document.activeElement as HTMLElement).blur()
+            document.body.focus()
+          }
+        })
+      }
+    })
+
     return this
   }
 
@@ -196,13 +223,20 @@ export default class NodeInteractionManager {
     objects.forEach((obj: any): void => {
       if (obj.userData['type'] && obj.userData['type'] === 'graphEntity') { return }
 
-      const intersection: Intersection[] = raycaster.intersectObject(obj, true)
+      // Defensive: skip objects removed from scene graph mid-frame
+      if (!obj.parent) { return }
 
-      if (!intersection[0]) { return }
+      try {
+        const intersection: Intersection[] = raycaster.intersectObject(obj, true)
 
-      if (!closestIntersection || intersection[0].distance < closestIntersection.distance) {
-        intersection[0].object = obj
-        closestIntersection = intersection[0]
+        if (!intersection[0]) { return }
+
+        if (!closestIntersection || intersection[0].distance < closestIntersection.distance) {
+          intersection[0].object = obj
+          closestIntersection = intersection[0]
+        }
+      } catch (_e) {
+        // Object may have been removed mid-frame; skip safely
       }
     })
 

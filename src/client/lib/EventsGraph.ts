@@ -29,6 +29,7 @@ import AudioManager from './AudioManager'
 import SceneManager from './SceneManager'
 import NodeInteractionManager from './NodeInteractionManager'
 import StreamProgressManager from './StreamProgressManager'
+import FocusManager from './FocusManager'
 
 /**
  * CONST
@@ -126,6 +127,10 @@ export default class EventsGraph implements IEventsGraphControls<EventsGraph> {
    */
 
   private _init(): EventsGraph {
+
+    // Install global focus guard for HUD → scene focus recovery
+    FocusManager.attachGlobalFocusGuard()
+    FocusManager.patchAFrameKeyCapture()
 
     // set default stats panel
     if (this._stats) {
