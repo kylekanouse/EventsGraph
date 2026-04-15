@@ -7,6 +7,7 @@ import EntitiesOnStageObserved from './observers/EntitiesOnStageObserved'
 import VRControlsOnStageObserved from './observers/VRControlsOnStageObserved'
 import Entity from './Entity'
 import { Object3Ds } from '../types/Object3Ds'
+import InteractionModeManager from './InteractionModeManager'
 
 const raycaster: Raycaster = new Raycaster()
 
@@ -118,7 +119,9 @@ export default class NodeInteractionManager {
    */
 
   private _onClick(event: MouseEvent): void {
-    if (!this._currentNode || this._isIntersecting) { return }
+    if (InteractionModeManager.mode !== 'scene-focus') { return }
+
+    if (!this._currentNode) { return }
 
     const nodeEvent = event as NodePointerEventMessage
     nodeEvent.node = this._currentNode
@@ -130,7 +133,7 @@ export default class NodeInteractionManager {
    */
 
   private _onDblClick(event: MouseEvent): void {
-    if (!this._currentNode || this._isIntersecting) { return }
+    if (!this._currentNode) { return }
     this._currentNode.onDblClick(event)
   }
 
@@ -159,7 +162,6 @@ export default class NodeInteractionManager {
    */
 
   onNodeHover(node: Node): void {
-    if (this._isIntersecting && this._currentNode?.id != node.id) { return }
     this._currentNode = node.onHover()
   }
 
@@ -250,6 +252,8 @@ export default class NodeInteractionManager {
    */
 
   update(): void {
+    if (InteractionModeManager.mode !== 'scene-focus') { return }
+
     const objects: Object3Ds = EntitiesOnStageObserved.objs
 
     if (!objects || !objects.size) { return }
@@ -260,7 +264,9 @@ export default class NodeInteractionManager {
     mouse.y = 0
 
     if (mouse.x !== null && mouse.y !== null) {
-      raycaster.setFromCamera(mouse, this._getCamera())
+      const camera = this._getCamera()
+      raycaster.setFromCamera(mouse, camera)
+      raycaster.camera = camera
       intersect = this._raycast()
     }
 

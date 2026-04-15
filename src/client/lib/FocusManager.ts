@@ -5,6 +5,8 @@
  * which is required for A-Frame's shouldCaptureKeyEvent to permit WASD navigation.
  */
 
+import InteractionModeManager from './InteractionModeManager'
+
 declare const AFRAME: any
 
 export default class FocusManager {
@@ -16,6 +18,8 @@ export default class FocusManager {
    * Uses requestAnimationFrame to run after MUI's async focus restoration.
    */
   static restoreSceneFocus(): void {
+    if (InteractionModeManager.mode !== 'scene-focus') { return }
+
     if (document.activeElement && document.activeElement !== document.body) {
       (document.activeElement as HTMLElement).blur()
     }
@@ -50,7 +54,8 @@ export default class FocusManager {
       const insideHud = target.closest('#hud') !== null
       const modalOpen = document.querySelector('.MuiModal-root') !== null
 
-      if (insideHud && !modalOpen) {
+      // Only auto-restore focus in scene-focus mode
+      if (insideHud && !modalOpen && InteractionModeManager.mode === 'scene-focus') {
         setTimeout(() => {
           const active = document.activeElement as HTMLElement
           if (active && active.closest('#hud') && !document.querySelector('.MuiModal-root')) {
@@ -60,10 +65,8 @@ export default class FocusManager {
         }, 100)
       }
 
-      // Staggered check: MUI exit transitions keep .MuiModal-root in DOM for ~225ms.
-      // If the guard above fires while the modal is still transitioning out, it will
-      // see modalOpen=true and abort. This second check fires after the transition.
-      if (insideHud) {
+      // Staggered check — also gated by mode
+      if (insideHud && InteractionModeManager.mode === 'scene-focus') {
         setTimeout(() => {
           const active = document.activeElement as HTMLElement
           if (active && active.closest('#hud') && !document.querySelector('.MuiModal-root')) {

@@ -30,6 +30,7 @@ import SceneManager from './SceneManager'
 import NodeInteractionManager from './NodeInteractionManager'
 import StreamProgressManager from './StreamProgressManager'
 import FocusManager from './FocusManager'
+import InteractionModeManager from './InteractionModeManager'
 
 /**
  * CONST
@@ -132,6 +133,20 @@ export default class EventsGraph implements IEventsGraphControls<EventsGraph> {
     FocusManager.attachGlobalFocusGuard()
     FocusManager.patchAFrameKeyCapture()
 
+    // Initialize interaction mode manager
+    const rootElement = document.querySelector('.events-graph-app') as HTMLElement
+    if (rootElement) {
+      InteractionModeManager.init(rootElement)
+    }
+
+    // Subscribe to mode changes for A-Frame control toggling
+    InteractionModeManager.onModeChange((mode) => {
+      this._toggleAFrameControls(mode === 'scene-focus')
+    })
+
+    // Expose InteractionModeManager on window for console testing (Phase 2)
+    ;(window as any).InteractionModeManager = InteractionModeManager
+
     // set default stats panel
     if (this._stats) {
       this._stats.showPanel(defaultStatsPanelID)
@@ -151,7 +166,45 @@ export default class EventsGraph implements IEventsGraphControls<EventsGraph> {
 
     return this._initGraph()
                ._initScene()
+               ._initCursor()
                ._initCommands()
+  }
+
+  /**
+   * _toggleAFrameControls
+   *
+   * @description Enables or disables A-Frame look-controls and wasd-controls on the camera entity
+   * @param {boolean} enabled
+   * @private
+   */
+  private _toggleAFrameControls(enabled: boolean): void {
+    const cameraEl = document.querySelector('[camera]')
+    if (!cameraEl) { return }
+
+    cameraEl.setAttribute('look-controls', 'enabled', String(enabled))
+    cameraEl.setAttribute('wasd-controls', 'enabled', String(enabled))
+  }
+
+  /**
+   * _initCursor
+   *
+   * @description Injects the a-cursor element into the A-Frame camera after the scene is created.
+   *              The cursor was commented out in 3d-force-graph-vr; this restores it.
+   * @private
+   * @returns {EventsGraph}
+   */
+
+  private _initCursor(): EventsGraph {
+    const camera = document.querySelector('[camera]')
+    if (!camera) { return this }
+
+    const cursor = document.createElement('a-cursor')
+    cursor.setAttribute('color', 'lavender')
+    cursor.setAttribute('opacity', '0.5')
+    cursor.setAttribute('raycaster', 'objects: ----none----') // disable cursor raycaster
+    camera.appendChild(cursor)
+
+    return this
   }
 
   /**
