@@ -13,6 +13,7 @@ const raycaster: Raycaster = new Raycaster()
 
 let selectState: boolean = false
 let mouse: Vector2 = new Vector2()
+let mouseTracked: boolean = false
 
 /**
  * NodeInteractionManager
@@ -71,6 +72,13 @@ export default class NodeInteractionManager {
     // Use pointer up / down to trigger state change
     window.addEventListener('pointerdown', (_event: MouseEvent): void => { selectState = true })
     window.addEventListener('pointerup', (_event: MouseEvent): void => { selectState = false })
+
+    // Track mouse position for desktop raycasting
+    window.addEventListener('pointermove', (event: PointerEvent): void => {
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+      mouseTracked = true
+    })
 
     // Handle touch events
     window.addEventListener('touchstart', (_event: TouchEvent): void => {
@@ -233,29 +241,25 @@ export default class NodeInteractionManager {
   update(): void {
     if (InteractionModeManager.mode !== 'scene-focus') { return }
 
-    // Only use center-screen raycasting in VR mode.
-    // In desktop mode, ForceGraphVR's internal raycaster handles hover
-    // via onNodeHover/onNodeOut callbacks — using a second raycaster here
-    // would conflict and clear _currentNode set by those callbacks.
-    const scene = document.querySelector('a-scene') as any
-    const isVR = scene?.renderer?.xr?.isPresenting === true
-    if (!isVR) { return }
-
     const objects: Object3Ds = EntitiesOnStageObserved.objs
 
     if (!objects || !objects.size) { return }
 
+    // When pointer lock is active, the camera follows the mouse and
+    // ForceGraphVR's internal A-Frame raycaster handles hover/click
+    // from screen center. Our mouse coordinates are frozen under
+    // pointer lock, so skip to avoid clearing _currentNode incorrectly.
+    if (document.pointerLockElement) { return }
+
+    // No mouse movement yet — skip raycasting
+    if (!mouseTracked) { return }
+
     let intersect: any
 
-    mouse.x = 0
-    mouse.y = 0
-
-    if (mouse.x !== null && mouse.y !== null) {
-      const camera = this._getCamera()
-      raycaster.setFromCamera(mouse, camera)
-      raycaster.camera = camera
-      intersect = this._raycast()
-    }
+    const camera = this._getCamera()
+    raycaster.setFromCamera(mouse, camera)
+    raycaster.camera = camera
+    intersect = this._raycast()
 
     if (intersect) {
       this._onCursorIntersecting()

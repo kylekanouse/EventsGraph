@@ -19,7 +19,7 @@ app.use(helmet({
   contentSecurityPolicy: false  // Disable CSP initially (Three.js needs inline scripts)
 }))
 
-const allowedOrigins = (process.env.CLIENT_BASE_URL || 'http://localhost:3000,http://localhost:3001').split(',')
+const allowedOrigins = (process.env.CLIENT_BASE_URL || 'http://localhost:3000,http://localhost:3001,http://localhost:3002').split(',')
 
 app.use(cors({
   origin: allowedOrigins,

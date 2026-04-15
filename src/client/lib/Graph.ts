@@ -59,6 +59,8 @@ export default class Graph {
 
   private _onNodeOutCB                : IGraphCallback | undefined
 
+  private _onNodeClickCB              : IGraphCallback | undefined
+
   /**
    * constructor
    *
@@ -145,6 +147,17 @@ export default class Graph {
       })
       .onLinkHover((link: object | null, previousLink: object | null): void => {
         console.log('EventsGraph | graph.onLinkHover() | link = ', link, ' | previousLink = ', previousLink)
+      })
+      .onNodeClick((node: object | null): void => {
+        if (node !== null && this._onNodeClick) {
+          const nodeObj = node as GraphNodeObject
+          if (nodeObj.__threeObj) {
+            const clickedNode = this.getNodeByID(nodeObj.__threeObj.name)
+            if (clickedNode) {
+              this._onNodeClick(clickedNode)
+            }
+          }
+        }
       })
       .linkAutoColorBy(linkAutoColorBy)
       .linkOpacity(linkOpacity)
@@ -299,6 +312,22 @@ export default class Graph {
 
     return this
   }
+
+  /**
+   * _onNodeClick
+   *
+   * @param {Node} node
+   * @returns {Graph}
+   */
+
+  private _onNodeClick(node: Node): Graph {
+
+    if (this._onNodeClickCB) {
+      this._onNodeClickCB(node)
+    }
+
+    return this
+  }
   /**
    * ########################################################## PUBLIC
    */
@@ -406,4 +435,13 @@ export default class Graph {
    */
 
   onNodeOut(cb: IGraphCallback): Graph { this._onNodeOutCB = cb; return this }
+
+  /**
+   * onNodeClick
+   *
+   * @param {IGraphCallback} cb
+   * @returns {Graph}
+   */
+
+  onNodeClick(cb: IGraphCallback): Graph { this._onNodeClickCB = cb; return this }
 }

@@ -204,7 +204,8 @@ export default class EventsGraph implements IEventsGraphControls<EventsGraph> {
     const cursor = document.createElement('a-cursor')
     cursor.setAttribute('color', 'lavender')
     cursor.setAttribute('opacity', '0.5')
-    cursor.setAttribute('raycaster', 'objects: ----none----') // disable cursor raycaster
+    cursor.setAttribute('raycaster', 'objects: [forcegraph]; interval: 100')
+    cursor.setAttribute('fuse', 'false')
     camera.appendChild(cursor)
 
     // Enable pointer lock on look-controls once. A-Frame's update() has a bug
@@ -245,6 +246,11 @@ export default class EventsGraph implements IEventsGraphControls<EventsGraph> {
         })
         .onNodeOut((node: Node): EventsGraph => {
           this._interactionManager.onNodeOut(node)
+          return this
+        })
+        .onNodeClick((node: Node): EventsGraph => {
+          this._interactionManager.onNodeHover(node)
+          node.onClick()
           return this
         })
 
