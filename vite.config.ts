@@ -13,6 +13,14 @@ export default defineConfig(({ mode }) => {
       outDir: resolve(__dirname, 'dist'),
       emptyOutDir: true,
     },
+    resolve: {
+      alias: {
+        // Force ALL 'three' imports to resolve to A-Frame's super-three.
+        // This eliminates the "Multiple instances of Three.js" problem.
+        'three/addons': resolve(__dirname, 'node_modules/aframe/node_modules/three/examples/jsm'),
+        'three': resolve(__dirname, 'node_modules/aframe/node_modules/three'),
+      }
+    },
     server: {
       port: 3000,
       proxy: {

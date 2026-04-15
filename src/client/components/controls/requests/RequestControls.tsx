@@ -8,6 +8,7 @@ import RequestTwitterUserControls, { ControlsID as RequestTwitterUserControlsID}
 import RequestTweetsLookupControls, { ControlsID as RequestTweetsLookupControlsID} from './twitter/RequestTweetsLookupControls'
 import RequestBasicNetworkOperations, { ControlsID as RequestBasicNetworkOperationsControlsID } from './basicnetwork/RequestBasicNetworkOperations'
 import RequestDummyData, { ControlsID as RequestDummyDataBasicControlsID } from './dummydata/RequestDummyData'
+import FocusManager from '../../../lib/FocusManager'
 
 /**
  * RequestControlsState
@@ -63,7 +64,10 @@ export default class RequestControls extends React.Component<IControlProps, IReq
    * @returns {void}
    */
 
-  handleSelectChange = (e: SelectChangeEvent<string>): void => this.setState({ controlType: e.target.value })
+  handleSelectChange = (e: SelectChangeEvent<string>): void => {
+    this.setState({ controlType: e.target.value })
+    FocusManager.restoreSceneFocus()
+  }
 
   /**
    * handleControlUpdate
@@ -88,7 +92,7 @@ export default class RequestControls extends React.Component<IControlProps, IReq
           <Grid container className="segment padded centered" direction="column" alignItems="center">
             <Typography variant="h6">Request Graph</Typography>
             <FormControl size="small" sx={{ minWidth: 200 }}>
-              <Select displayEmpty value={this.state.controlType} onChange={this.handleSelectChange}>
+              <Select displayEmpty value={this.state.controlType} onChange={this.handleSelectChange} MenuProps={{ disableRestoreFocus: true }}>
                 <MenuItem value="" disabled>Select Context ----</MenuItem>
                 {controlOptions.map(opt => (
                   <MenuItem key={opt.value} value={opt.value}>{opt.text}</MenuItem>

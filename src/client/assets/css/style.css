@@ -37,6 +37,58 @@ button {
 }
 /* END: HACK */
 
+/* Center-screen aiming reticle for WASD navigation reference */
+.events-graph-app::after {
+  content: '';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  border: 2px solid lavender;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* ─── Interaction Mode: Scene Focus ─── */
+
+.events-graph-app[data-mode="scene-focus"] a-scene canvas {
+  cursor: none !important;
+}
+
+.events-graph-app[data-mode="scene-focus"]::after {
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+  animation: reticle-pulse 0.3s ease-out;
+}
+
+/* ─── Interaction Mode: HUD ─── */
+
+.events-graph-app[data-mode="hud"] a-scene canvas {
+  cursor: default !important;
+}
+
+.events-graph-app[data-mode="hud"]::after {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* ─── Reticle pulse on Scene Focus entry ─── */
+
+@keyframes reticle-pulse {
+  0% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+  100% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
 
 .graph-data {
   position: absolute;
@@ -119,6 +171,7 @@ button {
   top: 0;
   right: 0px;
   margin: 20px;
+  pointer-events: auto;
 }
 
 

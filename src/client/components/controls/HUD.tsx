@@ -5,6 +5,8 @@ import RequestControls from './requests/RequestControls'
 import Button from '../form/EGCircularButton'
 import ActiveNodesDisplay from './displays/ActiveNodesDisplay'
 import BottomDrawer from './BottomDrawer'
+import FocusManager from '../../lib/FocusManager'
+import InteractionModeManager from '../../lib/InteractionModeManager'
 /**
  * requestTogglerBtnIcon
  *
@@ -64,7 +66,14 @@ export default class HUD extends React.Component<IHUDProps, IHUDState> {
    */
 
   toggleSideBar = (event?: React.MouseEvent<HTMLButtonElement>): void => {
-    this.setState({requestControlsVisible: !this.state.requestControlsVisible})
+    const willBeVisible = !this.state.requestControlsVisible
+    this.setState({requestControlsVisible: willBeVisible})
+
+    if (willBeVisible) {
+      InteractionModeManager.enterHudMode()
+    } else {
+      InteractionModeManager.enterSceneFocus()
+    }
   }
 
   onKeyUp = (event: KeyboardEvent): void => {

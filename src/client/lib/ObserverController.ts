@@ -24,7 +24,7 @@ export default class ObserverController {
    * @returns {Observer<T>}
    */
 
-  public static createObserved<T>(id: string, props?: T): Observer<T> {
+  public static createObserved<T extends {}>(id: string, props?: T): Observer<T> {
 
     if (ObserverController._observables.has(id)) {
       return ObserverController._observables.get(id)
@@ -42,7 +42,7 @@ export default class ObserverController {
    * @returns {Observer<T>}
    */
 
-  public static addObserved<T>(observed: Observer<T>): Observer<T> {
+  public static addObserved<T extends {}>(observed: Observer<T>): Observer<T> {
 
     if (ObserverController._observables.has(observed.id)) {
       return observed
@@ -60,7 +60,7 @@ export default class ObserverController {
    * @returns {Observer<T> | undefined}
    */
 
-  public static getObserver<T>(id: string): Observer<T> | undefined {
+  public static getObserver<T extends {}>(id: string): Observer<T> | undefined {
     return ObserverController._observables.get(id)
   }
 

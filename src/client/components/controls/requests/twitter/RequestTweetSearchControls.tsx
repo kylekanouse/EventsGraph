@@ -3,6 +3,7 @@ import { constants } from '../../../../../server/constants'
 import IEventsGraphCollectionContextRequest from '../../../../../server/domain/IEventsGraphCollectionContextRequest'
 import IControlProps from '../../../../domain/IControlsProps'
 import { TextField, Button } from '@mui/material'
+import FocusManager from '../../../../lib/FocusManager'
 
 /**
  * Get environment vars
@@ -109,7 +110,10 @@ export default class RequestTweetSearchControls extends React.Component<IControl
    * @returns {void}
    */
 
-  handleSubmit(): void { this.props.onControlsUpdate( getUpdateRequest(this.state) ) }
+  handleSubmit(): void {
+    this.props.onControlsUpdate( getUpdateRequest(this.state) )
+    FocusManager.restoreSceneFocus()
+  }
 
   /**
    * render

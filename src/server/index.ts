@@ -19,8 +19,10 @@ app.use(helmet({
   contentSecurityPolicy: false  // Disable CSP initially (Three.js needs inline scripts)
 }))
 
+const allowedOrigins = (process.env.CLIENT_BASE_URL || 'http://localhost:3000,http://localhost:3001').split(',')
+
 app.use(cors({
-  origin: process.env.CLIENT_BASE_URL || 'http://localhost:3000',
+  origin: allowedOrigins,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }))
 
@@ -45,7 +47,7 @@ const server: Server          = new http.Server(app)
 // Setup websocket
 const io = require("socket.io")(server, {
   cors: {
-    origin: process.env.CLIENT_BASE_URL,
+    origin: allowedOrigins,
   }
 })
 

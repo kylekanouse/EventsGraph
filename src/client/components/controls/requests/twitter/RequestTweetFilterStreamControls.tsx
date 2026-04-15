@@ -3,6 +3,7 @@ import { Container, TextField, Button, Box } from '@mui/material'
 import { constants } from '../../../../../server/constants'
 import IEventsGraphCollectionContextRequest from '../../../../../server/domain/IEventsGraphCollectionContextRequest'
 import IControlProps from '../../../../domain/IControlsProps'
+import FocusManager from '../../../../lib/FocusManager'
 
 /**
  * Get environment vars
@@ -107,6 +108,7 @@ export default class RequestTweetFilterStreamControls extends React.Component<IC
   handleSubmit(e: FormEvent<HTMLFormElement>): void { 
     e.preventDefault()
     this.props.onControlsUpdate( getUpdateRequest(this.state) )
+    FocusManager.restoreSceneFocus()
   }
 
   /**

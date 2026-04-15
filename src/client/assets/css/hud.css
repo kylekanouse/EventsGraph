@@ -1,6 +1,7 @@
 #hud {
   position: absolute;
   z-index: 1100;
+  pointer-events: none;
 }
 
 .hud-sidebar-panel {
@@ -14,6 +15,7 @@
   min-width: 280px;
   padding: 0px;
   text-align: right;
+  pointer-events: none;
 }
 
 /* Semantic UI overrides */
@@ -58,6 +60,7 @@
   height: 80%;
   transition: all .3s ease-in-out;
   border-radius: 0px 0px 0px 10px;
+  pointer-events: auto;
 }
 
 .display-window, .bottomDrawer .MuiPaper-root {
@@ -87,6 +90,7 @@
   position: fixed;
   bottom: 20px;
   left:49%;
+  pointer-events: auto;
 }
 
 /* ------- Material Override ----*/
@@ -130,4 +134,24 @@
 
 #hud .MuiFormControl-root .MuiInputBase-input {
   color: rgba(255, 255, 255, 0.7);
+}
+
+/* ─── Scene Focus: HUD is click-through ─── */
+
+.events-graph-app[data-mode="scene-focus"] #hud {
+  pointer-events: none;
+}
+
+.events-graph-app[data-mode="scene-focus"] #hud * {
+  pointer-events: none !important;
+}
+
+/* ─── HUD Mode: HUD is interactive ─── */
+
+.events-graph-app[data-mode="hud"] #hud {
+  pointer-events: auto;
+}
+
+.events-graph-app[data-mode="hud"] #hud .display-window {
+  pointer-events: auto;
 }

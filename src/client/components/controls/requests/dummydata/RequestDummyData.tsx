@@ -11,6 +11,7 @@ import DummyDataType from '../../../../../server/lib/repos/oracles/dummydata/dat
 import IControlProps from "../../../../domain/IControlsProps"
 import DummyRequests from '../../../../data/mock.twitter.tweet-looup.request'
 import IEventsGraphCollectionContextRequest from "../../../../../server/domain/IEventsGraphCollectionContextRequest"
+import FocusManager from '../../../../lib/FocusManager'
 
 /**
  * CONST
@@ -21,6 +22,7 @@ const availableTypes: DummyDataType[] = ['basic', 'request', 'singleNode']
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
 const MenuProps = {
+  disableRestoreFocus: true,
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
@@ -81,6 +83,9 @@ const RequestDummyData: (props: IControlProps) => ReactElement = (props: IContro
 
     // Make update callback
     props.onControlsUpdate( request )
+
+    // Restore focus to body so A-Frame WASD controls work
+    FocusManager.restoreSceneFocus()
   }
 
   /**

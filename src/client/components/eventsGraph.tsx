@@ -100,7 +100,7 @@ const EventsGraph = ({ socket }: any) => {
   }, [])
 
   return (
-    <div className='events-graph-app'>
+    <div className='events-graph-app' data-mode='scene-focus'>
       <div className="eventsgraph-graph-wrapper" >
         <HUD onRequestControlsUpdate={requestGraphData}></HUD>
         <div className="graph" ref={ele => graphRef = ele}></div>

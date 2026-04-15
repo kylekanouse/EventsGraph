@@ -4,6 +4,7 @@ import Button from '@mui/material/Button'
 import { constants } from '../../../../../server/constants'
 import IControlProps from '../../../../domain/IControlsProps'
 import DummyRequests from '../../../../data/mock.twitter.tweet-looup.request'
+import FocusManager from '../../../../lib/FocusManager'
 
 /**
  * Get environment vars
@@ -58,6 +59,7 @@ export default class RequestBasicNetworkOperationsControls extends React.Compone
 
   handleClicked(): void { 
     this.props.onControlsUpdate( DummyRequests.basicnetworkOperationsRequest )
+    FocusManager.restoreSceneFocus()
   }
 
   /**

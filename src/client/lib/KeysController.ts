@@ -49,6 +49,7 @@ export default class KeysController {
    */
 
   public static onKeyDown(e: KeyboardEvent): void {
+    if (e.code === 'Escape') { return } // Handled by InteractionModeManager
 
     const command = commandMap.get(e.code)
 

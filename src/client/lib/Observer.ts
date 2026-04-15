@@ -10,7 +10,7 @@ import ObserverController from './ObserverController'
  * @class
  */
 
-export default class Observer<T> {
+export default class Observer<T extends {}> {
 
   private _id: string
 

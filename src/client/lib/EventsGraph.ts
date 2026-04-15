@@ -173,12 +173,14 @@ export default class EventsGraph implements IEventsGraphControls<EventsGraph> {
   /**
    * _toggleAFrameControls
    *
-   * @description Enables or disables A-Frame look-controls and wasd-controls on the camera entity
+   * @description Enables or disables A-Frame look-controls and wasd-controls on the camera entity.
+   *              Only toggles the `enabled` property. pointerLockEnabled is set once at init
+   *              in _initCursor. Avoids pause()/play() which break the tick loop.
    * @param {boolean} enabled
    * @private
    */
   private _toggleAFrameControls(enabled: boolean): void {
-    const cameraEl = document.querySelector('[camera]')
+    const cameraEl = document.querySelector('[camera]') as any
     if (!cameraEl) { return }
 
     cameraEl.setAttribute('look-controls', 'enabled', String(enabled))
@@ -189,13 +191,14 @@ export default class EventsGraph implements IEventsGraphControls<EventsGraph> {
    * _initCursor
    *
    * @description Injects the a-cursor element into the A-Frame camera after the scene is created.
-   *              The cursor was commented out in 3d-force-graph-vr; this restores it.
+   *              Also enables pointerLockEnabled on look-controls once and forces listener
+   *              re-registration so the pointerlockchange handler is active from the start.
    * @private
    * @returns {EventsGraph}
    */
 
   private _initCursor(): EventsGraph {
-    const camera = document.querySelector('[camera]')
+    const camera = document.querySelector('[camera]') as any
     if (!camera) { return this }
 
     const cursor = document.createElement('a-cursor')
@@ -203,6 +206,25 @@ export default class EventsGraph implements IEventsGraphControls<EventsGraph> {
     cursor.setAttribute('opacity', '0.5')
     cursor.setAttribute('raycaster', 'objects: ----none----') // disable cursor raycaster
     camera.appendChild(cursor)
+
+    // Enable pointer lock on look-controls once. A-Frame's update() has a bug
+    // (operator precedence on line 93) that prevents re-registration when
+    // pointerLockEnabled changes, so we force it manually.
+    // Defer until the scene canvas exists to avoid "cannot read 'canvas'" errors.
+    camera.setAttribute('look-controls', 'pointerLockEnabled', 'true')
+    const scene = document.querySelector('a-scene') as any
+    const forceReRegister = (): void => {
+      const lc = camera.components?.['look-controls']
+      if (lc) {
+        lc.removeEventListeners()
+        lc.addEventListeners()
+      }
+    }
+    if (scene?.canvas) {
+      forceReRegister()
+    } else if (scene) {
+      scene.addEventListener('render-target-loaded', forceReRegister, { once: true })
+    }
 
     return this
   }

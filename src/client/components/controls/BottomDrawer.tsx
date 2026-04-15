@@ -57,7 +57,7 @@ const BottomDrawer: () => ReactElement = () => {
           <IconButton id="bottomToggle" color="primary" size="medium" onClick={toggleDrawer("bottom", true)}>
             <KeyboardArrowUp fontSize="large" />
           </IconButton>
-          <Drawer className="bottomDrawer" anchor="bottom" open={state["bottom"]} onClose={toggleDrawer("bottom", false)}>
+          <Drawer className="bottomDrawer" anchor="bottom" open={state["bottom"]} onClose={toggleDrawer("bottom", false)} ModalProps={{ disableRestoreFocus: true }}>
 
             <NodeTypesSelectDisplay onUpdate={handleUpdate}></NodeTypesSelectDisplay>
 

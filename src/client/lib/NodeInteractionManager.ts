@@ -84,33 +84,6 @@ export default class NodeInteractionManager {
     document.addEventListener('dblclick', this._onDblClick.bind(this))
     window.addEventListener('wheel', this._onMouseWheel.bind(this), false)
 
-    // Ensure A-Frame WASD controls work by keeping focus on document.body
-    // A-Frame's shouldCaptureKeyEvent only processes keys when document.activeElement === document.body
-    // Use pointerdown (not click) as A-Frame look-controls may consume click events
-    window.addEventListener('pointerdown', (event: PointerEvent): void => {
-      const target = event.target as HTMLElement
-      const isFormElement = target && (
-        target.tagName === 'INPUT' ||
-        target.tagName === 'TEXTAREA' ||
-        target.tagName === 'SELECT' ||
-        target.closest('.MuiModal-root') !== null
-      )
-
-      if (!isFormElement) {
-        if (document.activeElement && document.activeElement !== document.body) {
-          (document.activeElement as HTMLElement).blur()
-        }
-        document.body.focus()
-
-        requestAnimationFrame(() => {
-          if (document.activeElement && document.activeElement !== document.body) {
-            (document.activeElement as HTMLElement).blur()
-            document.body.focus()
-          }
-        })
-      }
-    })
-
     return this
   }
 
