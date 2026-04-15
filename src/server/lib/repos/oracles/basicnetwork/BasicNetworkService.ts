@@ -3,6 +3,7 @@ import IEventsGraphCollectionContextResponse from '../../../../domain/IEventsGra
 import IGraphData from '../../../../domain/IGraphData'
 import IUpdateGraphDataCallback from '../../../../domain/IUpdateGraphDataCallback'
 import { buildResponse } from '../../../Utils'
+import { logger } from '../../../logger'
 
 // Get dummy data from JSON
 // import graphJSON from './data/mock.graph.data.json'
@@ -82,7 +83,7 @@ export namespace BasicNetworkService {
     // Send initial graph data
     cb( null, buildResponse( request, MockData.getDummyGraphData() ), closeStream )
 
-    console.log('BasicNetwork | listenToStream | eventsInterval = ', eventsInterval)
+    logger.info({ eventsInterval }, 'BasicNetwork: listenToStream')
     if (eventsInterval) {
       closeStream()
     }

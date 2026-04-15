@@ -12,6 +12,7 @@ import UserCollection from "./UserCollection"
 import IIncludesCollections from "./domain/IIncludesCollections"
 import TwitterStream from "twitter-v2/build/TwitterStream"
 import exp from "constants"
+import { logger } from '../../../logger'
 
 // Setup constants
 const SEP                                 = ( constants.SEP) ? constants.SEP : '-',
@@ -292,7 +293,7 @@ const listenForever = async (streamFactory: Function, dataConsumer: Function) =>
     // An error occurred so we reconnect to the stream. Note that we should
     // probably have retry logic here to prevent reconnection after a number of
     // closely timed failures (may indicate a problem that is not downstream).
-    console.warn('[STREAM] ============ Stream disconnected with error. Retrying.', error)
+    logger.warn({ err: error }, 'Stream disconnected with error. Retrying.')
     if (retryCount<MAX_RETRIES_FOR_STREAM) {
       ++retryCount
       listenForever(streamFactory, dataConsumer)

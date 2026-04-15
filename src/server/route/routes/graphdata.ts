@@ -1,11 +1,12 @@
 import router from '../router'
 import {Request, Response} from "express"
 import {IError} from '../../domain/IError'
+import { logger } from '../../lib/logger'
 
 router.route('/graphdata')
     .get((req: Request, res: Response) => {
 
-        console.log('ROUTE: GET | graphdata ', req.headers)
+        logger.info({ headers: req.headers }, 'GET graphdata')
         res.json({message:'Hello from GET graphdata'})
     })
 

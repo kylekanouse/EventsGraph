@@ -1,22 +1,22 @@
 import React, { useEffect } from "react"
-import EventsGraphService from '../lib/EventsGraph'
+import EventsGraphRenderer from '../lib/EventsGraph'
 import IGraphData from "../../server/domain/IGraphData"
 import IResponse from "../../server/domain/IEventsGraphCollectionContextResponse"
 import IResponseMeta from "../../server/domain/IResponseMeta"
 import IEventsGraphCollectionContextRequest from "../../server/domain/IEventsGraphCollectionContextRequest"
 import IEventData from "../../server/domain/IEventData"
+import GraphDataService from '../lib/GraphDataService'
 import HUD from './controls/HUD'
 
-let graph                             : EventsGraphService
+let graph                             : EventsGraphRenderer
 let graphRef                          : HTMLElement | null
-let isStreaming                       : boolean = false
+let dataService                       : GraphDataService
 
 /**
  * EventsGraph
  *
- * @todo REMOVE: reference to socket and bubble up events to parent domain and let application interface with the socket
  * @param param
- * @returns 
+ * @returns
  */
 
 const EventsGraph = ({ socket }: any) => {
@@ -28,33 +28,15 @@ const EventsGraph = ({ socket }: any) => {
    */
 
   const requestGraphData = (request: IEventsGraphCollectionContextRequest): void => {
-
-    const emitEvent: string = 'getGraphData' + ((request.isStream) ? 'Stream' : ''),
-          progress: number | undefined = (request.isStream) ? 0 : undefined
-
-    // stop any existing stream events
-    if (isStreaming) {
-
-      socket.emit( 'closeStream' )
-
-      // Delay so servies can stop sending events before new graph request
-      setTimeout((): void => {
-        graph.clear().showLoader(progress)
-        socket.emit( emitEvent,  JSON.stringify(request))
-      }, 2000)
-
-    } else {
+    dataService.requestData(request, (progress: number | undefined): void => {
       graph.clear().showLoader(progress)
-      socket.emit( emitEvent,  JSON.stringify(request))
-    }
-
-    isStreaming = request.isStream
+    })
   }
 
   /**
    * graphDataListener
    *
-   * @param {IResponse} data 
+   * @param {IResponse} data
    */
 
   const graphDataListener = (data: IResponse): void => {
@@ -72,13 +54,12 @@ const EventsGraph = ({ socket }: any) => {
   }
 
   /**
-   * graphDataListener
+   * graphStreamDataListener
    *
    * @param {IResponse} data
    */
 
   const graphStreamDataListener = (data: IResponse) => {
-    // console.log('EventsGraph: graphStreamListener() | data = ', data)
 
     const graphData     : IGraphData | undefined      = data.graphData
     const eventData     : IEventData | undefined      = data.eventData
@@ -93,7 +74,7 @@ const EventsGraph = ({ socket }: any) => {
     }
 
     if (eventData) {
-      graph.sendEventFromData( eventData )
+      graph.sendEventFromData(eventData)
     }
   }
 
@@ -103,14 +84,15 @@ const EventsGraph = ({ socket }: any) => {
 
   const loadGraph = (): void => {
     if (graphRef) {
-      graph = new EventsGraphService( 'events-graph', graphRef )
+      graph = new EventsGraphRenderer('events-graph', graphRef)
+
+      // Initialize data service and subscribe to socket events
+      dataService = new GraphDataService(socket)
+      dataService
+        .onGraphData(graphDataListener)
+        .onGraphStream(graphStreamDataListener)
     }
   }
-
-  // Setup handlers
-  socket.on("graphData", graphDataListener)
-  socket.on("graphStream", graphStreamDataListener)
-  socket.off("graphStream", graphDataListener)
 
   // Call loadGraph once component is mounted
   useEffect((): void => {

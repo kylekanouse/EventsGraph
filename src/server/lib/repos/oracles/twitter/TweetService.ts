@@ -3,6 +3,7 @@ import { constants } from "../../../../constants"
 import IEventsGraphCollectionContextRequest from "../../../../domain/IEventsGraphCollectionContextRequest"
 import IEventsGraphCollectionContextResponse from "../../../../domain/IEventsGraphCollectionContextResponse"
 import IUpdateGraphDataCallback from "../../../../domain/IUpdateGraphDataCallback"
+import { logger } from '../../../logger'
 import { buildProgressResponse, buildResponseFromEntity } from "../../../Utils"
 import IIncludesCollections from "./domain/IIncludesCollections"
 import IIncludesData from "./domain/IIncludesData"
@@ -57,7 +58,7 @@ export namespace TweetService {
         resolve(resp)
 
       } catch (error) {
-        console.error('TweetService ERROR: error =', error)
+        logger.error({ err: error }, 'TweetService: getTweet error')
         reject(error)
       }
     })  
@@ -83,7 +84,7 @@ export namespace TweetService {
         // Make request through Twitter API client
         const respJSON                : ITweetsResponse                       = await TwitterClient.get( path,  params )
         const data                    : ITweetData[] | undefined              = respJSON.data
-        console.log('TweetService | respJSON.data = ', respJSON.data)
+        logger.info({ data: respJSON.data }, 'TweetService | respJSON.data')
         // Load JSON data along with reference collections into tweet collection object
         const tweetCollection: TweetCollection = new TweetCollection( collectionID )
 
@@ -100,7 +101,7 @@ export namespace TweetService {
         resolve(resp)
 
       } catch (error) {
-        console.error('TweetService ERROR: error =', error)
+        logger.error({ err: error }, 'TweetService: getTweets error')
         reject(error)
       }
     })
@@ -125,7 +126,7 @@ export namespace TweetService {
         () => TwitterClient.stream( constants.TWITTER_FILTERED_STREAM_PATH_ID, params ),
         (respJSON: ITweetResponse, stream: TwitterStream) => {
 
-          console.log('STREAM | --------- respJSON = ', respJSON)
+          logger.info({ respJSON }, 'STREAM: received data')
 
           if (respJSON.data) {
             tweetData.push(respJSON.data)

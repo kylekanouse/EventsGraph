@@ -3,6 +3,7 @@ import StreamRule from "./StreamRule"
 import { TwitterClient } from "../twitter/TwitterAPI"
 import IStreamRuleResponse from "./domain/IStreamRuleResponse"
 import { RequestParameters } from "twitter-v2"
+import { logger } from '../../../logger'
 
 /**
  * _buildAddRulesBody
@@ -35,7 +36,7 @@ export namespace RulesService {
 
   export async function getRules(ids?: string): Promise<IStreamRuleResponse> {
     const params: RequestParameters | undefined = (ids) ? {ids: ids} as RequestParameters : undefined
-    console.log('RulesService | getRules() | ids = ', ids, ' | params = ', params)
+    logger.info({ ids, params }, 'RulesService: getRules')
     return TwitterClient.get(constants.TWITTER_FILTERED_STREAM_RULES_PATH_ID, params)
   }
 
@@ -46,7 +47,7 @@ export namespace RulesService {
    */
 
   export async function addRules(rules: StreamRule[]): Promise<IStreamRuleResponse>  {
-    console.log('RulesService | addRules() | rules = ', rules)
+    logger.info({ rules }, 'RulesService: addRules')
     return TwitterClient.post( constants.TWITTER_FILTERED_STREAM_RULES_PATH_ID, _buildAddRulesBody(rules) )
   }
 }

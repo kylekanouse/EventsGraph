@@ -8,6 +8,7 @@ import { RateLimiter } from "limiter"
 import { throttle } from "./lib/Throttler"
 import IStreamCallback from "./domain/IStreamCallback"
 import { GraphDataRequestSchema } from './domain/schemas'
+import { logger } from './lib/logger'
 
 let socket: Socket | Server | undefined
 let limiter: RateLimiter
@@ -103,7 +104,7 @@ export default (io: Server): void => {
       try {
         parsed = JSON.parse(request)
       } catch (err) {
-        console.log('ERROR: SOCKET parsing JSON request string')
+        logger.error('SOCKET: error parsing JSON request string')
         socket?.emit('error', { message: 'Invalid JSON' })
         return
       }
@@ -121,7 +122,7 @@ export default (io: Server): void => {
         socket?.emit("graphData", res)
 
       }).catch((res) => {
-        console.log('EventsGraphService ERROR: ', res)
+        logger.error({ err: res }, 'EventsGraphService error')
       })
     })
 
@@ -130,14 +131,14 @@ export default (io: Server): void => {
      */
 
     socket.on("getGraphDataStream", (request: any): void => {
-      console.log('SOCKET | ------------ getGraphDataStream() | request = ', request)
+      logger.info({ request }, 'SOCKET: getGraphDataStream')
 
       // Validate request with Zod
       let parsed: any
       try {
         parsed = JSON.parse(request)
       } catch (err) {
-        console.log('ERROR: SOCKET parsing JSON request string')
+        logger.error('SOCKET: error parsing JSON request string for stream')
         socket?.emit('error', { message: 'Invalid JSON' })
         return
       }
@@ -161,7 +162,7 @@ export default (io: Server): void => {
     })
 
     socket.on("disconnect", (reson: string) => { 
-      console.log('--------- SOCKET: DISCONNECT | reson = ', reson)
+      logger.info({ reason: reson }, 'SOCKET: disconnect')
       currentCloseStream()
     })
   })

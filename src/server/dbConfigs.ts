@@ -1,6 +1,7 @@
 import mongoose, {Connection, Mongoose} from 'mongoose';
 import {configs} from './configs';
 import {IConfigs} from "./domain/IConfigs";
+import { logger } from './lib/logger';
 
 class Database {
     private readonly _config: IConfigs;
@@ -21,9 +22,9 @@ class Database {
                 mongoURL
             );
         const db: Connection = this._mongo.connection;
-        db.on('error', console.error.bind(console, 'connection error:'));
+        db.on('error', (err: Error) => logger.error({ err }, 'MongoDB connection error'));
         db.once('open', () => {
-            console.log("connected")
+            logger.info('MongoDB connected')
         })
         return mongoose;
     }

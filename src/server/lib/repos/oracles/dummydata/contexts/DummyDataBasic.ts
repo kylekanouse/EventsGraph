@@ -8,6 +8,7 @@ import { buildResponse } from '../../../../Utils'
 import DummyDataParams from '../data/DummyDataParams'
 import IGraphData from '../../../../../domain/IGraphData'
 import DummyDataType from '../data/DummyDataType'
+import { logger } from '../../../../logger'
 
 /**
  * DummyDataBasic
@@ -49,7 +50,7 @@ class DummyDataBasic extends Context {
   public async getData(request: IEventsGraphCollectionContextRequest): Promise<IEventsGraphCollectionContextResponse> {
 
     const params: DummyDataParams = request.params as DummyDataParams
-    console.log('DummyDataBasic | getData() | params = ', params)
+    logger.info({ params }, 'DummyDataBasic: getData')
 
     let data: IGraphData
 

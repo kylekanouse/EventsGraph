@@ -5,6 +5,7 @@ import { buildResponseFromEntity } from "../../../Utils"
 import IUserResponse from "./domain/IUserResponse"
 import { TwitterClient } from "./TwitterAPI"
 import UserCollection from "./UserCollection"
+import { logger } from '../../../logger'
 
 /**
  * UserService
@@ -19,13 +20,13 @@ export namespace UserService {
     return new Promise( async (resolve, reject) => {
 
       try {
-        console.log('Twitter => params: ', params)
+        logger.info({ params }, 'Twitter: getUsersBy params')
         const collectionID: string = constants.TWITTER_USER_COLLECTIN_ID + constants.SEP + Date.now()
 
         // Make request through client
         const respJSON          : IUserResponse = await TwitterClient.get( constants.TWITTER_USER_PATH_ID, params)
 
-        console.log('Twitter RESPONSE: ', respJSON)
+        logger.info({ respJSON }, 'Twitter: getUsersBy response')
         // Parse tweet data into a user objects
         const userCollection    : UserCollection = new UserCollection( collectionID ).loadData( (respJSON.data) ? respJSON.data : [] )
 
@@ -35,7 +36,7 @@ export namespace UserService {
         resolve(resp)
 
       } catch (error) {
-        console.error('UserService ERROR: error =', error)
+        logger.error({ err: error }, 'UserService error')
         reject(error)
       }
 

@@ -2,6 +2,7 @@
 require('dotenv').config({ path: process.cwd() + '/src/server/.env' })
 
 import express, {Request, Response, Router, Express} from 'express'
+import { logger } from './lib/logger'
 import bodyParser from 'body-parser'
 import http, { Server } from "http"
 import helmet from 'helmet'
@@ -54,7 +55,7 @@ initializeSocketIO(io)
 // Send index.html on root request
 app.use(express.static('dist'))
 app.get('/', (req:Request, res:Response) => {
-    console.log('sending index.html')
+    logger.info('sending index.html')
     res.sendFile('/dist/index.html')
 })
 
@@ -64,10 +65,10 @@ const routes: Router[] = Object.values(router)
 app.use('/api', routes)
 
 app.get('*', function(req, res) {
-  console.log('UNKOWN ROUTE: req.path = ', req.path)
+  logger.warn({ path: req.path }, 'Unknown route')
 })
 
 // START THE SERVER
 // =============================================================================
 server.listen(port)
-console.log(`App listening on ${port}`)
+logger.info({ port }, 'App listening')

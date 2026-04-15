@@ -12,6 +12,7 @@ import IStreamRuleResponse from "../domain/IStreamRuleResponse"
 import { TweetService } from "../TweetService"
 import IFilteredStreamParams from "../domain/IFilteredStreamParams"
 import IFilteredStreamRequest from "../domain/IFilteredStreamRequest"
+import { logger } from '../../../../logger'
 
 /**
  * ERROR_NO_STREAM_REQUEST
@@ -54,7 +55,7 @@ class ContextFilteredStream extends Context implements IStreamData {
 
   protected _buildRequestParameters( collectionRequest: IEventsGraphCollectionContextRequest ): LooseObject {
 
-    console.log('ConextFilteredStream | _buildRequestParameters()')
+    logger.info('ContextFilteredStream: building request parameters')
 
     const sampleSize: number | undefined = collectionRequest.params?.sampleSize
 
@@ -179,7 +180,7 @@ class ContextFilteredStream extends Context implements IStreamData {
    */
 
   public getDataStream(r: IEventsGraphCollectionContextRequest, cb: IUpdateGraphDataCallback): void {
-    console.log('getDataStream | r = ', r)
+    logger.info({ r }, 'ContextFilteredStream: getDataStream')
     const { request, params, sampleSize } = this._buildRequestParameters( r )
     const newRules      = params.rules
 
@@ -208,7 +209,7 @@ class ContextFilteredStream extends Context implements IStreamData {
           //   console.error('ERROR: ', err)
           // })
       } catch (error) {
-        console.error(error)
+        logger.error({ err: error }, 'ContextFilteredStream: stream error')
       }
     }
 
@@ -217,7 +218,7 @@ class ContextFilteredStream extends Context implements IStreamData {
       TweetService.listenToStream( params, request, cb, sampleSize )
 
     } catch (error) {
-      console.log('ERROR: Twitter client error msg = ', error)
+      logger.error({ err: error }, 'ContextFilteredStream: Twitter client error')
       cb(error instanceof Error ? error : new Error(String(error)))
     }
   }

@@ -4,6 +4,7 @@ import {Test} from '../../models';
 import {Request, Response} from "express";
 import {ITest} from "../../domain/ITest";
 import {IError} from '../../domain/IError';
+import { logger } from '../../lib/logger';
 
 router.route('/test')
     .get((req: Request, res: Response) => {
@@ -28,7 +29,7 @@ router.route('/test')
                 status: 500,
                 message: "An error happened!"
             }
-            console.error(e);
+            logger.error({ err: e }, 'Test POST error');
             res.status(error.status).json({message: "An error happened"});
         }
     })
@@ -42,7 +43,7 @@ router.route('/test')
                 status: 500,
                 message: "It can't be updated at this moment!"
             }
-            console.error(err);
+            logger.error({ err }, 'Test PUT error');
             res.status(error.status).json(error);
         }
     })
@@ -56,7 +57,7 @@ router.route('/test')
                 status: 500,
                 message: "Resource can't be deleted!"
             }
-            console.error(err);
+            logger.error({ err }, 'Test DELETE error');
             res.status(error.status).json(error);
         }
     });
