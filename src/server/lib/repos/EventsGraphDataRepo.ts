@@ -5,6 +5,7 @@ import IEventsGraphCollectionContextResponse from '../../domain/IEventsGraphColl
 import Twitter from './oracles/Twitter'
 import BasicNetwork from './oracles/BasicNetwork'
 import DummyData from './oracles/DummyData'
+import Trellis from './oracles/trellis/Trellis'
 import { isStreamable } from '../Utils'
 import IUpdateGraphDataCallback from '../../domain/IUpdateGraphDataCallback'
 
@@ -41,11 +42,17 @@ class EventsGraphDataRepo implements IEventsGraphDataRepo {
    */
 
   constructor() {
-    this._repo = new Map([
+    const entries: [string, IEventsGraphCollection][] = [
       [Twitter.getID(), Twitter],
       [BasicNetwork.getID(), BasicNetwork],
-      [DummyData.getID(), DummyData]
-    ])
+      [DummyData.getID(), DummyData],
+    ]
+
+    if (process.env.TRELLIS_ENABLED === 'true') {
+      entries.push([Trellis.getID(), Trellis])
+    }
+
+    this._repo = new Map(entries)
   }
 
   /**

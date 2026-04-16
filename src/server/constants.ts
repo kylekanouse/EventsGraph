@@ -160,6 +160,27 @@ export abstract class constants {
    */
   static readonly TWITTER_TWEET_NO_ID_PROVIDED: string = 'Tweet ID is required'
 
+  /**
+   * Trellis
+   */
+
+  static readonly TRELLIS_COLLECTION_ID: string = 'trellis'
+
+  static readonly TRELLIS_AGENT_TOPOLOGY_CONTEXT_ID: string = 'agent-topology'
+  static readonly TRELLIS_RECEIPT_CHAIN_CONTEXT_ID: string = 'governance-receipt-chain'
+  static readonly TRELLIS_CHANNEL_NETWORK_CONTEXT_ID: string = 'channel-network'
+  static readonly TRELLIS_EXECUTION_TREE_CONTEXT_ID: string = 'execution-tree'
+  static readonly TRELLIS_CROSS_CHANNEL_CONTEXT_ID: string = 'cross-channel-knowledge'
+  static readonly TRELLIS_FILESYSTEM_TREE_CONTEXT_ID: string = 'filesystem-tree'
+  static readonly TRELLIS_FEDERATION_MESH_CONTEXT_ID: string = 'federation-mesh'
+  static readonly TRELLIS_COHERENCE_LANDSCAPE_CONTEXT_ID: string = 'coherence-landscape'
+  static readonly TRELLIS_INSTANCE_OVERVIEW_CONTEXT_ID: string = 'instance-overview'
+  static readonly TRELLIS_EXECUTION_TRENDS_CONTEXT_ID: string = 'execution-trends'
+  static readonly TRELLIS_COMPLIANCE_OVERVIEW_CONTEXT_ID: string = 'compliance-overview'
+  static readonly TRELLIS_FLEET_HEALTH_CONTEXT_ID: string = 'fleet-health'
+  static readonly TRELLIS_VIOLATION_NETWORK_CONTEXT_ID: string = 'violation-network'
+  static readonly TRELLIS_COHERENCE_HEATMAP_CONTEXT_ID: string = 'coherence-heatmap'
+
 
   /**
    * Client
