@@ -1,6 +1,6 @@
 import React from "react"
 import IEGCircularButtonProps from '../../domain/IEGCircularButtonProps'
-import { IconButton, Icon } from "@mui/material"
+import { IconButton } from "@mui/material"
 
 /**
  * EGCircularButton
@@ -40,7 +40,7 @@ export default class EGCircularButton extends React.Component<IEGCircularButtonP
     return (
       <div>
         <IconButton onClick={this.handleClick} className={'circular ui icon button eg-circular ' + this.props.toggleState}>
-          <Icon className={this.props.icon}></Icon>
+          <i className={`icon ${this.props.icon}`}></i>
         </IconButton>
       </div>
     )
