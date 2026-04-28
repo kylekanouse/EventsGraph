@@ -7,12 +7,12 @@ export interface Snapshot {
 }
 
 /**
- * TrellisSnapshotCache
+ * SylvaSnapshotCache
  *
  * Stores the N most recent graph snapshots per context.
  * Used by the diff engine to compute changes between requests.
  */
-export class TrellisSnapshotCache {
+export class SylvaSnapshotCache {
   private _cache: Map<string, Snapshot[]> = new Map()
   private _maxSnapshotsPerContext: number
   private _maxAge: number // milliseconds

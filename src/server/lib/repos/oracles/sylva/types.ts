@@ -1,13 +1,13 @@
 /**
- * Trellis API Response Types
+ * Sylva API Response Types
  *
- * These represent the shapes returned by Trellis REST endpoints.
+ * These represent the shapes returned by Sylva REST endpoints.
  * They are consumed by mappers to produce IGraphNode/IGraphLink.
  */
 
 // --- Authentication ---
 
-export interface TrellisAuthResponse {
+export interface SylvaAuthResponse {
   token: string
   expiresAt: string
   participantId: string
@@ -16,7 +16,7 @@ export interface TrellisAuthResponse {
 
 // --- GPA (General Purpose Agent) ---
 
-export interface TrellisGPA {
+export interface SylvaGPA {
   id: string
   name: string
   description?: string
@@ -35,14 +35,14 @@ export interface TrellisGPA {
   updatedAt: string
 }
 
-export interface TrellisGPAListResponse {
-  items: TrellisGPA[]
+export interface SylvaGPAListResponse {
+  items: SylvaGPA[]
   total: number
 }
 
 // --- Channel ---
 
-export interface TrellisChannel {
+export interface SylvaChannel {
   id: string
   name: string
   description?: string
@@ -55,14 +55,14 @@ export interface TrellisChannel {
   updatedAt: string
 }
 
-export interface TrellisChannelListResponse {
-  items: TrellisChannel[]
+export interface SylvaChannelListResponse {
+  items: SylvaChannel[]
   total: number
 }
 
 // --- Participant ---
 
-export interface TrellisParticipant {
+export interface SylvaParticipant {
   id: string
   name: string
   participantType: 'human' | 'agent' | 'service' | 'webhook'
@@ -74,28 +74,28 @@ export interface TrellisParticipant {
   updatedAt: string
 }
 
-export interface TrellisParticipantListResponse {
-  items: TrellisParticipant[]
+export interface SylvaParticipantListResponse {
+  items: SylvaParticipant[]
   total: number
 }
 
 // --- Channel Membership ---
 
-export interface TrellisChannelMember {
+export interface SylvaChannelMember {
   participantId: string
   channelId: string
   role: string
   joinedAt: string
 }
 
-export interface TrellisChannelMembersResponse {
-  items: TrellisChannelMember[]
+export interface SylvaChannelMembersResponse {
+  items: SylvaChannelMember[]
   total: number
 }
 
 // --- Workspace ---
 
-export interface TrellisWorkspace {
+export interface SylvaWorkspace {
   id: string
   name: string
   governanceTier: string
@@ -105,9 +105,9 @@ export interface TrellisWorkspace {
 
 // --- Instance Overview (composite) ---
 
-export interface TrellisSystemManifest {
+export interface SylvaSystemManifest {
   instanceDid: string
-  workspaces: TrellisWorkspace[]
+  workspaces: SylvaWorkspace[]
   gpaCount: number
   channelCount: number
   participantCount: number
@@ -118,7 +118,7 @@ export interface TrellisSystemManifest {
 
 // --- Governance Receipt ---
 
-export interface TrellisGovernanceReceipt {
+export interface SylvaGovernanceReceipt {
   id: string
   gpaId: string
   channelId: string
@@ -133,24 +133,24 @@ export interface TrellisGovernanceReceipt {
   createdAt: string
 }
 
-export interface TrellisReceiptListResponse {
-  items: TrellisGovernanceReceipt[]
+export interface SylvaReceiptListResponse {
+  items: SylvaGovernanceReceipt[]
   total: number
 }
 
 // --- Execution ---
 
-export interface TrellisExecution {
+export interface SylvaExecution {
   id: string
   gpaId: string
   status: 'running' | 'completed' | 'failed' | 'cancelled'
   startedAt: string
   completedAt?: string
   consequence?: 'PASS' | 'FAIL'
-  steps: TrellisExecutionStep[]
+  steps: SylvaExecutionStep[]
 }
 
-export interface TrellisExecutionStep {
+export interface SylvaExecutionStep {
   id: string
   executionId: string
   stepType: 'guard' | 'action' | 'verification' | 'emit' | 'observe'
@@ -162,14 +162,14 @@ export interface TrellisExecutionStep {
   details?: string
 }
 
-export interface TrellisExecutionListResponse {
-  items: TrellisExecution[]
+export interface SylvaExecutionListResponse {
+  items: SylvaExecution[]
   total: number
 }
 
 // --- Cross-Channel Knowledge ---
 
-export interface TrellisMessageReference {
+export interface SylvaMessageReference {
   id: string
   sourceChannelId: string
   targetChannelId: string
@@ -180,14 +180,14 @@ export interface TrellisMessageReference {
   timestamp: string
 }
 
-export interface TrellisMessageReferenceListResponse {
-  items: TrellisMessageReference[]
+export interface SylvaMessageReferenceListResponse {
+  items: SylvaMessageReference[]
   total: number
 }
 
 // --- Filesystem ---
 
-export interface TrellisFilesystemNode {
+export interface SylvaFilesystemNode {
   id: string
   name: string
   path: string
@@ -196,18 +196,18 @@ export interface TrellisFilesystemNode {
   mimeType?: string
   channelId?: string
   parentId?: string
-  children?: TrellisFilesystemNode[]
+  children?: SylvaFilesystemNode[]
   createdAt: string
   updatedAt: string
 }
 
-export interface TrellisFilesystemTreeResponse {
-  root: TrellisFilesystemNode
+export interface SylvaFilesystemTreeResponse {
+  root: SylvaFilesystemNode
 }
 
 // --- Federation ---
 
-export interface TrellisFederationPeer {
+export interface SylvaFederationPeer {
   id: string
   instanceDid: string
   name: string
@@ -219,14 +219,14 @@ export interface TrellisFederationPeer {
   createdAt: string
 }
 
-export interface TrellisFederationPeerListResponse {
-  items: TrellisFederationPeer[]
+export interface SylvaFederationPeerListResponse {
+  items: SylvaFederationPeer[]
   total: number
 }
 
 // --- Coherence ---
 
-export interface TrellisCoherenceDataPoint {
+export interface SylvaCoherenceDataPoint {
   entityId: string
   entityType: 'gpa' | 'channel' | 'participant'
   entityName: string
@@ -236,8 +236,8 @@ export interface TrellisCoherenceDataPoint {
   lastMeasuredAt: string
 }
 
-export interface TrellisCoherenceListResponse {
-  items: TrellisCoherenceDataPoint[]
+export interface SylvaCoherenceListResponse {
+  items: SylvaCoherenceDataPoint[]
   total: number
 }
 
@@ -293,8 +293,8 @@ export interface AnalyticsCoherenceBucket {
 // --- Observability API Response Types ---
 
 /**
- * These types represent responses from Trellis /api/observability/* endpoints.
- * These endpoints may not exist on all Trellis instances.
+ * These types represent responses from Sylva /api/observability/* endpoints.
+ * These endpoints may not exist on all Sylva instances.
  */
 
 export interface ObservabilityExecutionSummary {

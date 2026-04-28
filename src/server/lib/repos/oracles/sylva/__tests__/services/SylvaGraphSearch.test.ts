@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { searchGraph, highlightSearchResults } from '../../services/TrellisGraphSearch'
+import { searchGraph, highlightSearchResults } from '../../services/SylvaGraphSearch'
 
-describe('TrellisGraphSearch', () => {
+describe('SylvaGraphSearch', () => {
   const graph = {
     nodes: [
       { id: 'gpa-1', label: 'Agent Alpha', val: 20, type: 'agent', desc: 'Primary automation agent', group: 1, color: '#fff', icon: '', url: '' },

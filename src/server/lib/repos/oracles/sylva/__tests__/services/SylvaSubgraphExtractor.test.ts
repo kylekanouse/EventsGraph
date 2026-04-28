@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { extractSubgraph } from '../../services/TrellisSubgraphExtractor'
+import { extractSubgraph } from '../../services/SylvaSubgraphExtractor'
 
-describe('TrellisSubgraphExtractor', () => {
+describe('SylvaSubgraphExtractor', () => {
   const graph = {
     nodes: [
       { id: 'a' }, { id: 'b' }, { id: 'c' }, { id: 'd' }, { id: 'e' },

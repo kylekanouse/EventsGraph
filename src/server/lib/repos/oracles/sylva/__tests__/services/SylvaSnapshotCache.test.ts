@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { TrellisSnapshotCache } from '../../services/TrellisSnapshotCache'
+import { SylvaSnapshotCache } from '../../services/SylvaSnapshotCache'
 
-describe('TrellisSnapshotCache', () => {
-  let cache: TrellisSnapshotCache
+describe('SylvaSnapshotCache', () => {
+  let cache: SylvaSnapshotCache
 
   beforeEach(() => {
-    cache = new TrellisSnapshotCache(5, 60_000)
+    cache = new SylvaSnapshotCache(5, 60_000)
   })
 
   it('should store and retrieve latest snapshot', () => {

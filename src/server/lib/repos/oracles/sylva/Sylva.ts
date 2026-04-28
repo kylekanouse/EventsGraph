@@ -1,9 +1,9 @@
 import Oracle from '../Oracle'
 import { constants } from '../../../../constants'
-import { TrellisConnectionManager } from './TrellisConnectionManager'
-import { TrellisEventBridge } from './TrellisEventBridge'
-import { TrellisObservabilityClient } from './services/TrellisObservabilityClient'
-import { TrellisAnalyticsService } from './services/TrellisAnalyticsService'
+import { SylvaConnectionManager } from './SylvaConnectionManager'
+import { SylvaEventBridge } from './SylvaEventBridge'
+import { SylvaObservabilityClient } from './services/SylvaObservabilityClient'
+import { SylvaAnalyticsService } from './services/SylvaAnalyticsService'
 // Phase 1 contexts
 import ContextAgentTopology from './contexts/ContextAgentTopology'
 import ContextChannelNetwork from './contexts/ContextChannelNetwork'
@@ -22,31 +22,31 @@ import ContextFleetHealth from './contexts/ContextFleetHealth'
 import ContextViolationNetwork from './contexts/ContextViolationNetwork'
 import ContextCoherenceHeatmap from './contexts/ContextCoherenceHeatmap'
 // Phase 6 advanced features
-import { TrellisSnapshotCache } from './services/TrellisSnapshotCache'
-import { diff, diffToGraphData } from './services/TrellisGraphDiff'
-import { extractSubgraph } from './services/TrellisSubgraphExtractor'
-import { searchGraph, highlightSearchResults } from './services/TrellisGraphSearch'
-import { TrellisNodeDetailService } from './services/TrellisNodeDetail'
+import { SylvaSnapshotCache } from './services/SylvaSnapshotCache'
+import { diff, diffToGraphData } from './services/SylvaGraphDiff'
+import { extractSubgraph } from './services/SylvaSubgraphExtractor'
+import { searchGraph, highlightSearchResults } from './services/SylvaGraphSearch'
+import { SylvaNodeDetailService } from './services/SylvaNodeDetail'
 import { logger } from '../../../logger'
 import IEventsGraphCollectionContextRequest from '../../../../domain/IEventsGraphCollectionContextRequest'
 import IEventsGraphCollectionContextResponse from '../../../../domain/IEventsGraphCollectionContextResponse'
 import IGraphData from '../../../../domain/IGraphData'
 import type { AdvancedParams } from './types'
 
-class Trellis extends Oracle {
-  private _conn: TrellisConnectionManager
-  private _bridge: TrellisEventBridge
-  private _observability: TrellisObservabilityClient
-  private _analytics: TrellisAnalyticsService
-  private _snapshotCache: TrellisSnapshotCache
-  private _nodeDetailService: TrellisNodeDetailService
+class Sylva extends Oracle {
+  private _conn: SylvaConnectionManager
+  private _bridge: SylvaEventBridge
+  private _observability: SylvaObservabilityClient
+  private _analytics: SylvaAnalyticsService
+  private _snapshotCache: SylvaSnapshotCache
+  private _nodeDetailService: SylvaNodeDetailService
 
   constructor() {
-    const conn = new TrellisConnectionManager()
-    const bridge = new TrellisEventBridge(conn)
-    const observability = new TrellisObservabilityClient(conn)
-    const analytics = new TrellisAnalyticsService(conn, observability)
-    super(constants.TRELLIS_COLLECTION_ID, [
+    const conn = new SylvaConnectionManager()
+    const bridge = new SylvaEventBridge(conn)
+    const observability = new SylvaObservabilityClient(conn)
+    const analytics = new SylvaAnalyticsService(conn, observability)
+    super(constants.SYLVA_COLLECTION_ID, [
       // Entity contexts (Phases 1 + 3)
       new ContextAgentTopology(conn, bridge),
       new ContextChannelNetwork(conn, bridge),
@@ -68,32 +68,32 @@ class Trellis extends Oracle {
     this._bridge = bridge
     this._observability = observability
     this._analytics = analytics
-    this._snapshotCache = new TrellisSnapshotCache()
-    this._nodeDetailService = new TrellisNodeDetailService(conn)
-    logger.info('Trellis Oracle: initialized with advanced features support (Phase 6)')
+    this._snapshotCache = new SylvaSnapshotCache()
+    this._nodeDetailService = new SylvaNodeDetailService(conn)
+    logger.info('Sylva Oracle: initialized with advanced features support (Phase 6)')
   }
 
-  getConnectionManager(): TrellisConnectionManager {
+  getConnectionManager(): SylvaConnectionManager {
     return this._conn
   }
 
-  getEventBridge(): TrellisEventBridge {
+  getEventBridge(): SylvaEventBridge {
     return this._bridge
   }
 
-  getObservabilityClient(): TrellisObservabilityClient {
+  getObservabilityClient(): SylvaObservabilityClient {
     return this._observability
   }
 
-  getAnalyticsService(): TrellisAnalyticsService {
+  getAnalyticsService(): SylvaAnalyticsService {
     return this._analytics
   }
 
-  getSnapshotCache(): TrellisSnapshotCache {
+  getSnapshotCache(): SylvaSnapshotCache {
     return this._snapshotCache
   }
 
-  getNodeDetailService(): TrellisNodeDetailService {
+  getNodeDetailService(): SylvaNodeDetailService {
     return this._nodeDetailService
   }
 
@@ -161,4 +161,4 @@ class Trellis extends Oracle {
   }
 }
 
-export default new Trellis()
+export default new Sylva()

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { diff, diffToGraphData } from '../../services/TrellisGraphDiff'
+import { diff, diffToGraphData } from '../../services/SylvaGraphDiff'
 
-describe('TrellisGraphDiff', () => {
+describe('SylvaGraphDiff', () => {
   describe('diff', () => {
     it('should detect added nodes', () => {
       const old = { nodes: [{ id: 'n1', label: 'A', val: 10, group: 1, color: '#fff', desc: '', type: 'a' }], links: [] } as any

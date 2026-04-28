@@ -1,6 +1,6 @@
 import IGraphNode from '../../../../../domain/IGraphNode'
 import IGraphLink from '../../../../../domain/IGraphLink'
-import { TrellisConnectionManager } from '../TrellisConnectionManager'
+import { SylvaConnectionManager } from '../SylvaConnectionManager'
 import { logger } from '../../../../logger'
 
 /**
@@ -17,15 +17,15 @@ export interface NodeDetail {
 }
 
 /**
- * TrellisNodeDetailService
+ * SylvaNodeDetailService
  *
  * Fetches detailed information about a specific entity
  * based on its type (GPA, channel, participant, receipt, etc.)
  */
-export class TrellisNodeDetailService {
-  private _conn: TrellisConnectionManager
+export class SylvaNodeDetailService {
+  private _conn: SylvaConnectionManager
 
-  constructor(conn: TrellisConnectionManager) {
+  constructor(conn: SylvaConnectionManager) {
     this._conn = conn
   }
 
@@ -33,7 +33,7 @@ export class TrellisNodeDetailService {
    * getNodeDetail
    *
    * Given a node ID and its type (from the graph), fetches
-   * expanded details from the appropriate Trellis endpoint.
+   * expanded details from the appropriate Sylva endpoint.
    */
   async getNodeDetail(nodeId: string, nodeType: string): Promise<NodeDetail | null> {
     try {
