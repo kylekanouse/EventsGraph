@@ -1,31 +1,6 @@
 import { logger } from '../../../logger'
 import type { SylvaAuthResponse } from './types'
 
-const _warnedLegacyKeys = new Set<string>()
-
-/**
- * readSylvaEnv
- *
- * Reads `SYLVA_<name>` from the environment, falling back to the
- * legacy `TRELLIS_<name>` key when unset. Emits a one-time
- * deprecation warning per legacy key per process.
- */
-function readSylvaEnv(name: string): string | undefined {
-  const sylvaKey = `SYLVA_${name}`
-  const legacyKey = `TRELLIS_${name}`
-  const sylvaVal = process.env[sylvaKey]
-  if (sylvaVal !== undefined) return sylvaVal
-  const legacyVal = process.env[legacyKey]
-  if (legacyVal !== undefined) {
-    if (!_warnedLegacyKeys.has(legacyKey)) {
-      _warnedLegacyKeys.add(legacyKey)
-      logger.warn(`SYLVA: ${legacyKey} is deprecated, use ${sylvaKey}`)
-    }
-    return legacyVal
-  }
-  return undefined
-}
-
 export class SylvaConnectionManager {
   private _baseUrl: string
   private _did: string
@@ -36,9 +11,9 @@ export class SylvaConnectionManager {
   private _refreshTimer: ReturnType<typeof setTimeout> | null = null
 
   constructor() {
-    this._baseUrl = readSylvaEnv('BASE_URL') || 'http://localhost:3100'
-    this._did = readSylvaEnv('DID') || ''
-    this._workspaceId = readSylvaEnv('WORKSPACE_ID') || 'default'
+    this._baseUrl = process.env.SYLVA_BASE_URL || 'http://localhost:3100'
+    this._did = process.env.SYLVA_DID || ''
+    this._workspaceId = process.env.SYLVA_WORKSPACE_ID || 'default'
   }
 
   get baseUrl(): string {

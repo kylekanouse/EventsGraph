@@ -18,10 +18,9 @@ conventions.
   - Environment variables renamed: `TRELLIS_ENABLED`,
     `TRELLIS_BASE_URL`, `TRELLIS_DID`, `TRELLIS_WORKSPACE_ID`,
     `TRELLIS_PARTICIPANT_NAME` → `SYLVA_*` equivalents.
-    Legacy `TRELLIS_*` names continue to work as a fallback and
-    emit a one-time `SYLVA: TRELLIS_<X> is deprecated, use
-    SYLVA_<X>` warning. Removal is scheduled for the next major
-    release (Phase 7).
+    **No backwards-compat fallback is provided** (per decision
+    D2). Deployments must rename `TRELLIS_*` to `SYLVA_*` before
+    upgrading.
 
 ### Internal
 

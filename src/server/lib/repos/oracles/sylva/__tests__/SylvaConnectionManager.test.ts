@@ -41,9 +41,6 @@ describe('SylvaConnectionManager', () => {
     delete process.env.SYLVA_BASE_URL
     delete process.env.SYLVA_DID
     delete process.env.SYLVA_WORKSPACE_ID
-    delete process.env.TRELLIS_BASE_URL
-    delete process.env.TRELLIS_DID
-    delete process.env.TRELLIS_WORKSPACE_ID
   })
 
   describe('authenticate', () => {
@@ -217,50 +214,4 @@ describe('SylvaConnectionManager', () => {
     })
   })
 
-  describe('legacy TRELLIS_* env fallback', () => {
-    it('reads TRELLIS_* env vars when SYLVA_* are unset and warns once', async () => {
-      // Clear SYLVA_* set in beforeEach so the legacy fallback path is exercised.
-      delete process.env.SYLVA_BASE_URL
-      delete process.env.SYLVA_DID
-      delete process.env.SYLVA_WORKSPACE_ID
-      process.env.TRELLIS_BASE_URL = 'http://legacy-host:9999'
-      process.env.TRELLIS_DID = 'did:pcn:service:legacy'
-      process.env.TRELLIS_WORKSPACE_ID = 'legacy-ws'
-
-      const { logger: loggerMock } = await import('../../../../logger')
-      const warnSpy = loggerMock.warn as unknown as ReturnType<typeof vi.fn>
-      warnSpy.mockClear()
-
-      const legacyManager = new SylvaConnectionManager()
-      // Construct a second instance to confirm warnings are deduped per process.
-      const _secondManager = new SylvaConnectionManager()
-
-      fetchSpy.mockResolvedValueOnce({
-        ok: true,
-        json: async () => mockAuthResponse,
-      })
-      await legacyManager.authenticate()
-
-      expect(fetchSpy).toHaveBeenCalledWith(
-        'http://legacy-host:9999/api/auth/token',
-        expect.objectContaining({
-          body: JSON.stringify({
-            did: 'did:pcn:service:legacy',
-            workspaceId: 'legacy-ws',
-          }),
-        }),
-      )
-
-      const deprecationWarnings = warnSpy.mock.calls.filter(
-        (args: unknown[]) =>
-          typeof args[0] === 'string' &&
-          (args[0] as string).startsWith('SYLVA: TRELLIS_'),
-      )
-      // One warning per legacy key, deduped across construction calls.
-      expect(deprecationWarnings).toHaveLength(3)
-
-      legacyManager.dispose()
-      _secondManager.dispose()
-    })
-  })
 })

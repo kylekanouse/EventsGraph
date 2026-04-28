@@ -7,7 +7,6 @@ import BasicNetwork from './oracles/BasicNetwork'
 import DummyData from './oracles/DummyData'
 import Sylva from './oracles/sylva/Sylva'
 import { isStreamable } from '../Utils'
-import { logger } from '../logger'
 import IUpdateGraphDataCallback from '../../domain/IUpdateGraphDataCallback'
 
 const ERROR_NO_COLLECTION_PREFIX: string = 'Unable to find collection'
@@ -49,11 +48,7 @@ class EventsGraphDataRepo implements IEventsGraphDataRepo {
       [DummyData.getID(), DummyData],
     ]
 
-    const sylvaEnabled = process.env.SYLVA_ENABLED ?? process.env.TRELLIS_ENABLED
-    if (process.env.SYLVA_ENABLED === undefined && process.env.TRELLIS_ENABLED !== undefined) {
-      logger.warn('SYLVA: TRELLIS_ENABLED is deprecated, use SYLVA_ENABLED')
-    }
-    if (sylvaEnabled === 'true') {
+    if (process.env.SYLVA_ENABLED === 'true') {
       entries.push([Sylva.getID(), Sylva])
     }
 
