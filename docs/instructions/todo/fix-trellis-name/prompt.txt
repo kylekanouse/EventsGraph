@@ -1,2 +1,0 @@
-do a deep dive into the codebase to find the "Trellis" concept. Understadn that we have change the project to now be name "Sylva" (after forrest). Generate a detailed plan to update the codebase to reflect this change please.
-Place this document in the same direcoty please.
