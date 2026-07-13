@@ -161,28 +161,6 @@ export abstract class constants {
   static readonly TWITTER_TWEET_NO_ID_PROVIDED: string = 'Tweet ID is required'
 
   /**
-   * Sylva
-   */
-
-  static readonly SYLVA_COLLECTION_ID: string = 'sylva'
-
-  static readonly SYLVA_AGENT_TOPOLOGY_CONTEXT_ID: string = 'agent-topology'
-  static readonly SYLVA_RECEIPT_CHAIN_CONTEXT_ID: string = 'governance-receipt-chain'
-  static readonly SYLVA_CHANNEL_NETWORK_CONTEXT_ID: string = 'channel-network'
-  static readonly SYLVA_EXECUTION_TREE_CONTEXT_ID: string = 'execution-tree'
-  static readonly SYLVA_CROSS_CHANNEL_CONTEXT_ID: string = 'cross-channel-knowledge'
-  static readonly SYLVA_FILESYSTEM_TREE_CONTEXT_ID: string = 'filesystem-tree'
-  static readonly SYLVA_FEDERATION_MESH_CONTEXT_ID: string = 'federation-mesh'
-  static readonly SYLVA_COHERENCE_LANDSCAPE_CONTEXT_ID: string = 'coherence-landscape'
-  static readonly SYLVA_INSTANCE_OVERVIEW_CONTEXT_ID: string = 'instance-overview'
-  static readonly SYLVA_EXECUTION_TRENDS_CONTEXT_ID: string = 'execution-trends'
-  static readonly SYLVA_COMPLIANCE_OVERVIEW_CONTEXT_ID: string = 'compliance-overview'
-  static readonly SYLVA_FLEET_HEALTH_CONTEXT_ID: string = 'fleet-health'
-  static readonly SYLVA_VIOLATION_NETWORK_CONTEXT_ID: string = 'violation-network'
-  static readonly SYLVA_COHERENCE_HEATMAP_CONTEXT_ID: string = 'coherence-heatmap'
-
-
-  /**
    * Client
    */
   static readonly CONTROLS_SUBMIT_BUTTON_TEXT: string = 'Get Graph'

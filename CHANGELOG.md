@@ -6,29 +6,35 @@ conventions.
 
 ## [Unreleased]
 
-### Changed (BREAKING)
+### Removed (BREAKING)
 
-- **Renamed Trellis integration to Sylva.** All TypeScript
-  identifiers, file/folder names, environment variable names,
-  and the socket.io `collection` id have been renamed:
-  - Wire collection id changed from `'trellis'` to `'sylva'`.
-    External clients that send `{ collection: 'trellis', ... }`
-    over socket.io must update to `{ collection: 'sylva', ... }`.
-    **No backwards-compat alias is provided** (per decision D1).
-  - Environment variables renamed: `TRELLIS_ENABLED`,
-    `TRELLIS_BASE_URL`, `TRELLIS_DID`, `TRELLIS_WORKSPACE_ID`,
-    `TRELLIS_PARTICIPANT_NAME` → `SYLVA_*` equivalents.
-    **No backwards-compat fallback is provided** (per decision
-    D2). Deployments must rename `TRELLIS_*` to `SYLVA_*` before
-    upgrading.
+- **Removed an experimental third-party oracle connector** and all
+  of its supporting code, constants, and environment variables. It
+  was feature-flagged off by default and is no longer part of the
+  project.
 
-### Internal
+  Any external client still requesting that collection over
+  socket.io will now receive an `Unable to find collection …`
+  error. No replacement is provided.
 
-- Folder `src/server/lib/repos/oracles/trellis/` renamed to
-  `oracles/sylva/`.
-- Constants `TRELLIS_*` in `src/server/constants.ts` renamed to
-  `SYLVA_*` (string values unchanged except `SYLVA_COLLECTION_ID`).
-- Operator-facing log strings updated (`Sylva Oracle: …`,
-  `Sylva: authenticated successfully`, etc.).
-- Upstream API paths and the service DID
-  (`did:pcn:service:eventsgraph`) are unchanged.
+### Unchanged
+
+- **The Oracle / Collection / Context extension point is
+  untouched.** Twitter, BasicNetwork, and DummyData are unaffected,
+  and the generic connector spec at
+  `docs/instructions/ai/EVENTSGRAPH_API_CONNECTOR_SPEC.md` remains
+  authoritative for building a new oracle.
+- No npm dependency was orphaned by the removal.
+- No client file changed.
+- `IGraphNode.color` is retained. It predates the removed connector
+  and remains a valid capability for a future oracle: the renderer
+  honors an explicit node `color` over `nodeAutoColorBy`.
+
+### Fixed
+
+- **Anchored the `server/` rule in `.gitignore`.** The unanchored
+  rule was silently matching `src/server/` as well as the compiled
+  output directory, so ~62 server source files — including the
+  shared `logger.ts` and `domain/schemas.ts` — were never committed
+  and `master`'s server typecheck failed. The rule is now
+  `/server/`, anchored to the repo root.
