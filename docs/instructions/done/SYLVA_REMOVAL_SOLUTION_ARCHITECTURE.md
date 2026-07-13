@@ -277,12 +277,17 @@ git grep -il sylva -- src/server/lib/repos # expect: only constants-driven hits,
 **Goal:** remove Sylva's footprint from files that survive. Separate PR (or separate commit) from Phase 3 so that a bisect can distinguish "deletion broke it" from "cleanup broke it".
 
 **Steps**
-1. `src/server/constants.ts` — delete lines 164–183 (the `SYLVA_*` block: `SYLVA_COLLECTION_ID` + 14 context IDs). Nothing outside the deleted connector imports these; verify with `git grep -n "SYLVA_"`.
+1. `src/server/constants.ts` — delete lines **163–183** (the `SYLVA_*` block: `SYLVA_COLLECTION_ID` + 14 context IDs). Nothing outside the deleted connector imports these; verify with `git grep -n "SYLVA_"`.
+   - **Correction (verified during execution):** the range is **163**–183, not 164–183. Line 163 is the block's JSDoc opener (`/**`); deleting from 164 orphans it, and the dangling comment swallows the next declaration. Gate on `tsc -p tsconfig.server.json` to catch a bad splice.
 2. `.env.example` — delete lines 5–10 (the `# Sylva Connector` block: `SYLVA_ENABLED`, `SYLVA_BASE_URL`, `SYLVA_DID`, `SYLVA_WORKSPACE_ID`, `SYLVA_PARTICIPANT_NAME`).
    - Note `SYLVA_PARTICIPANT_NAME` was already **dead** — zero consumers anywhere in the tree.
 3. **Decide on `IGraphNode.color`.** Sylva was its only producer. Options:
    - **Keep (recommended).** It's an optional field on a shared interface, it predates Sylva, and it is a reasonable capability for a future oracle. Cost of keeping: zero. Leave it and move on.
-   - **Remove.** Only if you are actively minimizing the domain surface. Requires checking the client's renderer for consumers first — the client *reads* `color` even though only Sylva *wrote* it, so removing it is a client-side change too. **Do not bundle this into the removal PR.**
+   - **Remove.** Only if you are actively minimizing the domain surface. **Do not bundle this into the removal PR.**
+
+   > **Correction (verified during execution).** An earlier draft of this section claimed "the client *reads* `color` … so removing it is a client-side change too." **That is false.** The client never imports `IGraphNode` at all (`git grep -rn IGraphNode -- src/client` → no hits); it declares its own structurally-independent `src/client/types/GraphNodeData.d.ts`. Removing the server field would be a **pure server-side type change**.
+   >
+   > The recommendation to **keep** still stands, but for a different reason: the client colors nodes via `nodeAutoColorBy('group')` (`Graph.ts:32,121`), and `3d-force-graph`'s `nodeAutoColorBy` only colors nodes that do **not** already carry a `color`. So an explicit `color` on the wire *is* honored by the renderer at runtime — the capability is real and wired end to end, merely unexercised now that Sylva is gone.
 4. Developer hygiene: any local `.env` still carrying `SYLVA_*` keys is now inert. Stale compiled JS under `/server/` and `dist/` is gitignored and untracked; it will regenerate cleanly on next build. Optionally `rm -rf server/ dist/ coverage/` locally.
 
 **Verification:**
