@@ -99,6 +99,9 @@ describe('NodeInteractionManager — Mode-Gated Behavior', () => {
       const mockObj = { userData: {}, parent: {} }
       ;(EntitiesOnStageObserved.objs as any) = new Set([mockObj])
 
+      // Source guard: update() bails early until a pointermove has been observed.
+      window.dispatchEvent(new MouseEvent('pointermove', { clientX: 10, clientY: 10 }))
+
       mockMode = 'scene-focus'
       nim.update()
 
@@ -122,11 +125,20 @@ describe('NodeInteractionManager — Mode-Gated Behavior', () => {
       const mockNode = { onClick: vi.fn(), onHover: vi.fn().mockReturnThis() }
       nim.currentNode = mockNode as any
 
+      // Source guard: _onClick() only fires when the event target is a <canvas>
+      // inside an <a-scene> element.
+      const aScene = document.createElement('a-scene')
+      const canvas = document.createElement('canvas')
+      aScene.appendChild(canvas)
+      document.body.appendChild(aScene)
+
       mockMode = 'scene-focus'
       const clickEvent = new MouseEvent('click', { bubbles: true })
-      document.dispatchEvent(clickEvent)
+      canvas.dispatchEvent(clickEvent)
 
       expect(mockNode.onClick).toHaveBeenCalled()
+
+      document.body.removeChild(aScene)
     })
   })
 })

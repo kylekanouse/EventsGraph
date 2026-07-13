@@ -5,7 +5,7 @@ import IEventsGraphCollectionContextResponse from '../../domain/IEventsGraphColl
 import Twitter from './oracles/Twitter'
 import BasicNetwork from './oracles/BasicNetwork'
 import DummyData from './oracles/DummyData'
-import Trellis from './oracles/trellis/Trellis'
+import Sylva from './oracles/sylva/Sylva'
 import { isStreamable } from '../Utils'
 import IUpdateGraphDataCallback from '../../domain/IUpdateGraphDataCallback'
 
@@ -48,8 +48,8 @@ class EventsGraphDataRepo implements IEventsGraphDataRepo {
       [DummyData.getID(), DummyData],
     ]
 
-    if (process.env.TRELLIS_ENABLED === 'true') {
-      entries.push([Trellis.getID(), Trellis])
+    if (process.env.SYLVA_ENABLED === 'true') {
+      entries.push([Sylva.getID(), Sylva])
     }
 
     this._repo = new Map(entries)

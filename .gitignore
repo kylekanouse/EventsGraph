@@ -3,12 +3,15 @@ node_modules
 build
 dist/
 .env
+.env.bak
+*.env.bak
 .DS_Store
 .nyc_output/
 coverage/
 npm-debug.log
 test/*.log
 
-# Compiled server output (build from source)
-server/
-!server/.gitkeep
+# Compiled server output (build from source) — anchored to repo root
+# so it does NOT match src/server/ (the TypeScript sources).
+/server/
+!/server/.gitkeep
