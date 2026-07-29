@@ -33,7 +33,7 @@
     "3d-force-graph-vr": "^3.1.1",
     "aframe": "^1.7.1",
     "aframe-mouse-cursor-component": "^0.5.3",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.6",
     "cors": "^2.8.6",
     "dotenv": "^9.0.2",
     "express": "^4.16.3",
